@@ -1,0 +1,16 @@
+.aaa {
+  position: relative;
+}
+
+.signin_all_wrap {
+  background-color: #f8f8f8;
+  width: 466px;
+  height: 630px;
+  /* margin: 0 auto; */
+  position: absolute;
+  width: 466px;
+  height: 630px;
+  left: 278px;
+  top: 168px; 
+}
+
