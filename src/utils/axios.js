@@ -1,0 +1,12 @@
+import axios from 'axios';
+
+// 절대 경로로 지정하는 것
+const instance = axios.create({
+  baseURL: 'https://api.mercuryeunoia.com'
+});
+
+export const setAuthorization = (token) => {
+  instance.defaults.headers.common.Authorization = token;
+};
+
+export default instance;
