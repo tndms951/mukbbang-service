@@ -17,12 +17,11 @@ import { errorhandler } from './utils/common';
 import { setCurrentUser } from './components/redux/user/user.actions';
 
 function App({ onUserData }) {
-  console.log(process.env.REACT_APP_GOOGLE_KEY);
-  console.log(onUserData);
+  // console.log(process.env.REACT_APP_GOOGLE_KEY);
 
   useLayoutEffect(() => {
     const bringToken = localStorage.getItem('userToken');
-    console.log(bringToken);
+
     async function localTokenData() {
       try {
         setAuthorization(bringToken);

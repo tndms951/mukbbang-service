@@ -26,7 +26,6 @@ function Signin({ onUserSet, history }) {
 
   useEffect(() => {
     const bringToken = localStorage.getItem('userToken');
-    console.log(bringToken);
     if (bringToken) {
       history.replace('/');
     }
@@ -57,11 +56,9 @@ function Signin({ onUserSet, history }) {
         setAuthorization(token);
 
         const { status, data: getData } = await axios.get('/user/current');
-        console.log(getData);
-        console.log(status);
+
         if (status === 200) {
           onUserSet(getData.data, token);
-          console.log(getData);
         }
       }
     } catch (err) {

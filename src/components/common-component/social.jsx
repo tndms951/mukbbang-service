@@ -20,8 +20,6 @@ const Social = ({ onUserSet }) => {
   const onSuccess = async (userData) => {
     try {
       const { access_token: accessToken } = userData.response;
-      console.log(accessToken);
-      console.log(userData.response);
 
       const socialObject = {
         token: accessToken,
@@ -30,19 +28,15 @@ const Social = ({ onUserSet }) => {
 
       const { data } = await axios.post('/user/social/signup', socialObject);
 
-      // eslint-disable-next-line object-curly-newline
       const {
         data: { token }
-        // eslint-disable-next-line object-curly-newline
       } = data;
-      console.log(token);
+
       setAuthorization(token);
 
       // 서버에서 누구인지 받아오는곳
       const { data: getData } = await axios.get('/user/current');
-      console.log(getData);
 
-      console.log(getData.data);
       onUserSet(getData.data, token);
     } catch (err) {
       errorhandler(err);
@@ -54,7 +48,6 @@ const Social = ({ onUserSet }) => {
     try {
       if (!response.error) {
         const { accessToken: googleAccessToken } = response;
-        console.log(googleAccessToken);
 
         const socialObject = {
           token: googleAccessToken,
@@ -63,12 +56,10 @@ const Social = ({ onUserSet }) => {
 
         const { data } = await axios.post('/user/social/signup', socialObject);
 
-        // eslint-disable-next-line object-curly-newline
         const {
           data: { token }
-          // eslint-disable-next-line object-curly-newline
         } = data;
-        console.log(token);
+
         setAuthorization(token);
 
         // 서버에서 누구인지 받아오는곳
@@ -82,11 +73,8 @@ const Social = ({ onUserSet }) => {
 
   // 페이스북
   const responseFacebook = async (response) => {
-    console.log(response);
-
     try {
       const { accessToken: facebookAccessToken } = response;
-      console.log(facebookAccessToken);
 
       const socialObject = {
         token: facebookAccessToken,
@@ -94,13 +82,11 @@ const Social = ({ onUserSet }) => {
       };
 
       const {
-        // eslint-disable-next-line object-curly-newline
         data: {
           data: { token }
-          // eslint-disable-next-line object-curly-newline
         }
       } = await axios.post('/user/social/signup', socialObject);
-      console.log(token);
+
       setAuthorization(token);
 
       // 서버에서 누구인지 받아오는곳

@@ -26,26 +26,18 @@ const PopularBread = ({ breadList, onBreadList, onHeartFilled }) => {
 
   return (
     <PopularBreadWrap>
-
       <PopularWrap>
         <h1>요즘 인기있는 빵</h1>
       </PopularWrap>
 
       <BreadList>
-
         <ul className="list_wrap">
-          {breadList.map((breadData) => {
-            console.log(breadData);
-            return (
-              <BreadLi breadData={breadData} onHeartFilled={onHeartFilled} />
-            );
-          })}
+          {breadList.map((breadData) => (
+            <BreadLi breadData={breadData} onHeartFilled={onHeartFilled} />
+          ))}
         </ul>
-
       </BreadList>
-
     </PopularBreadWrap>
-
   );
 };
 

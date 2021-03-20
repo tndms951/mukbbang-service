@@ -8,7 +8,6 @@ import Footer from './components/service-main/footer/footer';
 
 // eslint-disable-next-line react/prop-types
 function LayOut({ children }) {
-  console.log(children);
   return (
     <>
       <Reset />

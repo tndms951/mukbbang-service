@@ -1,4 +1,3 @@
-/* eslint-disable react/jsx-props-no-spreading */
 import React, { useEffect } from 'react';
 import Youtube from 'react-youtube';
 // import { Swiper } from 'swiper/react';
@@ -8,14 +7,12 @@ import Slider from 'react-slick';
 import axios from '../../../../utils/axios';
 import { errorhandler } from '../../../../utils/common';
 
-// eslint-disable-next-line object-curly-newline
 import {
   BreadPickWrap,
   YoutubePickEvent,
   StyledSlider,
   PickBreadTitle,
   PickBreadImage
-  // eslint-disable-next-line object-curly-newline
 } from './youtube_bread_style';
 
 const PickBread = () => {
@@ -31,6 +28,7 @@ const PickBread = () => {
     }
     fetchyoutubeData();
   }, []);
+
   const opts = {
     width: '300',
     height: '300',
@@ -91,6 +89,7 @@ const PickBread = () => {
         scrollbar={{
           draggable: true
         }}> */}
+      {/* eslint-disable-next-line react/jsx-props-no-spreading */}
       <Slider {...settings}>
         <StyledSlider>
           <PickBreadImage>

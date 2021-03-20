@@ -6,12 +6,10 @@ const INITAL_STATE = {
 };
 
 const breadListReducer = (state = INITAL_STATE, action) => {
-  console.log(action.payload);
   switch (action.type) {
     case breadTypes.BREAD_LIST_SET: {
       const { bread } = action.payload;
-      console.log(bread);
-      console.log('뭐다냐?');
+
       return {
         ...state,
         breadList: bread
@@ -19,8 +17,6 @@ const breadListReducer = (state = INITAL_STATE, action) => {
     }
     case breadTypes.HEART_FILLED: {
       const { filled } = action.payload;
-      console.log(filled);
-      console.log('어이고');
 
       return {
         ...state,

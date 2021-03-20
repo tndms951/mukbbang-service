@@ -36,7 +36,9 @@ const MainHome = ({ breadShopList, onbreadShopList, breadList, onbreadList, onhe
     }
     async function fetchBreadShopData() {
       try {
-        const { status: breadShopStatus, data: breadShopData } = await axios.get('/rank/bread/shop');
+        const { status: breadShopStatus, data: breadShopData } = await axios.get(
+          '/rank/bread/shop'
+        );
         console.log(breadShopStatus);
         onbreadShopList(breadShopData.list);
       } catch (err) {
@@ -47,7 +49,6 @@ const MainHome = ({ breadShopList, onbreadShopList, breadList, onbreadList, onhe
     fetchBreadShopData();
   }, []);
 
-  console.log('메인');
   return (
     <Main>
       <div className="breadShopWrap">
@@ -103,7 +104,6 @@ const MainHome = ({ breadShopList, onbreadShopList, breadList, onbreadList, onhe
         </BreaShopList>
       </div>
     </Main>
-
   );
 };
 
@@ -124,7 +124,6 @@ const breadShopDispathchToProps = (dispatch) => ({
   onbreadShopList: (breadShop) => dispatch(setCurrentBreadShop(breadShop)),
   onbreadList: (bread) => dispatch(setBreadRankingList(bread)),
   onheartfilled: (filled) => dispatch(setHeartTrueData(filled))
-
 });
 
 export default connect(breadStateToProps, breadShopDispathchToProps)(MainHome);

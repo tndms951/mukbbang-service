@@ -9,7 +9,6 @@ import { errorhandler } from '../../../../utils/common';
 import { selectShopList } from '../../../redux/breadshoplist/breadShop.selectors';
 import { setCurrentBreadShop } from '../../../redux/breadshoplist/breadShop.actions';
 
-// eslint-disable-next-line object-curly-newline
 import {
   HouseRangkingWrap,
   ShopRangking,
@@ -18,7 +17,6 @@ import {
   City,
   CurrentLocation,
   RangkingList
-  // eslint-disable-next-line object-curly-newline
 } from './breadhouse_rangking_style';
 
 // 하트 액션
@@ -28,8 +26,8 @@ const HouseRangking = ({ breadShopList, onbreadShopList, onheartspace }) => {
   useEffect(() => {
     async function fetchShopData() {
       try {
-        const { status, data: breadShopData } = await axios.get('/bread/shop');
-        console.log(status);
+        const { data: breadShopData } = await axios.get('/bread/shop');
+
         onbreadShopList(breadShopData.list);
         onheartspace(breadShopData.like);
       } catch (err) {
