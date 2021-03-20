@@ -3,16 +3,13 @@ import withReactContent from 'sweetalert2-react-content';
 
 const MySwal = withReactContent(Swal);
 
-export const sweetAlert = (title, icon = 'error') => (
+export const sweetAlert = (title, icon = 'error') =>
   MySwal.fire({
     title,
     icon
-  })
-);
-
-// eslint-disable-next-line arrow-body-style
-export const sweetAlertConfirm = async (title) => {
-  return new Promise((resolve) => {
+  });
+export const sweetAlertConfirm = (title) =>
+  new Promise((resolve) => {
     Swal.fire({
       title,
       icon: 'warning',
@@ -23,7 +20,6 @@ export const sweetAlertConfirm = async (title) => {
       cancelButtonText: '아니요'
     }).then((result) => resolve(result.isConfirmed));
   });
-};
 
 export const isEmailValid = (value) => {
   const regExp = /^[0-9a-zA-Z]([-_.]?[0-9a-zA-Z])*@[0-9a-zA-Z]([-_.]?[0-9a-zA-Z])*\.[a-zA-Z]{3,3}$/i;

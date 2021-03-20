@@ -5,14 +5,13 @@ import { connect } from 'react-redux';
 import { setCurrentUser } from '../redux/user/user.actions';
 import { sweetAlert, isEmailValid, errorhandler } from '../../utils/common';
 import axios, { setAuthorization } from '../../utils/axios';
-// eslint-disable-next-line object-curly-newline
+
 import {
   SigninAllWrap,
   InputEmail,
   InputPassword,
   LoginButton,
   SigninLine
-  // eslint-disable-next-line object-curly-newline
 } from './signin_content_style';
 import Social from '../common-component/social';
 
@@ -48,10 +47,9 @@ function Signin({ onUserSet, history }) {
         sweetAlert('비밀번호를 입력해주세요.');
       } else {
         const { data } = await axios.post('/user/signin', signinObject);
-        // eslint-disable-next-line object-curly-newline
+
         const {
           data: { token }
-          // eslint-disable-next-line object-curly-newline
         } = data;
         setAuthorization(token);
 

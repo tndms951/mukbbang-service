@@ -8,7 +8,6 @@ import { Link } from 'react-router-dom';
 import { selectCurrentUser } from '../../redux/user/user.selectors';
 import { setLogout } from '../../redux/user/user.actions';
 
-// eslint-disable-next-line object-curly-newline
 import {
   HeaderWrap,
   BookMark,
@@ -17,7 +16,6 @@ import {
   MyProfile,
   GroupNav,
   NaveSearch
-  // eslint-disable-next-line object-curly-newline
 } from './header_style';
 
 /**

@@ -7,11 +7,15 @@
     "react/jsx-one-expression-per-line": 0,
     "comma-dangle": ["error", "never"],
     "import/no-unresolved": "off",
-    "object-curly-newline": 0,
+    "object-curly-newline": ["error", {
+      "ObjectExpression": "always",
+      "ObjectPattern": { "multiline": true },
+      "ImportDeclaration": "never",
+      "ExportDeclaration": { "multiline": true, "minProperties": 3 }
+    }],
     "react/jsx-closing-bracket-location": 0,
     "jsx-a11y/label-has-associated-control": "off",
     "prettier/prettier": 0,
-    "import/prefer-default-export": "off", //에러나서 블러그 참고하여 추가
-    "max-len": [2, {"code": 200, "tabWidth": 4, "ignoreUrls": true}] //추가
+    "max-len": [2, {"code": 200, "tabWidth": 4, "ignoreUrls": true}]
   }
 }
