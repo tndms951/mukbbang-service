@@ -36,7 +36,6 @@ const Social = ({ onUserSet }) => {
 
       // 서버에서 누구인지 받아오는곳
       const { data: getData } = await axios.get('/user/current');
-
       onUserSet(getData.data, token);
     } catch (err) {
       errorhandler(err);
