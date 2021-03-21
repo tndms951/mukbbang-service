@@ -16,12 +16,6 @@ import { Main, MainBackground, BreadShopRanking, BreaShopList } from './mainhome
 
 const MainHome = ({ breadShopList, onbreadShopList, breadList, onbreadList, onheartfilled }) => {
   console.log(onheartfilled);
-  // const popularbread = async () => {
-  //   const { data } = await axios.get('/rank/bread');
-  //   console.log(data);
-  // };
-  // const [breadList, setBreadList] = useState([]);
-  // const [breadShopList, setBreadShopList] = useState([]);
 
   useEffect(() => {
     async function fetchBreadData() {
