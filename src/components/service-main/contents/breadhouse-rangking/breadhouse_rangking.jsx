@@ -22,14 +22,14 @@ import {
 // 하트 액션
 import { setHeartTrueData } from '../../../redux/breadlist/bread.actions';
 
-const HouseRangking = ({ breadShopList, onbreadShopList, onheartspace }) => {
+const HouseRangking = ({ breadShopList, onBreadShopList, onHeartSpace }) => {
   useEffect(() => {
     async function fetchShopData() {
       try {
         const { status, data: breadShopData } = await axios.get('/bread/shop');
         if (status === 200) {
-          onbreadShopList(breadShopData.list);
-          onheartspace(breadShopData.like);
+          onBreadShopList(breadShopData.list);
+          onHeartSpace(breadShopData.like);
         }
       } catch (err) {
         errorhandler(err);
@@ -191,8 +191,8 @@ const HouseRangking = ({ breadShopList, onbreadShopList, onheartspace }) => {
 
 HouseRangking.propTypes = {
   breadShopList: PropTypes.instanceOf(Array).isRequired,
-  onbreadShopList: PropTypes.func.isRequired,
-  onheartspace: PropTypes.bool.isRequired
+  onBreadShopList: PropTypes.func.isRequired,
+  onHeartSpace: PropTypes.bool.isRequired
 };
 
 const breadStateToProps = createStructuredSelector({
@@ -200,8 +200,8 @@ const breadStateToProps = createStructuredSelector({
 });
 
 const breadShopDispathchToProps = (dispatch) => ({
-  onbreadShopList: (breadShop) => dispatch(setCurrentBreadShop(breadShop)),
-  onheartspace: (heart) => dispatch(setHeartTrueData(heart))
+  onBreadShopList: (breadShop) => dispatch(setCurrentBreadShop(breadShop)),
+  onHeartSpace: (heart) => dispatch(setHeartTrueData(heart))
 });
 
 export default connect(breadStateToProps, breadShopDispathchToProps)(HouseRangking);

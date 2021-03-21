@@ -14,8 +14,8 @@ import { setBreadRankingList, setHeartTrueData } from '../../../redux/breadlist/
 import axios from '../../../../utils/axios';
 import { Main, MainBackground, BreadShopRanking, BreaShopList } from './mainhome_content_style';
 
-const MainHome = ({ breadShopList, onbreadShopList, breadList, onbreadList, onheartfilled }) => {
-  console.log(onheartfilled);
+const MainHome = ({ breadShopList, onBreadShopList, breadList, onBreadList, onHeartFilled }) => {
+  console.log(onHeartFilled);
 
   useEffect(() => {
     async function fetchBreadData() {
@@ -23,7 +23,7 @@ const MainHome = ({ breadShopList, onbreadShopList, breadList, onbreadList, onhe
         const { status, data: breadData } = await axios.get('/rank/bread');
 
         if (status === 200) {
-          onbreadList(breadData.list);
+          onBreadList(breadData.list);
         }
       } catch (err) {
         errorhandler(err);
@@ -33,7 +33,7 @@ const MainHome = ({ breadShopList, onbreadShopList, breadList, onbreadList, onhe
       try {
         const { status, data: breadShopData } = await axios.get('/rank/bread/shop');
         if (status === 200) {
-          onbreadShopList(breadShopData.list);
+          onBreadShopList(breadShopData.list);
         }
       } catch (err) {
         errorhandler(err);
@@ -83,18 +83,16 @@ const MainHome = ({ breadShopList, onbreadShopList, breadList, onbreadList, onhe
         </BreadShopRanking>
 
         <BreaShopList>
-          <>
-            <ul className="list_wrap">
-              {breadList.map((breadData) => (
-                <li key={breadData.id}>
-                  <img src={breadData.image} alt="" />
-                  <dl>
-                    <dd>{breadData.title}</dd>
-                  </dl>
-                </li>
-              ))}
-            </ul>
-          </>
+          <ul className="list_wrap">
+            {breadList.map((breadData) => (
+              <li key={breadData.id}>
+                <img src={breadData.image} alt="" />
+                <dl>
+                  <dd>{breadData.title}</dd>
+                </dl>
+              </li>
+            ))}
+          </ul>
         </BreaShopList>
       </div>
     </Main>
@@ -103,10 +101,10 @@ const MainHome = ({ breadShopList, onbreadShopList, breadList, onbreadList, onhe
 
 MainHome.propTypes = {
   breadShopList: PropTypes.instanceOf(Array).isRequired,
-  onbreadShopList: PropTypes.func.isRequired,
+  onBreadShopList: PropTypes.func.isRequired,
   breadList: PropTypes.instanceOf(Array).isRequired,
-  onbreadList: PropTypes.func.isRequired,
-  onheartfilled: PropTypes.func.isRequired
+  onBreadList: PropTypes.func.isRequired,
+  onHeartFilled: PropTypes.func.isRequired
 };
 
 const breadStateToProps = createStructuredSelector({
@@ -115,9 +113,9 @@ const breadStateToProps = createStructuredSelector({
 });
 
 const breadShopDispathchToProps = (dispatch) => ({
-  onbreadShopList: (breadShop) => dispatch(setCurrentBreadShop(breadShop)),
-  onbreadList: (bread) => dispatch(setBreadRankingList(bread)),
-  onheartfilled: (filled) => dispatch(setHeartTrueData(filled))
+  onBreadShopList: (breadShop) => dispatch(setCurrentBreadShop(breadShop)),
+  onBreadList: (bread) => dispatch(setBreadRankingList(bread)),
+  onHeartFilled: (filled) => dispatch(setHeartTrueData(filled))
 });
 
 export default connect(breadStateToProps, breadShopDispathchToProps)(MainHome);

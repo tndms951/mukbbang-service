@@ -1,11 +1,11 @@
 import { combineReducers } from 'redux';
 
-import UseReducer from './user/user.reducer';
+import userReducer from './user/user.reducer';
 import breadShopReducer from './breadshoplist/breadShop.reducer';
 import breadReducer from './breadlist/bread.reducer';
 
 const rootReducer = combineReducers({
-  user: UseReducer,
+  user: userReducer,
   breadShop: breadShopReducer,
   bread: breadReducer
 });

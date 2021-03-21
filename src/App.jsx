@@ -20,38 +20,36 @@ function App({ onUserData }) {
   // console.log(process.env.REACT_APP_GOOGLE_KEY);
 
   useLayoutEffect(() => {
-    const bringToken = localStorage.getItem('userToken');
+    const bringUserToken = localStorage.getItem('userToken');
 
-    async function localTokenData() {
+    async function userTokenData() {
       try {
-        setAuthorization(bringToken);
+        setAuthorization(bringUserToken);
         const { data } = await axios.get('/user/current');
-        onUserData(data.data, bringToken);
+        onUserData(data.data, bringUserToken);
       } catch (err) {
         errorhandler(err);
       }
     }
 
-    if (bringToken) {
-      localTokenData();
+    if (bringUserToken) {
+      userTokenData();
     }
   }, [onUserData]);
 
   return (
-    <>
-      <BrowserRouter>
-        <LayOut>
-          <Switch>
-            <Route exact path="/signin" component={Signin} />
-            <Route exact path="/signup" component={Signup} />
-            <Route path="/rank/bread-house" component={HouseRangking} />
-            <Route path="/rank/bread" component={populaBread} />
-            <Route path="/youtube-bread" component={PickBread} />
-            <Route path="/" component={MainHome} />
-          </Switch>
-        </LayOut>
-      </BrowserRouter>
-    </>
+    <BrowserRouter>
+      <LayOut>
+        <Switch>
+          <Route exact path="/signin" component={Signin} />
+          <Route exact path="/signup" component={Signup} />
+          <Route path="/rank/bread-house" component={HouseRangking} />
+          <Route path="/rank/bread" component={populaBread} />
+          <Route path="/youtube-bread" component={PickBread} />
+          <Route path="/" component={MainHome} />
+        </Switch>
+      </LayOut>
+    </BrowserRouter>
   );
 }
 

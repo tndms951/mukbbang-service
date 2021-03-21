@@ -15,7 +15,7 @@ const kakaoToken = process.env.REACT_APP_KAKAO_KEY;
 const facebookToken = process.env.REACT_APP_FACEBOOK_KEY;
 const googleToken = process.env.REACT_APP_GOOGLE_KEY;
 
-const Social = ({ onUserSet }) => {
+const Social = ({ onUserSet, history }) => {
   // 카카오
   const onSuccess = async (userData) => {
     try {
@@ -37,6 +37,7 @@ const Social = ({ onUserSet }) => {
       // 서버에서 누구인지 받아오는곳
       const { data: getData } = await axios.get('/user/current');
       onUserSet(getData.data, token);
+      history.push('/');
     } catch (err) {
       errorhandler(err);
     }
@@ -64,6 +65,7 @@ const Social = ({ onUserSet }) => {
         // 서버에서 누구인지 받아오는곳
         const { data: getData } = await axios.get('/user/current');
         onUserSet(getData.data, token);
+        history.push('/');
       }
     } catch (err) {
       errorhandler(err);
@@ -91,6 +93,7 @@ const Social = ({ onUserSet }) => {
       // 서버에서 누구인지 받아오는곳
       const { data: facebookData } = await axios.get('/user/current');
       onUserSet(facebookData.data, token);
+      history.push('/');
     } catch (err) {
       errorhandler(err);
     }
@@ -156,7 +159,8 @@ const Social = ({ onUserSet }) => {
 };
 
 Social.propTypes = {
-  onUserSet: PropTypes.func.isRequired
+  onUserSet: PropTypes.func.isRequired,
+  history: PropTypes.objectOf(PropTypes.object).isRequired
 };
 
 const userToPropsDispatch = (dispatch) => ({

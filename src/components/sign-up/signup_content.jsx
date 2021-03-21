@@ -52,14 +52,16 @@ function Signup({ onUserSet, history }) {
         if (status === 201) {
           const { token } = data.data;
           setAuthorization(token);
+        }
 
-          const { data: userData } = await axios.get('/user/current');
+        const { data: userData } = await axios.get('/user/current');
+        if (status === 200) {
+          const { token } = data.data;
           onUserSet(userData, token);
           history.push('/');
         }
       }
     } catch (err) {
-      console.log(err);
       errorhandler(err);
     }
   };
@@ -72,70 +74,68 @@ function Signup({ onUserSet, history }) {
   };
 
   return (
-    <>
-      <SignupAllWrap>
-        <div className="login-wrap">
-          <form className="form_wrap" onSubmit={handleSubmit}>
-            <h3>회원가입</h3>
+    <SignupAllWrap>
+      <div className="login-wrap">
+        <form className="form_wrap" onSubmit={handleSubmit}>
+          <h3>회원가입</h3>
 
-            <InputEmail>
-              <span>이메일 입력</span>
-              <input
-                type="text"
-                placeholder="이메일 입력"
-                onChange={handleChange}
-                name="email"
-                value={email}
-              />
-            </InputEmail>
+          <InputEmail>
+            <span>이메일 입력</span>
+            <input
+              type="text"
+              placeholder="이메일 입력"
+              onChange={handleChange}
+              name="email"
+              value={email}
+            />
+          </InputEmail>
 
-            <InputName>
-              <span>이름 입력</span>
-              <input
-                type="text"
-                placeholder="이름 입력"
-                name="name"
-                value={name}
-                onChange={handleChange}
-              />
-            </InputName>
+          <InputName>
+            <span>이름 입력</span>
+            <input
+              type="text"
+              placeholder="이름 입력"
+              name="name"
+              value={name}
+              onChange={handleChange}
+            />
+          </InputName>
 
-            <InputPassword>
-              <span>비밀번호 입력</span>
-              <span>(영문, 숫자, 특수문자 포함 8자리 이상)</span>
-              <input
-                type="password"
-                placeholder="비밀번호"
-                onChange={handleChange}
-                name="password"
-                value={password}
-              />
-            </InputPassword>
+          <InputPassword>
+            <span>비밀번호 입력</span>
+            <span>(영문, 숫자, 특수문자 포함 8자리 이상)</span>
+            <input
+              type="password"
+              placeholder="비밀번호"
+              onChange={handleChange}
+              name="password"
+              value={password}
+            />
+          </InputPassword>
 
-            <ReInputPassword>
-              <span>비밀번호 재확인</span>
-              <input
-                type="password"
-                placeholder="비밀번호"
-                name="repassword"
-                value={repassword}
-                onChange={handleChange}
-              />
-            </ReInputPassword>
+          <ReInputPassword>
+            <span>비밀번호 재확인</span>
+            <input
+              type="password"
+              placeholder="비밀번호"
+              name="repassword"
+              value={repassword}
+              onChange={handleChange}
+            />
+          </ReInputPassword>
 
-            <LoginButton>
-              <button type="submit">회원가입</button>
-            </LoginButton>
-          </form>
-          <SignupLine>
-            <span>또는</span>
-            <hr />
-          </SignupLine>
+          <LoginButton>
+            <button type="submit">회원가입</button>
+          </LoginButton>
+        </form>
+        <SignupLine>
+          <span>또는</span>
+          <hr />
+        </SignupLine>
 
-          <Social />
-        </div>
-      </SignupAllWrap>
-    </>
+        <Social />
+      </div>
+    </SignupAllWrap>
   );
 }
 

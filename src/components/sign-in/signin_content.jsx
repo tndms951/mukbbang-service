@@ -24,8 +24,8 @@ function Signin({ onUserSet, history }) {
   const { email, password } = LoginValue;
 
   useEffect(() => {
-    const bringToken = localStorage.getItem('userToken');
-    if (bringToken) {
+    const bringUserToken = localStorage.getItem('userToken');
+    if (bringUserToken) {
       history.replace('/');
     }
   }, []);
@@ -73,47 +73,45 @@ function Signin({ onUserSet, history }) {
   };
 
   return (
-    <>
-      <SigninAllWrap>
-        <div className="login-wrap">
-          <form className="form_wrap" onSubmit={handleSubmit}>
-            <h3>로그인</h3>
+    <SigninAllWrap>
+      <div className="login-wrap">
+        <form className="form_wrap" onSubmit={handleSubmit}>
+          <h3>로그인</h3>
 
-            <InputEmail>
-              <span>이메일</span>
-              <input
-                type="text"
-                placeholder="이메일 입력"
-                onChange={handleChange}
-                name="email"
-                value={email}
-              />
-            </InputEmail>
+          <InputEmail>
+            <span>이메일</span>
+            <input
+              type="text"
+              placeholder="이메일 입력"
+              onChange={handleChange}
+              name="email"
+              value={email}
+            />
+          </InputEmail>
 
-            <InputPassword>
-              <span>비밀번호</span>
-              <input
-                type="password"
-                placeholder="비밀번호 입력"
-                onChange={handleChange}
-                name="password"
-                value={password}
-              />
-            </InputPassword>
+          <InputPassword>
+            <span>비밀번호</span>
+            <input
+              type="password"
+              placeholder="비밀번호 입력"
+              onChange={handleChange}
+              name="password"
+              value={password}
+            />
+          </InputPassword>
 
-            <LoginButton>
-              <button type="submit">로그인</button>
-            </LoginButton>
-          </form>
-          <SigninLine>
-            <span>또는</span>
-            <hr />
-          </SigninLine>
+          <LoginButton>
+            <button type="submit">로그인</button>
+          </LoginButton>
+        </form>
+        <SigninLine>
+          <span>또는</span>
+          <hr />
+        </SigninLine>
 
-          <Social />
-        </div>
-      </SigninAllWrap>
-    </>
+        <Social />
+      </div>
+    </SigninAllWrap>
   );
 }
 

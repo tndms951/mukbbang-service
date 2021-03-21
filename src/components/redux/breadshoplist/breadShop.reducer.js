@@ -6,7 +6,7 @@ const INITAL_STATE = {
 
 const breadShopReducer = (state = INITAL_STATE, action) => {
   switch (action.type) {
-    case breadShopTypes.SET_BREAD_SHOP_List: {
+    case breadShopTypes.SET_BREAD_SHOP_LIST: {
       const { breadShop } = action.payload;
 
       return {
