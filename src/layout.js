@@ -1,13 +1,13 @@
 import React from 'react';
 import { Reset } from 'styled-reset';
+import PropTypes from 'prop-types';
 
 import Header from './components/service-main/header/header';
 import Footer from './components/service-main/footer/footer';
 
 // import SignUp from './components/sign-up/signup_content';
 
-// eslint-disable-next-line react/prop-types
-function LayOut({ children }) {
+function Layout({ children }) {
   return (
     <>
       <Reset />
@@ -19,4 +19,8 @@ function LayOut({ children }) {
   );
 }
 
-export default LayOut;
+Layout.propTypes = {
+  children: PropTypes.node.isRequired
+};
+
+export default Layout;
