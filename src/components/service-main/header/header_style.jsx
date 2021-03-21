@@ -49,6 +49,7 @@ export const RightLogin = styled.div`
     display: inline-block;
     margin-top: 4px;
     margin-bottom: 4px;
+    cursor: pointer;
   }
 
   .userimage {
@@ -60,6 +61,7 @@ export const RightLogin = styled.div`
     background-color: white;
     border: 1px solid #b4b4b4;
     margin: 2px 0;
+    cursor: pointer;
   }
 
   .login {
