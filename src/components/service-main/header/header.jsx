@@ -19,7 +19,11 @@ import {
 } from './header_style';
 
 /**
- * @author song-jisu /헤더(header)
+ * @author 송지수
+ * @email tndms951@naver.com
+ * @create date 2021-03-21 15:42:55
+ * @modify date 2021-03-21 15:42:55
+ * @desc [header컴포넌트]
  */
 
 const Header = ({ currentUser, onLogout }) => (
@@ -86,13 +90,9 @@ const Header = ({ currentUser, onLogout }) => (
           <li>유튜버 픽빵</li>
         </Link>
         <li>커뮤니티</li>
-        {/* <li onClick={onLogout} aria-hidden="true">
-              로그아웃
-            </li> */}
       </ul>
       <NaveSearch>
-        <div className="abc">
-          {/* <img src="https://s3.ap-northeast-2.amazonaws.com/image.mercuryeunoia.com/images/web/jisu/+common_icon/Search.png" alt="돋보기 이미지" /> */}
+        <div className="headerSearch">
           <span />
         </div>
         <input type="text" placeholder="빵집과, 빵을 찾아보세요." />

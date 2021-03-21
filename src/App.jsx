@@ -25,8 +25,10 @@ function App({ onUserData }) {
     async function userTokenData() {
       try {
         setAuthorization(bringUserToken);
-        const { data } = await axios.get('/user/current');
-        onUserData(data.data, bringUserToken);
+        const { status, data } = await axios.get('/user/current');
+        if (status === 200) {
+          onUserData(data.data, bringUserToken);
+        }
       } catch (err) {
         errorhandler(err);
       }

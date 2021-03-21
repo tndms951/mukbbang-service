@@ -46,18 +46,18 @@ function Signin({ onUserSet, history }) {
       } else if (!password) {
         sweetAlert('비밀번호를 입력해주세요.');
       } else {
-        const { data } = await axios.post('/user/signin', signinObject);
-
-        const {
-          data: { token }
-        } = data;
-        setAuthorization(token);
-
-        const { status, data: getData } = await axios.get('/user/current');
-
+        const { status, data } = await axios.post('/user/signin', signinObject);
         if (status === 200) {
-          onUserSet(getData.data, token);
-          history.push('/');
+          const {
+            data: { token }
+          } = data;
+          setAuthorization(token);
+
+          const { status: signinStatus, data: getData } = await axios.get('/user/current');
+          if (signinStatus === 200) {
+            onUserSet(getData.data, token);
+            history.push('/');
+          }
         }
       }
     } catch (err) {

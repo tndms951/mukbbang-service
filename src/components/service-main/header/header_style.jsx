@@ -155,7 +155,7 @@ export const NaveSearch = styled.div`
   float: right;
   position: relative;
 
-  & .abc {
+  & .headerSearch {
     width: 17px;
     height: 17px;
     position: absolute;
