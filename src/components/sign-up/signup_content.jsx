@@ -1,6 +1,8 @@
 import React, { useState } from 'react';
+import PropTypes from 'prop-types';
+import { connect } from 'react-redux';
 
-import axios from '../../utils/axios';
+import axios, { setAuthorization } from '../../utils/axios';
 import { sweetAlert, isEmailValid, errorhandler } from '../../utils/common';
 import {
   SignupAllWrap,
@@ -11,9 +13,10 @@ import {
   LoginButton,
   SignupLine
 } from './signup_content_style';
+import { setCurrentUser } from '../redux/user/user.actions';
 import Social from '../common-component/social';
 
-function Signup() {
+function Signup({ onUserSet, history }) {
   // 기능코드
   const [LoginValue, setLoginValue] = useState({
     email: '',
@@ -45,10 +48,18 @@ function Signup() {
       } else if (!repassword) {
         sweetAlert('재비밀번호를 입력해주세요.');
       } else {
-        const { data } = await axios.post('/user/signup', signupObject);
-        console.log(data);
+        const { status, data } = await axios.post('/user/signup', signupObject);
+        if (status === 201) {
+          const { token } = data.data;
+          setAuthorization(token);
+
+          const { data: userData } = await axios.get('/user/current');
+          onUserSet(userData, token);
+          history.push('/');
+        }
       }
     } catch (err) {
+      console.log(err);
       errorhandler(err);
     }
   };
@@ -128,4 +139,13 @@ function Signup() {
   );
 }
 
-export default Signup;
+Signup.propTypes = {
+  onUserSet: PropTypes.func.isRequired,
+  history: PropTypes.objectOf(PropTypes.object).isRequired
+};
+
+const mapDispatchToProps = (dispatch) => ({
+  onUserSet: (userData, token) => dispatch(setCurrentUser(userData, token))
+});
+
+export default connect(null, mapDispatchToProps)(Signup);

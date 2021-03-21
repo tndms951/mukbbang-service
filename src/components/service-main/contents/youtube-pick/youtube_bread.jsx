@@ -19,9 +19,10 @@ const PickBread = () => {
   useEffect(() => {
     async function fetchyoutubeData() {
       try {
-        const { status, data } = await axios.get('/admin/youtube');
-        console.log(status);
-        console.log(data);
+        const { status, data } = await axios.get('/youtube');
+        if (status === 200) {
+          console.log(data);
+        }
       } catch (err) {
         errorhandler(err);
       }

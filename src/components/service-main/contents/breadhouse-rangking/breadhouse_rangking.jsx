@@ -26,10 +26,11 @@ const HouseRangking = ({ breadShopList, onbreadShopList, onheartspace }) => {
   useEffect(() => {
     async function fetchShopData() {
       try {
-        const { data: breadShopData } = await axios.get('/bread/shop');
-
-        onbreadShopList(breadShopData.list);
-        onheartspace(breadShopData.like);
+        const { status, data: breadShopData } = await axios.get('/bread/shop');
+        if (status === 200) {
+          onbreadShopList(breadShopData.list);
+          onheartspace(breadShopData.like);
+        }
       } catch (err) {
         errorhandler(err);
       }

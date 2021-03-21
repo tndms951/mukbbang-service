@@ -20,21 +20,21 @@ const MainHome = ({ breadShopList, onbreadShopList, breadList, onbreadList, onhe
   useEffect(() => {
     async function fetchBreadData() {
       try {
-        const { status: breadStatus, data: breadData } = await axios.get('/rank/bread');
-        // setBreadList(breadData.list);
-        onbreadList(breadData.list);
-        console.log(breadStatus);
+        const { status, data: breadData } = await axios.get('/rank/bread');
+
+        if (status === 200) {
+          onbreadList(breadData.list);
+        }
       } catch (err) {
         errorhandler(err);
       }
     }
     async function fetchBreadShopData() {
       try {
-        const { status: breadShopStatus, data: breadShopData } = await axios.get(
-          '/rank/bread/shop'
-        );
-        console.log(breadShopStatus);
-        onbreadShopList(breadShopData.list);
+        const { status, data: breadShopData } = await axios.get('/rank/bread/shop');
+        if (status === 200) {
+          onbreadShopList(breadShopData.list);
+        }
       } catch (err) {
         errorhandler(err);
       }

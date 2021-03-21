@@ -57,6 +57,7 @@ function Signin({ onUserSet, history }) {
 
         if (status === 200) {
           onUserSet(getData.data, token);
+          history.push('/');
         }
       }
     } catch (err) {
