@@ -160,22 +160,20 @@ const HouseRangking = ({ breadShopList, onBreadShopList, onHeartSpace }) => {
               style={{
                 outline: '1px solid red'
               }}>
-              <img src={breadShopData.image} alt="" />
-              {breadShopList ? (
-                <img
-                  src="https://s3.ap-northeast-2.amazonaws.com/image.mercuryeunoia.com/images/web/jisu/+common_icon/spaceheart.png"
-                  alt=""
-                  className="heart_image"
-                  aria-hidden="true"
-                  onClick={changeHeart}
-                  active
-                />
-              ) : (
-                <img
-                  src="https://s3.ap-northeast-2.amazonaws.com/image.mercuryeunoia.com/images/web/jisu/+common_icon/heart.png"
-                  alt=""
-                />
-              )}
+              <img src={breadShopData.image} alt={`${breadShopData.title}의 이미지`} />
+
+              <img
+                src="https://s3.ap-northeast-2.amazonaws.com/image.mercuryeunoia.com/images/web/jisu/+common_icon/spaceheart.png"
+                alt="빈하트 이미지"
+                className="heart_image"
+                aria-hidden="true"
+                onClick={changeHeart}
+                active
+              />
+
+              {/* <img src="https://s3.ap-northeast-2.amazonaws.com/image.mercuryeunoia.com/images/web/jisu/+common_icon/heart.png"
+                  alt="하트 이미지"
+                /> */}
 
               <dl>
                 <dt>{breadShopData.title}</dt>

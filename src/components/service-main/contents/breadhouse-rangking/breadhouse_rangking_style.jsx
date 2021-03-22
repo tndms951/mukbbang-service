@@ -241,7 +241,7 @@ export const RangkingList = styled.div`
       }
     }
 
-    & li:hover {
+    & li {
       & .heart_image {
         position: absolute;
         width: 30px;
