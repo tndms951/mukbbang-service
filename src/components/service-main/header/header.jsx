@@ -28,8 +28,8 @@ import {
  */
 
 const Header = ({ currentUser, onLogout }) => {
-  const [value, setValue] = useState(false);
-  console.log(value);
+  const [myProfileBox, setMyProfileBox] = useState(false);
+  console.log(myProfileBox);
 
   return (
     <HeaderWrap>
@@ -50,14 +50,14 @@ const Header = ({ currentUser, onLogout }) => {
               <div
                 className="login_after"
                 onClick={() => {
-                  setValue(!value);
+                  setMyProfileBox(!myProfileBox);
                 }}
                 aria-hidden="true">
                 <span className="userName">{currentUser.name}</span>
                 <span className="userimage">
                   <img src={currentUser.imageUrl} alt={`${currentUser.name}의 이미지`} />
                 </span>
-                {!value ? null : (
+                {myProfileBox ? (
                   <MyProfile>
                     <span>내가 찜한 빵/빵집</span>
                     <span>내 정보 수정</span>
@@ -65,7 +65,7 @@ const Header = ({ currentUser, onLogout }) => {
                       로그아웃
                     </span>
                   </MyProfile>
-                )}
+                ) : null}
               </div>
             ) : (
               <div className="login_wrap">

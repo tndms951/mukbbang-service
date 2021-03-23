@@ -7,10 +7,16 @@ export const setBreadRankingList = (bread) => ({
   }
 });
 
-export const setHeartTrueData = (filled, heartId) => ({
-  type: breadTypes.HEART_FILLED,
+export const setHeartTrueData = (trueBreadId) => ({
+  type: breadTypes.HEART_LIKE_TRUE,
   payload: {
-    filled,
-    heartId
+    trueBreadId
+  }
+});
+
+export const setHeartFalseData = (falseBreadId) => ({
+  type: breadTypes.HEART_LIKE_FALSE,
+  payload: {
+    falseBreadId
   }
 });

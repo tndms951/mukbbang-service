@@ -6,43 +6,51 @@ import PropTypes from 'prop-types';
 import Slider from 'react-slick';
 
 import { errorhandler } from '../../../../utils/common';
-
+import BreadLi from '../../../common-component/bread_li_component';
 import { selectShopList } from '../../../redux/breadshoplist/breadShop.selectors';
 import { setCurrentBreadShop } from '../../../redux/breadshoplist/breadShop.actions';
 
 import { selectBreadList } from '../../../redux/breadlist/bread.selectors';
 import { setBreadRankingList, setHeartTrueData } from '../../../redux/breadlist/bread.actions';
 
+import { selectEventSwiper } from '../../../redux/main/main.selectors';
+import { setEventSwiper } from '../../../redux/main/main.actions';
+
 import axios from '../../../../utils/axios';
-import {
-  Main,
-  MainBackground,
-  BreadShopRanking,
-  BreadShopList,
-  eventSwiper
-} from './mainhome_content_style';
+import { Main, MainBackground, BreadShopRanking, BreadShopList } from './mainhome_content_style';
 
-const MainHome = ({ breadShopList, onBreadShopList, breadList, onBreadList, onHeartFilled }) => {
-  console.log(onHeartFilled); // 값 처리하기
+const MainHome = ({
+  breadShopList,
+  onBreadShopList,
+  breadList,
+  onBreadList,
+  onBreadHeartTrue,
+  eventList,
+  onEventList
+}) => {
+  console.log(breadList);
+  console.log(onBreadList);
 
-  const [onHeart, setOnHeart] = useState(false);
+  const [aaa, setAaa] = useState(false);
+  console.log(setAaa);
 
   useEffect(() => {
     async function fetchBreadData() {
       try {
         const { status, data: breadData } = await axios.get('/rank/bread');
-        console.log(breadData);
-        console.log(breadData.list[3].like);
-        console.log(breadData);
+        const { data: eventData } = await axios.get('/banner/event');
+        console.log(eventData);
 
         if (status === 200) {
           onBreadList(breadData.list);
-          setOnHeart(onHeart);
+          onEventList(eventData.list);
+          onBreadHeartTrue();
         }
       } catch (err) {
         errorhandler(err);
       }
     }
+
     async function fetchBreadShopData() {
       try {
         const { status, data: breadShopData } = await axios.get('/rank/bread/shop');
@@ -57,12 +65,17 @@ const MainHome = ({ breadShopList, onBreadShopList, breadList, onBreadList, onHe
     fetchBreadShopData();
   }, []);
 
-  const changeHeart = async () => {
-    const { status } = await axios.post('/bread/favorite/{breadId}');
-    if (status === 200) {
-      setOnHeart(!onHeart);
-    }
-  };
+  // const changeBreadHeart = async () => {
+  //   try {
+  //     const { data, status } = await axios.post('/bread/favorite/{breadData.id}');
+  //     console.log(data);
+  //     if (status === 200) {
+  //       onBreadHeartTrue();
+  //     }
+  //   } catch (err) {
+  //     errorhandler(err);
+  //   }
+  // };
 
   const settings = {
     dots: true,
@@ -70,62 +83,19 @@ const MainHome = ({ breadShopList, onBreadShopList, breadList, onBreadList, onHe
     autoplay: true,
     speed: 500,
     slidesToShow: 1,
-    slidesToScroll: 1,
-
-    responsive: [
-      // 반응형 웹 구현 옵션
-      {
-        breakpoint: 1200, // 화면 사이즈 1200px
-        settings: {
-          slidesToShow: 3
-        }
-      },
-      {
-        breakpoint: 1023,
-        settings: {
-          slidesToShow: 3
-        }
-      },
-      {
-        breakpoint: 767,
-        settings: {
-          slidesToShow: 1
-        }
-      }
-    ]
+    slidesToScroll: 1
   };
 
   return (
     <Main>
       <div>
-        <eventSwiper>
+        <MainBackground>
           <Slider {...settings}>
-            <MainBackground>
-              <div>
-                <img
-                  src="https://s3.ap-northeast-2.amazonaws.com/image.mercuryeunoia.com/images/web/jisu/+common_icon/google.png"
-                  alt=""
-                />
-                <img
-                  src="https://s3.ap-northeast-2.amazonaws.com/image.mercuryeunoia.com/images/web/jisu/+common_icon/google.png"
-                  alt=""
-                />
-                <img
-                  src="https://s3.ap-northeast-2.amazonaws.com/image.mercuryeunoia.com/images/web/jisu/+common_icon/google.png"
-                  alt=""
-                />
-                <img
-                  src="https://s3.ap-northeast-2.amazonaws.com/image.mercuryeunoia.com/images/web/jisu/+common_icon/google.png"
-                  alt=""
-                />
-                <img
-                  src="https://s3.ap-northeast-2.amazonaws.com/image.mercuryeunoia.com/images/web/jisu/+common_icon/google.png"
-                  alt=""
-                />
-              </div>
-            </MainBackground>
+            {eventList.map((listData) => (
+              <img src={listData.imageUrl} alt="ss" />
+            ))}
           </Slider>
-        </eventSwiper>
+        </MainBackground>
 
         <BreadShopRanking>
           <h1>빵집 랭킹</h1>
@@ -138,15 +108,14 @@ const MainHome = ({ breadShopList, onBreadShopList, breadList, onBreadList, onHe
         <BreadShopList>
           <ul className="list_wrap">
             {breadShopList.map((breadShopData) => (
-              <li key={breadShopData.id}>
+              <li key={`breadShop${breadShopData.id}`}>
                 <img src={breadShopData.image} alt={`${breadShopData.title}의 이미지`} />
-                {onHeart ? (
+                {aaa ? (
                   <img
                     src="https://s3.ap-northeast-2.amazonaws.com/image.mercuryeunoia.com/images/web/jisu/+common_icon/spaceheart.png"
                     alt="빈하트 이미지"
                     className="heart_image"
                     aria-hidden="true"
-                    onClick={changeHeart}
                     active
                   />
                 ) : (
@@ -155,7 +124,6 @@ const MainHome = ({ breadShopList, onBreadShopList, breadList, onBreadList, onHe
                     alt="빨간하트 이미지"
                     className="heart_image"
                     aria-hidden="true"
-                    onClick={changeHeart}
                     active
                   />
                 )}
@@ -180,16 +148,43 @@ const MainHome = ({ breadShopList, onBreadShopList, breadList, onBreadList, onHe
 
         <BreadShopList>
           <ul className="list_wrap">
+            {breadList.map((list) => (
+              <BreadLi key={`bread_li_list${list.id}`} data={list} />
+            ))}
+          </ul>
+        </BreadShopList>
+
+        {/* <BreadShopList>
+          <ul className="list_wrap">
             {breadList.map((breadData) => (
-              <li key={breadData.id}>
-                <img src={breadData.image} alt="" />
+              <li key={`bread-list${breadData.id}`}>
+                <img src={breadData.image} alt={`${breadData.title}의 이미지`} />
+                {onBreadHeartTrue ? (
+                  <img
+                    src="https://s3.ap-northeast-2.amazonaws.com/image.mercuryeunoia.com/images/web/jisu/+common_icon/spaceheart.png"
+                    alt="빈하트 이미지"
+                    className="heart_image"
+                    aria-hidden="true"
+                    onClick={changeBreadHeart}
+                    active
+                  />
+                ) : (
+                  <img
+                    src="https://s3.ap-northeast-2.amazonaws.com/image.mercuryeunoia.com/images/web/jisu/+common_icon/heart.png"
+                    alt="빨간하트 이미지"
+                    className="heart_image"
+                    aria-hidden="true"
+                    onClick={changeBreadHeart}
+                    active
+                  />
+                )}
                 <dl>
                   <dd>{breadData.title}</dd>
                 </dl>
               </li>
             ))}
           </ul>
-        </BreadShopList>
+        </BreadShopList> */}
       </div>
     </Main>
   );
@@ -200,18 +195,23 @@ MainHome.propTypes = {
   onBreadShopList: PropTypes.func.isRequired,
   breadList: PropTypes.instanceOf(Array).isRequired,
   onBreadList: PropTypes.func.isRequired,
-  onHeartFilled: PropTypes.func.isRequired
+  onBreadHeartTrue: PropTypes.func.isRequired,
+  eventList: PropTypes.instanceOf(Array).isRequired,
+  onEventList: PropTypes.func.isRequired
+  // match: PropTypes.func.isRequired
 };
 
 const breadStateToProps = createStructuredSelector({
   breadShopList: selectShopList,
-  breadList: selectBreadList
+  breadList: selectBreadList,
+  eventList: selectEventSwiper
 });
 
 const breadShopDispathchToProps = (dispatch) => ({
   onBreadShopList: (breadShop) => dispatch(setCurrentBreadShop(breadShop)),
   onBreadList: (bread) => dispatch(setBreadRankingList(bread)),
-  onHeartFilled: (filled) => dispatch(setHeartTrueData(filled))
+  onBreadHeartTrue: (trueBreadId) => dispatch(setHeartTrueData(trueBreadId)),
+  onEventList: (event) => dispatch(setEventSwiper(event))
 });
 
 export default connect(breadStateToProps, breadShopDispathchToProps)(MainHome);

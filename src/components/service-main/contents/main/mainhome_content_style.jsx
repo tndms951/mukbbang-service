@@ -1,61 +1,62 @@
 import styled from 'styled-components';
 import Slider from 'react-slick';
-import 'slick-carousel/slick/slick.css';
-import 'slick-carousel/slick/slick-theme.css';
 
 export const Main = styled.div`
-  margin: 0 auto;
+  // margin: 0 auto;
+  // outline: 5px solid red;
   margin-top: 110px;
 `;
 
-export const eventSwiper = styled(Slider)`
+export const MainBackground = styled(Slider)`
   width: 1024px;
-  outline: 1px solid blue;
-
-  // .slick-slide div {
-  //   outline: none; //사진,동영상 클릭시 생기는 테두리 제거
-  // }
-`;
-
-export const MainBackground = styled.div`
-  & div {
-    // width: 1024px;
-    // margin: 0 auto;
-    margin-top: 20px;
-    outline: 3px solid black;
-
-    &::after {
-      clear: both;
-      content: '';
-      display: block;
-    }
-  }
+  // height: 400px;
+  outline: 1px solid red;
+  margin-bottom: 64px;
+  margin: 0 auto;
 
   & img {
-    outline: 1px solid red;
-    display: block;
-    float: left;
-    width: 200px;
-    margin-right: 40px;
+    width: 100%;
+    height: 400px;
+    position: relative;
   }
 
-  & .slick-active {
-    width: 0;
-  }
-
-  & .slick-prev {
-    outline: 3px solid red;
+  .slick-prev {
+    width: 32px;
+    height: 32px;
     z-index: 100;
-    width: 100px;
-    height: 60px;
-    opaicty: 1;
-    color: black;
-    background: black;
-    left: 0;
+    position: absolute;
+    top: 200px;
+    left: 1px;
+    background: rgba(255, 255, 255, 0.9);
+    box-shadow: transparent 0px 0px 0px 1px, transparent 0px 0px 0px 4px,
+      rgb(0 0 0 / 18%) 0px 2px 4px !important;
+    border-radius: 50%;
+  }
 
-    &.slick-prev:before {
-      font-size: 35px;
-    }
+  & .slick-prev:before {
+    color: rgb(34, 34, 34);
+  }
+
+  .slick-next {
+    width: 32px;
+    height: 32px;
+    z-index: 100;
+    position: absolute;
+    top: 200px;
+    right: 1px;
+    background: rgba(255, 255, 255, 0.9);
+    box-shadow: transparent 0px 0px 0px 1px, transparent 0px 0px 0px 4px,
+      rgb(0 0 0 / 18%) 0px 2px 4px !important;
+    border-radius: 50%;
+  }
+
+  & .slick-next:before {
+    color: rgb(34, 34, 34);
+  }
+
+  .slick-dots {
+    margin-bottom: 25px;
+  }
 `;
 
 export const BreadShopRanking = styled.div`
@@ -64,6 +65,7 @@ export const BreadShopRanking = styled.div`
   line-height: 28px;
   width: 1024px;
   margin: 0 auto;
+  margin-top: 72px;
 
   &::after {
     clear: both;
