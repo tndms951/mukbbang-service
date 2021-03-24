@@ -1,3 +1,4 @@
+/* eslint-disable react/react-in-jsx-scope */
 import breadTypes from './bread.types';
 
 export const setBreadRankingList = (bread) => ({

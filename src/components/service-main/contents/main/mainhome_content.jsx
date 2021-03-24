@@ -7,6 +7,7 @@ import Slider from 'react-slick';
 
 import { errorhandler } from '../../../../utils/common';
 import BreadLi from '../../../common-component/bread_li_component';
+
 import { selectShopList } from '../../../redux/breadshoplist/breadShop.selectors';
 import { setCurrentBreadShop } from '../../../redux/breadshoplist/breadShop.actions';
 
@@ -28,8 +29,9 @@ const MainHome = ({
   eventList,
   onEventList
 }) => {
-  console.log(breadList);
-  console.log(onBreadList);
+  // console.log(breadList);
+  // console.log(onBreadList);
+  // console.log(onBreadHeartTrue);
 
   const [aaa, setAaa] = useState(false);
   console.log(setAaa);
@@ -44,7 +46,7 @@ const MainHome = ({
         if (status === 200) {
           onBreadList(breadData.list);
           onEventList(eventData.list);
-          onBreadHeartTrue();
+          // onBreadHeartTrue();
         }
       } catch (err) {
         errorhandler(err);
@@ -64,18 +66,6 @@ const MainHome = ({
     fetchBreadData();
     fetchBreadShopData();
   }, []);
-
-  // const changeBreadHeart = async () => {
-  //   try {
-  //     const { data, status } = await axios.post('/bread/favorite/{breadData.id}');
-  //     console.log(data);
-  //     if (status === 200) {
-  //       onBreadHeartTrue();
-  //     }
-  //   } catch (err) {
-  //     errorhandler(err);
-  //   }
-  // };
 
   const settings = {
     dots: true,
@@ -97,6 +87,7 @@ const MainHome = ({
           </Slider>
         </MainBackground>
 
+        {/* 빵집!!! */}
         <BreadShopRanking>
           <h1>빵집 랭킹</h1>
           <div className="all_show">
@@ -137,6 +128,7 @@ const MainHome = ({
         </BreadShopList>
       </div>
 
+      {/* 빵!!!!! */}
       <div className="breadRankingWrap">
         <BreadShopRanking>
           <h1>요즘 인기있는 빵 랭킹</h1>
@@ -149,7 +141,11 @@ const MainHome = ({
         <BreadShopList>
           <ul className="list_wrap">
             {breadList.map((list) => (
-              <BreadLi key={`bread_li_list${list.id}`} data={list} />
+              <BreadLi
+                key={`bread_li_list${list.id}`}
+                dataList={list}
+                likeTrue={onBreadHeartTrue}
+              />
             ))}
           </ul>
         </BreadShopList>

@@ -1,19 +1,37 @@
 import React from 'react';
 import PropTypes from 'prop-types';
+import axios from '../../utils/axios';
 
-// import { errorhandler } from '../../utils/common';
+import { errorhandler } from '../../utils/common';
 
-const BreadLi = ({ data }) => {
-  console.log(data.image);
+const BreadLi = ({ dataList, likeTrue }) => {
+  // console.log(dataList);
+  // console.log(dataList.id);
+  // console.log(likeTrue);
+
+  const changeBreadHeart = async () => {
+    try {
+      const { status } = await axios.post(`/bread/favorite/${dataList.id}`);
+
+      if (status === 200) {
+        likeTrue(dataList.id);
+      }
+    } catch (err) {
+      errorhandler(err);
+      console.log(err);
+    }
+  };
+
   return (
     <li>
-      <img src={data.image} alt={`${data.title}의 이미지`} />
-      {data.like ? (
+      <img src={dataList.image} alt={`${dataList.title}의 이미지`} />
+      {dataList.like ? (
         <img
           src="https://s3.ap-northeast-2.amazonaws.com/image.mercuryeunoia.com/images/web/jisu/+common_icon/spaceheart.png"
           alt="하트 이미지"
           className="heart_image"
           aria-hidden="true"
+          onClick={changeBreadHeart}
         />
       ) : (
         <img
@@ -21,18 +39,20 @@ const BreadLi = ({ data }) => {
           alt="빈하트 이미지"
           className="heart_image"
           aria-hidden="true"
+          onClick={changeBreadHeart}
           active
         />
       )}
       <dl>
-        <dd>{data.title}</dd>
+        <dd>{dataList.title}</dd>
       </dl>
     </li>
   );
 };
 
 BreadLi.propTypes = {
-  data: PropTypes.instanceOf(Object).isRequired
+  dataList: PropTypes.instanceOf(Object).isRequired,
+  likeTrue: PropTypes.func.isRequired
 };
 
 export default BreadLi;
