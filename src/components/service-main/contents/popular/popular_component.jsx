@@ -11,7 +11,6 @@ import { errorhandler } from '../../../../utils/common';
 import { PopularBreadWrap, PopularWrap, BreadList } from './popular_style';
 
 const PopularBread = ({ breadList, onBreadList, onHeartFilled }) => {
-  console.log(breadList);
   useEffect(() => {
     async function fetchbreadData() {
       try {

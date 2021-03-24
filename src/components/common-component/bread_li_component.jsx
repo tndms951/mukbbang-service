@@ -5,9 +5,10 @@ import axios from '../../utils/axios';
 import { errorhandler } from '../../utils/common';
 
 const BreadLi = ({ dataList, likeTrue }) => {
-  // console.log(dataList);
+  console.log(dataList);
+  console.log(dataList.like);
   // console.log(dataList.id);
-  // console.log(likeTrue);
+  console.log(likeTrue);
 
   const changeBreadHeart = async () => {
     try {
@@ -27,7 +28,7 @@ const BreadLi = ({ dataList, likeTrue }) => {
       <img src={dataList.image} alt={`${dataList.title}의 이미지`} />
       {dataList.like ? (
         <img
-          src="https://s3.ap-northeast-2.amazonaws.com/image.mercuryeunoia.com/images/web/jisu/+common_icon/spaceheart.png"
+          src="https://s3.ap-northeast-2.amazonaws.com/image.mercuryeunoia.com/images/web/jisu/+common_icon/heart.png"
           alt="하트 이미지"
           className="heart_image"
           aria-hidden="true"

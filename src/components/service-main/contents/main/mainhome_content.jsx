@@ -46,7 +46,7 @@ const MainHome = ({
         if (status === 200) {
           onBreadList(breadData.list);
           onEventList(eventData.list);
-          // onBreadHeartTrue();
+          onBreadHeartTrue(breadData.like);
         }
       } catch (err) {
         errorhandler(err);

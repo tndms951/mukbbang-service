@@ -19,12 +19,11 @@ const breadListReducer = (state = INITAL_STATE, action) => {
       console.log(trueBreadId);
       const newLike = [...state.breadList];
       console.log(newLike);
-
+      // console.log(newLike[3].title);
       const updateLike = newLike.findIndex((like) => like.id === Number(trueBreadId));
       console.log(updateLike);
       if (updateLike > -1) {
         newLike[updateLike].like = true;
-        // console.log((newLike[updateLike].like = true));
       }
       return {
         ...state,
