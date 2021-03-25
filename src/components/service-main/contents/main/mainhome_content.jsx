@@ -12,7 +12,11 @@ import { selectShopList } from '../../../redux/breadshoplist/breadShop.selectors
 import { setCurrentBreadShop } from '../../../redux/breadshoplist/breadShop.actions';
 
 import { selectBreadList } from '../../../redux/breadlist/bread.selectors';
-import { setBreadRankingList, setHeartTrueData } from '../../../redux/breadlist/bread.actions';
+import {
+  setBreadRankingList,
+  setHeartTrueData,
+  setHeartFalseData
+} from '../../../redux/breadlist/bread.actions';
 
 import { selectEventSwiper } from '../../../redux/main/main.selectors';
 import { setEventSwiper } from '../../../redux/main/main.actions';
@@ -26,6 +30,7 @@ const MainHome = ({
   breadList,
   onBreadList,
   onBreadHeartTrue,
+  onBreadHeartFalse,
   eventList,
   onEventList
 }) => {
@@ -46,7 +51,8 @@ const MainHome = ({
         if (status === 200) {
           onBreadList(breadData.list);
           onEventList(eventData.list);
-          onBreadHeartTrue(breadData.like);
+          // onBreadHeartTrue(breadData.like);
+          // onBreadHeartFalse(breadData.like);
         }
       } catch (err) {
         errorhandler(err);
@@ -145,6 +151,9 @@ const MainHome = ({
                 key={`bread_li_list${list.id}`}
                 dataList={list}
                 likeTrue={onBreadHeartTrue}
+                likeFalse={onBreadHeartFalse}
+                breadId={list.id}
+                breadLike={list.like}
               />
             ))}
           </ul>
@@ -192,9 +201,9 @@ MainHome.propTypes = {
   breadList: PropTypes.instanceOf(Array).isRequired,
   onBreadList: PropTypes.func.isRequired,
   onBreadHeartTrue: PropTypes.func.isRequired,
+  onBreadHeartFalse: PropTypes.func.isRequired,
   eventList: PropTypes.instanceOf(Array).isRequired,
   onEventList: PropTypes.func.isRequired
-  // match: PropTypes.func.isRequired
 };
 
 const breadStateToProps = createStructuredSelector({
@@ -207,6 +216,7 @@ const breadShopDispathchToProps = (dispatch) => ({
   onBreadShopList: (breadShop) => dispatch(setCurrentBreadShop(breadShop)),
   onBreadList: (bread) => dispatch(setBreadRankingList(bread)),
   onBreadHeartTrue: (trueBreadId) => dispatch(setHeartTrueData(trueBreadId)),
+  onBreadHeartFalse: (falseBreadId) => dispatch(setHeartFalseData(falseBreadId)),
   onEventList: (event) => dispatch(setEventSwiper(event))
 });
 

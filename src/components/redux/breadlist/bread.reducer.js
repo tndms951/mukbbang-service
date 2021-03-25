@@ -14,35 +14,40 @@ const breadListReducer = (state = INITAL_STATE, action) => {
         breadList: bread
       };
     }
+
     case breadTypes.HEART_LIKE_TRUE: {
       const { trueBreadId } = action.payload;
       console.log(trueBreadId);
       const newLike = [...state.breadList];
-      console.log(newLike);
-      // console.log(newLike[3].title);
+
       const updateLike = newLike.findIndex((like) => like.id === Number(trueBreadId));
       console.log(updateLike);
       if (updateLike > -1) {
         newLike[updateLike].like = true;
+        console.log(newLike[updateLike].like);
       }
       return {
         ...state,
         breadList: newLike
       };
-
-      // return {
-      //   ...state,
-      //   heartspace: trueBreadId
-      // };
     }
-    // case breadTypes.HEART_LIKE_FALSE: {
-    //   const { falseBreadId } = action.payload;
 
-    //   return {
-    //     ...state,
-    //     heartfull: falseBreadId
-    //   };
-    // }
+    case breadTypes.HEART_LIKE_FALSE: {
+      const { falseBreadId } = action.payload;
+      console.log(falseBreadId);
+      const newLikeFalse = [...state.breadList];
+
+      const updateFalse = newLikeFalse.findIndex((dislike) => dislike.id === Number(falseBreadId));
+
+      if (updateFalse > -1) {
+        newLikeFalse[updateFalse].like = false;
+        console.log(newLikeFalse[updateFalse].like);
+      }
+      return {
+        ...state,
+        breadList: newLikeFalse
+      };
+    }
     default:
       return state;
   }

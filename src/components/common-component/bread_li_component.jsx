@@ -4,29 +4,50 @@ import axios from '../../utils/axios';
 
 import { errorhandler } from '../../utils/common';
 
-const BreadLi = ({ dataList, likeTrue }) => {
-  console.log(dataList);
-  console.log(dataList.like);
-  // console.log(dataList.id);
-  console.log(likeTrue);
+const BreadLi = ({ dataList, likeTrue, likeFalse, breadId, breadLike }) => {
+  // console.log(dataList);
+  // console.log(dataList.like);
+  // console.log(likeFalse);
+  // console.log(likeTrue);
+  // console.log(breadId);
+  // console.log(breadLike);
 
   const changeBreadHeart = async () => {
     try {
-      const { status } = await axios.post(`/bread/favorite/${dataList.id}`);
+      if (breadLike === true) {
+        const { status: breadStatus } = await axios.delete(`/bread/favorite/${breadId}`);
 
-      if (status === 200) {
-        likeTrue(dataList.id);
+        if (breadStatus === 200) {
+          likeFalse(breadId);
+        }
+      } else {
+        const { status } = await axios.post(`/bread/favorite/${breadId}`);
+        if (status === 200) {
+          likeTrue(breadId);
+        }
       }
     } catch (err) {
       errorhandler(err);
-      console.log(err);
     }
   };
 
   return (
     <li>
       <img src={dataList.image} alt={`${dataList.title}의 이미지`} />
-      {dataList.like ? (
+
+      <img
+        src={
+          breadLike
+            ? 'https://s3.ap-northeast-2.amazonaws.com/image.mercuryeunoia.com/images/web/jisu/+common_icon/heart.png'
+            : 'https://s3.ap-northeast-2.amazonaws.com/image.mercuryeunoia.com/images/web/jisu/+common_icon/spaceheart.png'
+        }
+        alt="하트 이미지"
+        className="heart_image"
+        aria-hidden="true"
+        onClick={changeBreadHeart}
+      />
+
+      {/* {breadLike ? (
         <img
           src="https://s3.ap-northeast-2.amazonaws.com/image.mercuryeunoia.com/images/web/jisu/+common_icon/heart.png"
           alt="하트 이미지"
@@ -43,7 +64,7 @@ const BreadLi = ({ dataList, likeTrue }) => {
           onClick={changeBreadHeart}
           active
         />
-      )}
+      )} */}
       <dl>
         <dd>{dataList.title}</dd>
       </dl>
@@ -53,7 +74,10 @@ const BreadLi = ({ dataList, likeTrue }) => {
 
 BreadLi.propTypes = {
   dataList: PropTypes.instanceOf(Object).isRequired,
-  likeTrue: PropTypes.func.isRequired
+  likeTrue: PropTypes.func.isRequired,
+  likeFalse: PropTypes.func.isRequired,
+  breadId: PropTypes.number.isRequired,
+  breadLike: PropTypes.bool.isRequired
 };
 
 export default BreadLi;
