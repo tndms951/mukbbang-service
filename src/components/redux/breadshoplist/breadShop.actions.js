@@ -6,3 +6,17 @@ export const setCurrentBreadShop = (breadShop) => ({
     breadShop
   }
 });
+
+export const setShopTrueData = (trueBreadShop) => ({
+  type: breadShopTypes.HEART_LIKE_TRUE,
+  payload: {
+    trueBreadShop
+  }
+});
+
+export const setShopFalseData = (falseBreadShop) => ({
+  type: breadShopTypes.HEART_LIKE_FALSE,
+  payload: {
+    falseBreadShop
+  }
+});

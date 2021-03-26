@@ -17,14 +17,13 @@ const breadListReducer = (state = INITAL_STATE, action) => {
 
     case breadTypes.HEART_LIKE_TRUE: {
       const { trueBreadId } = action.payload;
-      console.log(trueBreadId);
+
       const newLike = [...state.breadList];
 
       const updateLike = newLike.findIndex((like) => like.id === Number(trueBreadId));
-      console.log(updateLike);
+
       if (updateLike > -1) {
         newLike[updateLike].like = true;
-        console.log(newLike[updateLike].like);
       }
       return {
         ...state,

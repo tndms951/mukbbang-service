@@ -5,24 +5,16 @@ import axios from '../../utils/axios';
 import { errorhandler } from '../../utils/common';
 
 const BreadLi = ({ dataList, likeTrue, likeFalse, breadId, breadLike }) => {
-  // console.log(dataList);
-  // console.log(dataList.like);
-  // console.log(likeFalse);
-  // console.log(likeTrue);
-  // console.log(breadId);
-  // console.log(breadLike);
-
   const changeBreadHeart = async () => {
     try {
       if (breadLike === true) {
-        const { status: breadStatus } = await axios.delete(`/bread/favorite/${breadId}`);
-
-        if (breadStatus === 200) {
+        const { status } = await axios.delete(`/bread/favorite/${breadId}`);
+        if (status === 200) {
           likeFalse(breadId);
         }
       } else {
-        const { status } = await axios.post(`/bread/favorite/${breadId}`);
-        if (status === 200) {
+        const { status: breadStatus } = await axios.post(`/bread/favorite/${breadId}`);
+        if (breadStatus === 200) {
           likeTrue(breadId);
         }
       }

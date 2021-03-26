@@ -146,8 +146,8 @@ export const BreadShopList = styled.div`
         height: 25px;
         top: 17px;
         right: 15px;
-        }
-  
+      }
+    }
 
     & .aaa {
       margin-right: 0;
