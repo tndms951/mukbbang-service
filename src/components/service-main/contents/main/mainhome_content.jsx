@@ -88,7 +88,7 @@ const MainHome = ({
         <MainBackground>
           <Slider {...settings}>
             {eventList.map((listData) => (
-              <img src={listData.imageUrl} alt="ss" />
+              <img src={listData.imageUrl} alt={listData.title} />
             ))}
           </Slider>
         </MainBackground>
