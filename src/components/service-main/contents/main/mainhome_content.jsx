@@ -47,11 +47,21 @@ const MainHome = ({
     async function fetchBreadData() {
       try {
         const { status, data: breadData } = await axios.get('/rank/bread');
-        const { data: eventData } = await axios.get('/banner/event');
-        console.log(eventData);
 
         if (status === 200) {
           onBreadList(breadData.list);
+        }
+      } catch (err) {
+        errorhandler(err);
+      }
+    }
+
+    async function fetchEventBanner() {
+      try {
+        const { status, data: eventData } = await axios.get('/banner/event');
+        console.log(eventData);
+
+        if (status === 200) {
           onEventList(eventData.list);
         }
       } catch (err) {
@@ -70,6 +80,7 @@ const MainHome = ({
       }
     }
     fetchBreadData();
+    fetchEventBanner();
     fetchBreadShopData();
   }, []);
 
@@ -107,9 +118,9 @@ const MainHome = ({
             {breadShopList.map((breadShopData) => (
               <BreadShopLi
                 key={`breadShop_list${breadShopData.id}`}
-                ShopList={breadShopData}
-                ShopSeverLike={breadShopData.like}
-                ShopId={breadShopData.id}
+                shopList={breadShopData}
+                shopSeverLike={breadShopData.like}
+                shopId={breadShopData.id}
                 likeTrue={onBreadShopTrue}
                 likeFalse={onBreadShopFalse}
               />

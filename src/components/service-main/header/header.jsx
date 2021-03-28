@@ -106,7 +106,7 @@ const Header = ({ currentUser, onLogout }) => {
           <div className="headerSearch">
             <span />
           </div>
-          <input type="text" placeholder="빵집과, 빵을 찾아보세요." />
+          <input type="text" placeholder="빵집을 찾아보세요." />
         </NaveSearch>
       </GroupNav>
     </HeaderWrap>

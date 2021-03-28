@@ -2,45 +2,49 @@ import React, { useEffect } from 'react';
 import { createStructuredSelector } from 'reselect';
 import { connect } from 'react-redux';
 import PropTypes from 'prop-types';
+import BreadShopLi from '../../../common-component/breadShop_li_component';
 
 import axios from '../../../../utils/axios';
 import { errorhandler } from '../../../../utils/common';
 
-import { selectShopList } from '../../../redux/breadshoplist/breadShop.selectors';
-import { setCurrentBreadShop } from '../../../redux/breadshoplist/breadShop.actions';
+import { selectShopList, selectAddress } from '../../../redux/breadshoplist/breadShop.selectors';
+import { setCurrentBreadShop, setShopTrueData, setShopFalseData, setSiAddressData } from '../../../redux/breadshoplist/breadShop.actions';
 
-import {
-  HouseRangkingWrap,
-  ShopRangking,
-  Location,
-  SelectWrap,
-  City,
-  CurrentLocation,
-  RangkingList
-} from './breadhouse_rangking_style';
+import { HouseRangkingWrap, ShopRangking, Location, SelectWrap, City, CurrentLocation, RangkingList } from './breadShop_rangking_style';
 
-// 하트 액션
-import { setHeartTrueData } from '../../../redux/breadlist/bread.actions';
-
-const HouseRangking = ({ breadShopList, onBreadShopList, onHeartSpace }) => {
+const HouseRangking = ({ breadShopList, onBreadShopList, onBreadShopTrue, onBreadShopFalse, addressList, onAddressSi }) => {
+  console.log(breadShopList);
+  console.log(addressList);
   useEffect(() => {
     async function fetchShopData() {
       try {
         const { status, data: breadShopData } = await axios.get('/bread/shop');
+        console.log(breadShopData);
         if (status === 200) {
           onBreadShopList(breadShopData.list);
-          onHeartSpace(breadShopData.like);
         }
       } catch (err) {
         errorhandler(err);
+        // console.log(err);
+      }
+    }
+
+    async function fetchSiAddress() {
+      try {
+        const { status, data } = await axios.get('/util/address/si');
+        console.log(data);
+        if (status === 200) {
+          onAddressSi(data.list);
+          console.log(data);
+        }
+      } catch (err) {
+        errorhandler(err);
+        console.log(err);
       }
     }
     fetchShopData();
+    fetchSiAddress();
   }, []);
-
-  const changeHeart = () => {
-    alert('하투하투');
-  };
 
   return (
     <HouseRangkingWrap>
@@ -61,21 +65,15 @@ const HouseRangking = ({ breadShopList, onBreadShopList, onHeartSpace }) => {
                 <input type="radio" name="city" id="city5" title="부산광역시" />
               </summary>
               <ul className="list">
-                <li>
-                  <label htmlFor="city1">서울특별시</label>
-                </li>
-                <li>
-                  <label htmlFor="city2">경기도</label>
-                </li>
-                <li>
-                  <label htmlFor="city3">대전광역시</label>
-                </li>
-                <li>
-                  <label htmlFor="city4">대구광역시</label>
-                </li>
-                <li>
-                  <label htmlFor="city5">부산광역시</label>
-                </li>
+                {addressList.map((address) => {
+                  console.log(address);
+
+                  return (
+                    <li className="aaa">
+                      <label htmlFor="city1">{address.name}</label>
+                    </li>
+                  );
+                })}
               </ul>
             </details>
           </City>
@@ -143,10 +141,7 @@ const HouseRangking = ({ breadShopList, onBreadShopList, onHeartSpace }) => {
 
         <CurrentLocation>
           <button type="button">
-            <img
-              src="https://s3.ap-northeast-2.amazonaws.com/image.mercuryeunoia.com/images/web/jisu/+common_icon/search.png"
-              alt=""
-            />
+            <img src="https://s3.ap-northeast-2.amazonaws.com/image.mercuryeunoia.com/images/web/jisu/+common_icon/search.png" alt="" />
             <span>현재 위치로 설정</span>
           </button>
         </CurrentLocation>
@@ -155,31 +150,7 @@ const HouseRangking = ({ breadShopList, onBreadShopList, onHeartSpace }) => {
       <RangkingList>
         <ul className="list_wrap">
           {breadShopList.map((breadShopData) => (
-            <li
-              key={breadShopData.id}
-              style={{
-                outline: '1px solid red'
-              }}>
-              <img src={breadShopData.image} alt={`${breadShopData.title}의 이미지`} />
-
-              <img
-                src="https://s3.ap-northeast-2.amazonaws.com/image.mercuryeunoia.com/images/web/jisu/+common_icon/spaceheart.png"
-                alt="빈하트 이미지"
-                className="heart_image"
-                aria-hidden="true"
-                onClick={changeHeart}
-                active
-              />
-
-              {/* <img src="https://s3.ap-northeast-2.amazonaws.com/image.mercuryeunoia.com/images/web/jisu/+common_icon/heart.png"
-                  alt="하트 이미지"
-                /> */}
-
-              <dl>
-                <dt>{breadShopData.title}</dt>
-                <dd />
-              </dl>
-            </li>
+            <BreadShopLi key={`bread_shop_list${breadShopData.id}`} shopList={breadShopData} shopImage={breadShopData.image} shopSeverLike={breadShopData.like} shopId={breadShopData.id} likeTrue={onBreadShopTrue} likeFalse={onBreadShopFalse} />
           ))}
         </ul>
       </RangkingList>
@@ -190,16 +161,22 @@ const HouseRangking = ({ breadShopList, onBreadShopList, onHeartSpace }) => {
 HouseRangking.propTypes = {
   breadShopList: PropTypes.instanceOf(Array).isRequired,
   onBreadShopList: PropTypes.func.isRequired,
-  onHeartSpace: PropTypes.bool.isRequired
+  onBreadShopTrue: PropTypes.func.isRequired,
+  onBreadShopFalse: PropTypes.func.isRequired,
+  addressList: PropTypes.func.isRequired,
+  onAddressSi: PropTypes.func.isRequired
 };
 
 const breadStateToProps = createStructuredSelector({
-  breadShopList: selectShopList
+  breadShopList: selectShopList,
+  addressList: selectAddress
 });
 
 const breadShopDispathchToProps = (dispatch) => ({
   onBreadShopList: (breadShop) => dispatch(setCurrentBreadShop(breadShop)),
-  onHeartSpace: (heart) => dispatch(setHeartTrueData(heart))
+  onBreadShopTrue: (trueBreadShop) => dispatch(setShopTrueData(trueBreadShop)),
+  onBreadShopFalse: (falseBreadShop) => dispatch(setShopFalseData(falseBreadShop)),
+  onAddressSi: (addressSi) => dispatch(setSiAddressData(addressSi))
 });
 
 export default connect(breadStateToProps, breadShopDispathchToProps)(HouseRangking);

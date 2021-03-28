@@ -38,25 +38,6 @@ const BreadLi = ({ dataList, likeTrue, likeFalse, breadId, breadLike }) => {
         aria-hidden="true"
         onClick={changeBreadHeart}
       />
-
-      {/* {breadLike ? (
-        <img
-          src="https://s3.ap-northeast-2.amazonaws.com/image.mercuryeunoia.com/images/web/jisu/+common_icon/heart.png"
-          alt="하트 이미지"
-          className="heart_image"
-          aria-hidden="true"
-          onClick={changeBreadHeart}
-        />
-      ) : (
-        <img
-          src="https://s3.ap-northeast-2.amazonaws.com/image.mercuryeunoia.com/images/web/jisu/+common_icon/spaceheart.png"
-          alt="빈하트 이미지"
-          className="heart_image"
-          aria-hidden="true"
-          onClick={changeBreadHeart}
-          active
-        />
-      )} */}
       <dl>
         <dd>{dataList.title}</dd>
       </dl>

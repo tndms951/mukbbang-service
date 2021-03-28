@@ -239,6 +239,10 @@ export const RangkingList = styled.div`
         width: 0;
         height: 0;
       }
+
+      &:nth-child(4n) {
+        margin-right: 0px;
+      }
     }
 
     & li {

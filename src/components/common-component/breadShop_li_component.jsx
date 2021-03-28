@@ -1,25 +1,21 @@
 import React from 'react';
 import PropTypes from 'prop-types';
-import axios from '../../utils/axios';
 
+import axios from '../../utils/axios';
 import { errorhandler } from '../../utils/common';
 
-const BreadShopLi = ({ ShopList, ShopSeverLike, likeTrue, likeFalse, ShopId }) => {
-  // console.log(ShopSeverLike);
-  // console.log(ShopId);
-  // console.log(likeTrue);
-
+const BreadShopLi = ({ shopList, shopImage, shopSeverLike, likeTrue, likeFalse, shopId }) => {
   const changeShopHeart = async () => {
     try {
-      if (ShopSeverLike) {
-        const { status } = await axios.delete(`/bread/shop/favorite/${ShopId}`);
+      if (shopSeverLike) {
+        const { status } = await axios.delete(`/bread/shop/favorite/${shopId}`);
         if (status === 200) {
-          likeFalse(ShopId);
+          likeFalse(shopId);
         }
       } else {
-        const { status: shopStatus } = await axios.post(`/bread/shop/favorite/${ShopId}`);
+        const { status: shopStatus } = await axios.post(`/bread/shop/favorite/${shopId}`);
         if (shopStatus === 200) {
-          likeTrue(ShopId);
+          likeTrue(shopId);
         }
       }
     } catch (err) {
@@ -30,13 +26,9 @@ const BreadShopLi = ({ ShopList, ShopSeverLike, likeTrue, likeFalse, ShopId }) =
 
   return (
     <li>
-      <img src={ShopList.image} alt={`${ShopList.title}의 이미지`} />
+      <img src={shopImage} alt={`${shopList.title}의 이미지`} />
       <img
-        src={
-          ShopSeverLike
-            ? 'https://s3.ap-northeast-2.amazonaws.com/image.mercuryeunoia.com/images/web/jisu/+common_icon/heart.png'
-            : 'https://s3.ap-northeast-2.amazonaws.com/image.mercuryeunoia.com/images/web/jisu/+common_icon/spaceheart.png'
-        }
+        src={shopSeverLike ? 'https://s3.ap-northeast-2.amazonaws.com/image.mercuryeunoia.com/images/web/jisu/+common_icon/heart.png' : 'https://s3.ap-northeast-2.amazonaws.com/image.mercuryeunoia.com/images/web/jisu/+common_icon/spaceheart.png'}
         alt="좋아요하트이미지"
         className="heart_image"
         aria-hidden="true"
@@ -44,19 +36,20 @@ const BreadShopLi = ({ ShopList, ShopSeverLike, likeTrue, likeFalse, ShopId }) =
         // active="true"
       />
       <dl>
-        <dt>{ShopList.address}</dt>
-        <dd>{ShopList.title}</dd>
+        <dt>{shopList.address}</dt>
+        <dd>{shopList.title}</dd>
       </dl>
     </li>
   );
 };
 
 BreadShopLi.propTypes = {
-  ShopList: PropTypes.instanceOf(Object).isRequired,
-  ShopSeverLike: PropTypes.bool.isRequired,
+  shopList: PropTypes.instanceOf(Object).isRequired,
+  shopSeverLike: PropTypes.bool.isRequired,
   likeTrue: PropTypes.func.isRequired,
   likeFalse: PropTypes.func.isRequired,
-  ShopId: PropTypes.number.isRequired
+  shopId: PropTypes.number.isRequired,
+  shopImage: PropTypes.func.isRequired
 };
 
 export default BreadShopLi;

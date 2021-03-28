@@ -15,6 +15,7 @@ const PopularBread = ({ breadList, onBreadList }) => {
     async function fetchbreadData() {
       try {
         const { status, data: breadData } = await axios.get('/bread');
+        console.log(breadData);
         if (status === 200) {
           onBreadList(breadData.list);
         }

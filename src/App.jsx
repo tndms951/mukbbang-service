@@ -5,7 +5,7 @@ import PropTypes from 'prop-types';
 
 import Signin from './components/sign-in/signin_content';
 import Signup from './components/sign-up/signup_content';
-import HouseRangking from './components/service-main/contents/breadhouse-rangking/breadhouse_rangking';
+import HouseRangking from './components/service-main/contents/breadShop-rangking/breadShop_rangking';
 import populaBread from './components/service-main/contents/popular/popular_component';
 import MainHome from './components/service-main/contents/main/mainhome_content';
 import PickBread from './components/service-main/contents/youtube-pick/youtube_bread';

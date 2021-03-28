@@ -1,7 +1,8 @@
 import breadShopTypes from './breadShop.types';
 
 const INITAL_STATE = {
-  breadShopList: []
+  breadShopList: [],
+  siAddressList: []
 };
 
 const breadShopReducer = (state = INITAL_STATE, action) => {
@@ -37,6 +38,14 @@ const breadShopReducer = (state = INITAL_STATE, action) => {
       return {
         ...state,
         breadShopList: newFalse
+      };
+    }
+    case breadShopTypes.SET_ADDRESS_SI: {
+      const { siAddress } = action.payload;
+      console.log(siAddress);
+      return {
+        ...state,
+        siAddressList: siAddress
       };
     }
     default:

@@ -20,3 +20,10 @@ export const setShopFalseData = (falseBreadShop) => ({
     falseBreadShop
   }
 });
+
+export const setSiAddressData = (siAddress) => ({
+  type: breadShopTypes.SET_ADDRESS_SI,
+  payload: {
+    siAddress
+  }
+});
