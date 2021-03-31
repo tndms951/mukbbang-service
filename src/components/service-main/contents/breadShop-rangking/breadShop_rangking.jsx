@@ -14,7 +14,7 @@ import { setCurrentBreadShop, setShopTrueData, setShopFalseData, setSiAddressDat
 
 import { HouseRangkingWrap, ShopRangking, Location, SelectWrap, City, CurrentLocation, RangkingList } from './breadShop_rangking_style';
 
-const HouseRangking = ({ breadShopList, onBreadShopList, onBreadShopTrue, onBreadShopFalse, siAddressList, onAddressSi, dongAddressList, onAddressDong, location }) => {
+const HouseRangking = ({ breadShopList, onBreadShopList, onBreadShopTrue, onBreadShopFalse, siAddressList, onAddressSi, dongAddressList, onAddressDong, location, history }) => {
   // console.log(breadShopList);
   // console.log(onAddressSi);
   // console.log(onAddressDong);
@@ -23,19 +23,42 @@ const HouseRangking = ({ breadShopList, onBreadShopList, onBreadShopTrue, onBrea
   const [siList, setSiList] = useState('');
   console.log(siList);
 
+  const [title, setTitle] = useState('');
+  console.log(title);
+
+  const [siAddress, setSiAddress] = useState('');
+  console.log(siAddress);
+
   useEffect(() => {
     async function fetchShopData() {
       try {
-        const { status, data: breadShopData } = await axios.get('/bread/shop');
+        const query = qs.parse(location.search, {
+          ignoreQueryPrefix: true
+        });
+        const { status, data: breadShopData } = await axios.get(`/bread/shop${location.search}`);
         console.log(breadShopData);
         if (status === 200) {
           onBreadShopList(breadShopData.list);
+          setTitle(query.title || '');
         }
       } catch (err) {
         errorhandler(err);
         // console.log(err);
       }
     }
+
+    // async function fetchShopData() {
+    //   try {
+    //     const { status, data: breadShopData } = await axios.get('/bread/shop');
+    //     console.log(breadShopData);
+    //     if (status === 200) {
+    //       onBreadShopList(breadShopData.list);
+    //     }
+    //   } catch (err) {
+    //     errorhandler(err);
+    //     // console.log(err);
+    //   }
+    // }
 
     async function fetchSiAddress() {
       try {
@@ -96,7 +119,7 @@ const HouseRangking = ({ breadShopList, onBreadShopList, onBreadShopTrue, onBrea
     // }
     fetchShopData();
     fetchSiAddress();
-  }, []);
+  }, [location.search]);
 
   // click 이벤트
   // const handleClick = async () => {
@@ -115,30 +138,45 @@ const HouseRangking = ({ breadShopList, onBreadShopList, onBreadShopTrue, onBrea
 
   const handleClickSi = async (address) => {
     setSiList(address);
-
     const query = qs.parse(location.search, {
       ignoreQueryPrefix: true
     });
-    console.log(location.search.siList);
-    console.log(query);
 
     async function fetchguAddress() {
-      console.log('aaaaaa');
-      // console.log(breadSiqueryId);
       try {
         const { status, data } = await axios.get(`/util/address/gu/${location.search}`);
         console.log(data);
         if (status === 200) {
           onAddressDong(data.list);
+          setSiAddress(query.siAddress || '');
         }
       } catch (err) {
         errorhandler(err);
         console.log(err);
       }
     }
-    if (query.si_code) {
+
+    console.log(location.search.siList);
+    console.log(query);
+    if (query) {
       fetchguAddress();
     }
+  };
+
+  const handleChange = (e) => {
+    setTitle(e.target.value);
+  };
+
+  // 연습용
+  const handleSearch = (e) => {
+    e.preventDefault();
+
+    const queryObject = {};
+    if (title) {
+      queryObject.title = title;
+    }
+    const queryData = qs.stringify(queryObject);
+    history.push(`/rank/bread-house${queryData ? `?${queryData}` : ''}`);
   };
 
   return (
@@ -210,7 +248,7 @@ const HouseRangking = ({ breadShopList, onBreadShopList, onBreadShopTrue, onBrea
           </City>
 
           <City>
-            <details className="custom-select">
+            {/* <details className="custom-select">
               <summary className="radios">
                 <input type="radio" name="bread" id="default" title="빵 종류" checked />
                 <input type="radio" name="bread" id="bread1" title="소보루빵" />
@@ -236,7 +274,15 @@ const HouseRangking = ({ breadShopList, onBreadShopList, onBreadShopTrue, onBrea
                   <label htmlFor="bread5">샌드위치</label>
                 </li>
               </ul>
-            </details>
+            </details> */}
+          </City>
+          <City>
+            <form onSubmit={handleSearch}>
+              <div className="col-sm-8">
+                <input type="title" className="form-control form-control-lg" placeholder="빵집을 입력해주세요" value={title} onChange={handleChange} />
+              </div>
+              <button type="submit">검색</button>
+            </form>
           </City>
         </SelectWrap>
 
@@ -268,7 +314,8 @@ HouseRangking.propTypes = {
   onAddressSi: PropTypes.func.isRequired,
   dongAddressList: PropTypes.instanceOf(Array).isRequired,
   onAddressDong: PropTypes.func.isRequired,
-  location: PropTypes.instanceOf(Object).isRequired
+  location: PropTypes.instanceOf(Object).isRequired,
+  history: PropTypes.instanceOf(Object).isRequired
 };
 
 const breadStateToProps = createStructuredSelector({
