@@ -9,12 +9,41 @@ import BreadShopLi from '../../../common-component/breadShop_li_component';
 import axios from '../../../../utils/axios';
 import { errorhandler } from '../../../../utils/common';
 
-import { selectShopList, selectAddress, selectdongAddress } from '../../../redux/breadshoplist/breadShop.selectors';
-import { setCurrentBreadShop, setShopTrueData, setShopFalseData, setSiAddressData, setDongAddressData } from '../../../redux/breadshoplist/breadShop.actions';
+import {
+  selectShopList,
+  selectAddress,
+  selectdongAddress
+} from '../../../redux/breadshoplist/breadShop.selectors';
+import {
+  setCurrentBreadShop,
+  setShopTrueData,
+  setShopFalseData,
+  setSiAddressData,
+  setDongAddressData
+} from '../../../redux/breadshoplist/breadShop.actions';
 
-import { HouseRangkingWrap, ShopRangking, Location, SelectWrap, City, CurrentLocation, RangkingList } from './breadShop_rangking_style';
+import {
+  HouseRangkingWrap,
+  ShopRangking,
+  Location,
+  SelectWrap,
+  City,
+  CurrentLocation,
+  RangkingList
+} from './breadShop_rangking_style';
 
-const HouseRangking = ({ breadShopList, onBreadShopList, onBreadShopTrue, onBreadShopFalse, siAddressList, onAddressSi, dongAddressList, onAddressDong, location, history }) => {
+const HouseRangking = ({
+  breadShopList,
+  onBreadShopList,
+  onBreadShopTrue,
+  onBreadShopFalse,
+  siAddressList,
+  onAddressSi,
+  dongAddressList,
+  onAddressDong,
+  location,
+  history
+}) => {
   // console.log(breadShopList);
   // console.log(onAddressSi);
   // console.log(onAddressDong);
@@ -23,13 +52,16 @@ const HouseRangking = ({ breadShopList, onBreadShopList, onBreadShopTrue, onBrea
   const [siList, setSiList] = useState('');
   console.log(siList);
 
+  // 연습용
   const [title, setTitle] = useState('');
   console.log(title);
 
   const [siAddress, setSiAddress] = useState('');
   console.log(siAddress);
+  console.log('aaa');
 
   useEffect(() => {
+    // 연습용
     async function fetchShopData() {
       try {
         const query = qs.parse(location.search, {
@@ -191,7 +223,14 @@ const HouseRangking = ({ breadShopList, onBreadShopList, onBreadShopTrue, onBrea
             <details className="custom-select">
               <summary className="radios">
                 {/* <input type="radio" name="city" id="default" title="시.도" checked /> */}
-                <input type="radio" name="city" id="default" value="ssss" title={siList.name} checked />
+                <input
+                  type="radio"
+                  name="city"
+                  id="default"
+                  value="ssss"
+                  title={siList.name}
+                  checked
+                />
                 {/* <input type="radio" name="city" id="city1" title="서울특별시" />
                 <input type="radio" name="city" id="city2" title="경기도" />
                 <input type="radio" name="city" id="city3" title="대전광역시" />
@@ -200,7 +239,11 @@ const HouseRangking = ({ breadShopList, onBreadShopList, onBreadShopTrue, onBrea
               </summary>
               <ul className="list">
                 {siAddressList.map((address) => (
-                  <li key={`siAddress${address.id}`} onClick={() => handleClickSi(address)} onKeyPress={handleClickSi} role="presentation">
+                  <li
+                    key={`siAddress${address.id}`}
+                    onClick={() => handleClickSi(address)}
+                    onKeyPress={handleClickSi}
+                    role="presentation">
                     <label>{address.name}</label>
                   </li>
                 ))}
@@ -279,7 +322,13 @@ const HouseRangking = ({ breadShopList, onBreadShopList, onBreadShopTrue, onBrea
           <City>
             <form onSubmit={handleSearch}>
               <div className="col-sm-8">
-                <input type="title" className="form-control form-control-lg" placeholder="빵집을 입력해주세요" value={title} onChange={handleChange} />
+                <input
+                  type="title"
+                  className="form-control form-control-lg"
+                  placeholder="빵집을 입력해주세요"
+                  value={title}
+                  onChange={handleChange}
+                />
               </div>
               <button type="submit">검색</button>
             </form>
@@ -288,7 +337,10 @@ const HouseRangking = ({ breadShopList, onBreadShopList, onBreadShopTrue, onBrea
 
         <CurrentLocation>
           <button type="button">
-            <img src="https://s3.ap-northeast-2.amazonaws.com/image.mercuryeunoia.com/images/web/jisu/+common_icon/search.png" alt="" />
+            <img
+              src="https://s3.ap-northeast-2.amazonaws.com/image.mercuryeunoia.com/images/web/jisu/+common_icon/search.png"
+              alt=""
+            />
             <span>현재 위치로 설정</span>
           </button>
         </CurrentLocation>
@@ -297,7 +349,15 @@ const HouseRangking = ({ breadShopList, onBreadShopList, onBreadShopTrue, onBrea
       <RangkingList>
         <ul className="list_wrap">
           {breadShopList.map((breadShopData) => (
-            <BreadShopLi key={`bread_shop_list${breadShopData.id}`} shopList={breadShopData} shopImage={breadShopData.image} shopSeverLike={breadShopData.like} shopId={breadShopData.id} likeTrue={onBreadShopTrue} likeFalse={onBreadShopFalse} />
+            <BreadShopLi
+              key={`bread_shop_list${breadShopData.id}`}
+              shopList={breadShopData}
+              shopImage={breadShopData.image}
+              shopSeverLike={breadShopData.like}
+              shopId={breadShopData.id}
+              likeTrue={onBreadShopTrue}
+              likeFalse={onBreadShopFalse}
+            />
           ))}
         </ul>
       </RangkingList>
