@@ -27,3 +27,10 @@ export const setSiAddressData = (siAddress) => ({
     siAddress
   }
 });
+
+export const setDongAddressData = (dongAddress) => ({
+  type: breadShopTypes.SET_ADDRESS_DONG,
+  payload: {
+    dongAddress
+  }
+});

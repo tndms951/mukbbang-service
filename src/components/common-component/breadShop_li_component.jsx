@@ -49,7 +49,7 @@ BreadShopLi.propTypes = {
   likeTrue: PropTypes.func.isRequired,
   likeFalse: PropTypes.func.isRequired,
   shopId: PropTypes.number.isRequired,
-  shopImage: PropTypes.func.isRequired
+  shopImage: PropTypes.string.isRequired
 };
 
 export default BreadShopLi;
