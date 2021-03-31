@@ -28,11 +28,7 @@ const BreadLi = ({ dataList, likeTrue, likeFalse, breadId, breadLike }) => {
       <img src={dataList.image} alt={`${dataList.title}의 이미지`} />
 
       <img
-        src={
-          breadLike
-            ? 'https://s3.ap-northeast-2.amazonaws.com/image.mercuryeunoia.com/images/web/jisu/+common_icon/heart.png'
-            : 'https://s3.ap-northeast-2.amazonaws.com/image.mercuryeunoia.com/images/web/jisu/+common_icon/spaceheart.png'
-        }
+        src={breadLike ? 'https://s3.ap-northeast-2.amazonaws.com/image.mercuryeunoia.com/images/web/jisu/+common_icon/heart.png' : 'https://s3.ap-northeast-2.amazonaws.com/image.mercuryeunoia.com/images/web/jisu/+common_icon/spaceheart.png'}
         alt="하트 이미지"
         className="heart_image"
         aria-hidden="true"
