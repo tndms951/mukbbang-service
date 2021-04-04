@@ -13,7 +13,7 @@ import {
   BookMark,
   LeftBookMark,
   RightLogin,
-  MyProfile,
+  // MyProfile,
   GroupNav,
   NaveSearch
 } from './header_style';
@@ -26,7 +26,7 @@ import {
  * @desc [header컴포넌트]
  */
 
-const Header = ({ currentUser, onLogout }) => (
+const Header = ({ currentUser }) => (
   <HeaderWrap>
     <BookMark>
       <div className="bookmarkWrap clearfix">
@@ -61,13 +61,13 @@ const Header = ({ currentUser, onLogout }) => (
           )}
         </RightLogin>
 
-        <MyProfile>
+        {/* <MyProfile>
           <span>내가 찜한 빵/빵집</span>
           <span>내 정보 수정</span>
           <span onClick={onLogout} aria-hidden="true">
             로그아웃
           </span>
-        </MyProfile>
+        </MyProfile> */}
       </div>
     </BookMark>
     <GroupNav className="clearfix">
@@ -106,8 +106,8 @@ const userProps = createStructuredSelector({
 });
 
 Header.propTypes = {
-  currentUser: PropTypes.instanceOf(Object),
-  onLogout: PropTypes.func.isRequired
+  currentUser: PropTypes.instanceOf(Object)
+  // onLogout: PropTypes.func.isRequired
 };
 
 Header.defaultProps = {

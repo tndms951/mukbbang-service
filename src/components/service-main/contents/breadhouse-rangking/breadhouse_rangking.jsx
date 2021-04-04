@@ -2,6 +2,7 @@ import React, { useEffect } from 'react';
 import { createStructuredSelector } from 'reselect';
 import { connect } from 'react-redux';
 import PropTypes from 'prop-types';
+import { Link } from 'react-router-dom';
 
 import axios from '../../../../utils/axios';
 import { errorhandler } from '../../../../utils/common';
@@ -160,7 +161,9 @@ const HouseRangking = ({ breadShopList, onBreadShopList, onHeartSpace }) => {
               style={{
                 outline: '1px solid red'
               }}>
-              <img src={breadShopData.image} alt="" />
+              <Link to="/rank/bread-house/detaile">
+                <img src={breadShopData.image} alt="" />
+              </Link>
               {breadShopList ? (
                 <img
                   src="https://s3.ap-northeast-2.amazonaws.com/image.mercuryeunoia.com/images/web/jisu/+common_icon/spaceheart.png"
