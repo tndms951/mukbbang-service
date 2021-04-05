@@ -16,10 +16,9 @@ import { HouseRangkingWrap, ShopRangking, Location, SelectWrap, City, CurrentLoc
 
 // eslint-disable-next-line no-unused-vars
 const HouseRangking = ({ breadShopList, onBreadShopList, onBreadShopTrue, onBreadShopFalse, siAddressList, onAddressSi, dongAddressList, onAddressDong, location, history }) => {
-  console.log(siAddressList);
-  console.log(siAddressList.id);
-  console.log(onAddressSi);
+  console.log(dongAddressList);
   console.log(location);
+
   const [siList, setSiList] = useState({
     id: -1,
     name: '시.도'
@@ -30,28 +29,7 @@ const HouseRangking = ({ breadShopList, onBreadShopList, onBreadShopTrue, onBrea
     name: '구'
   });
 
-  // 연습용
-  const [title, setTitle] = useState('');
-  console.log(title);
-
   useEffect(() => {
-    // 빵집입력할때 연습용
-    // async function fetchShopData() {
-    //   try {
-    //     const query = qs.parse(location.search, {
-    //       ignoreQueryPrefix: true
-    //     });
-    //     const { status, data: breadShopData } = await axios.get(`/bread/shop${location.search}`);
-    //     console.log(breadShopData);
-    //     if (status === 200) {
-    //       onBreadShopList(breadShopData.list);
-    //       setTitle(query.title || '');
-    //     }
-    //   } catch (err) {
-    //     errorhandler(err);
-    //   }
-    // }
-
     // 쿼리 연습용 거의확정!!
     async function fetchShopData() {
       try {
@@ -61,23 +39,34 @@ const HouseRangking = ({ breadShopList, onBreadShopList, onBreadShopTrue, onBrea
           onBreadShopList(breadShopData.list);
         }
       } catch (err) {
+        console.log(err);
         errorhandler(err);
       }
     }
 
+    fetchShopData();
+  }, [location.search, onAddressSi, onBreadShopList]);
+
+  useEffect(() => {
+    const query = qs.parse(location.search, {
+      ignoreQueryPrefix: true
+    });
     async function fetchSiAddress() {
       try {
-        const query = qs.parse(location.search, {
-          ignoreQueryPrefix: true
-        });
         console.log(query);
         const { status, data } = await axios.get('/util/address/si');
         console.log(data);
 
         if (status === 200) {
           onAddressSi(data.list);
-          console.log(onAddressSi(data.list));
-          setSiList(query);
+          if (query.si_code) {
+            console.log(query.si_code);
+            const ValueId = data.list.find((value) => value.id === Number(query.si_code));
+            console.log(ValueId);
+            if (ValueId) {
+              setSiList(ValueId);
+            }
+          }
         }
       } catch (err) {
         errorhandler(err);
@@ -85,23 +74,48 @@ const HouseRangking = ({ breadShopList, onBreadShopList, onBreadShopTrue, onBrea
       }
     }
 
-    async function fetchGuAddress() {
+    async function fetchGuAddress(siCodeId) {
       try {
-        console.log('aaa');
+        const { status, data } = await axios.get(`/util/address/gu/${siCodeId}`);
+        console.log(data);
+        if (status === 200) {
+          onAddressDong(data.list);
+        }
+
+        if (query.gu_code) {
+          console.log(query.gu_code);
+          const ValueId = data.list.find((value) => value.id === Number(query.gu_code));
+          if (ValueId) {
+            setGuvalue(ValueId);
+          }
+        }
       } catch (err) {
         errorhandler(err);
         console.log(err);
       }
     }
-
-    fetchShopData();
     fetchSiAddress();
-    fetchGuAddress();
-  }, [location.search]);
+    if (query.si_code) {
+      fetchGuAddress(query.si_code);
+    }
+  }, []);
 
   const handleClickSi = async (address) => {
     console.log(address.id);
+    const query = qs.parse(location.search, {
+      ignoreQueryPrefix: true
+    });
+    const queryObject = { ...query };
+    delete queryObject.gu_code;
+    queryObject.si_code = address.id;
+
+    const queryData = qs.stringify(queryObject);
     setSiList(address);
+    setGuvalue({
+      id: 0,
+      name: '구'
+    });
+    history.push(`/rank/bread-house${queryData ? `?${queryData}` : ''}`);
     try {
       const { status, data } = await axios.get(`/util/address/gu/${address.id}`);
       console.log(data);
@@ -115,7 +129,16 @@ const HouseRangking = ({ breadShopList, onBreadShopList, onBreadShopTrue, onBrea
   };
 
   const handleClickGu = async (address) => {
+    console.log(address);
     try {
+      const query = qs.parse(location.search, {
+        ignoreQueryPrefix: true
+      });
+      const queryObject = { ...query };
+      queryObject.gu_code = address.id;
+      const queryData = qs.stringify(queryObject);
+      history.push(`/rank/bread-house${queryData ? `?${queryData}` : ''}`);
+      console.log(queryObject);
       setGuvalue(address);
       console.log(address.id);
       console.log('aaa');
@@ -124,9 +147,9 @@ const HouseRangking = ({ breadShopList, onBreadShopList, onBreadShopTrue, onBrea
     }
   };
 
-  const handleChange = (e) => {
-    setTitle(e.target.value);
-  };
+  // const handleChange = (e) => {
+  //   setTitle(e.target.value);
+  // };
 
   // 빵집입력할때 연습용
   // const handleSearch = (e) => {
@@ -141,20 +164,20 @@ const HouseRangking = ({ breadShopList, onBreadShopList, onBreadShopTrue, onBrea
   // };
 
   // 과외때 시,구 위에 쿼리 찍히게하기!!
-  const handleSearch = (e) => {
-    e.preventDefault();
+  // const handleSearch = (e) => {
+  //   e.preventDefault();
 
-    const queryObject = {};
-    if (siList.id) {
-      queryObject.si_code = siList.id;
-    }
-    if (guvalue.id) {
-      queryObject.gu_code = guvalue.id;
-    }
+  //   const queryObject = {};
+  //   if (siList.id) {
+  //     queryObject.si_code = siList.id;
+  //   }
+  //   if (guvalue.id) {
+  //     queryObject.gu_code = guvalue.id;
+  //   }
 
-    const queryData = qs.stringify(queryObject); // 쿼리를 자기스스로 만들어줌
-    history.push(`/rank/bread-house${queryData ? `?${queryData}` : ''}`);
-  };
+  //   const queryData = qs.stringify(queryObject); // 쿼리를 자기스스로 만들어줌
+  //   history.push(`/rank/bread-house${queryData ? `?${queryData}` : ''}`);
+  // };
 
   return (
     <HouseRangkingWrap>
@@ -184,7 +207,7 @@ const HouseRangking = ({ breadShopList, onBreadShopList, onBreadShopTrue, onBrea
               <summary className="radios">
                 <input type="radio" name="dong" id="default" title={guvalue.name} checked />
               </summary>
-              <ul>
+              <ul className="list">
                 {dongAddressList.map((address) => (
                   <li key={`dongAddress${address.id}`} onClick={() => handleClickGu(address)} onKeyPress={handleClickSi} role="presentation">
                     <label>{address.name}</label>
@@ -193,14 +216,14 @@ const HouseRangking = ({ breadShopList, onBreadShopList, onBreadShopTrue, onBrea
               </ul>
             </details>
           </City>
-          <City>
+          {/* <City>
             <form onSubmit={handleSearch}>
               <div className="col-sm-8">
                 <input type="title" className="form-control form-control-lg" placeholder="빵집을 입력해주세요" value={title} onChange={handleChange} />
               </div>
               <button type="submit">검색</button>
             </form>
-          </City>
+          </City> */}
         </SelectWrap>
 
         <CurrentLocation>

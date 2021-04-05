@@ -2,7 +2,7 @@ import styled from 'styled-components';
 
 export const HouseRangkingWrap = styled.div`
   margin: 120px auto;
-  outline: 1px solid red;
+
   width: 1024px;
 
   & h1 {
@@ -12,13 +12,11 @@ export const HouseRangkingWrap = styled.div`
 `;
 
 export const ShopRangking = styled.div`
-  outline: 3px solid red;
   padding: 8px 24px;
   margin-bottom: 16px;
 `;
 
 export const Location = styled.div`
-  outline: 6px solid blue;
   padding: 16px 24px;
   margin-bottom: 48px;
 
@@ -30,7 +28,6 @@ export const Location = styled.div`
 `;
 
 export const SelectWrap = styled.div`
-  outline: 3px solid pink;
   display: inline-block;
 
   &::after {
@@ -112,10 +109,9 @@ export const City = styled.div`
     padding-bottom: 18px;
     margin: 0;
     box-sizing: border-box;
-    border-radius: 5px;
+    border-radius: 3px;
     max-height: 200px;
     overflow-y: auto;
-    outline: 1px solid red;
   }
 
   li {
@@ -126,7 +122,6 @@ export const City = styled.div`
     margin-bottom: 10px;
     padding: 4px 0;
     color: #383838;
-    // outline: 1px solid red;
   }
 
   li:hover {
@@ -162,6 +157,7 @@ export const City = styled.div`
 
   ul.list {
     counter-reset: labels;
+    border: 1px solid #383838;
   }
 
   label {
@@ -182,7 +178,6 @@ export const CurrentLocation = styled.div`
 
   & img {
     width: 20px;
-    // outline: 1px solid blue;
     float: left;
   }
 
@@ -190,7 +185,6 @@ export const CurrentLocation = styled.div`
     font-size: 16px;
     color: white;
     margin-left: 8px;
-    // outline: 1px solid red;
     display: block;
     float: left;
     padding: 2px 0;
@@ -198,7 +192,6 @@ export const CurrentLocation = styled.div`
 `;
 
 export const RangkingList = styled.div`
-  // outline: 1 px solid red;
   width: 1024px;
   margin: 0 auto;
 
@@ -208,7 +201,6 @@ export const RangkingList = styled.div`
     margin-bottom: 26px;
     width: 100%;
     box-sizing: border-box;
-    // outline: 1px solid red;
 
     &::after {
       clear: both;
