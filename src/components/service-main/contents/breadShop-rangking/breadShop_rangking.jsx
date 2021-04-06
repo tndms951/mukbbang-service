@@ -23,7 +23,7 @@ const HouseRangking = ({ breadShopList, onBreadShopList, onBreadShopTrue, onBrea
     id: -1,
     name: '시.도'
   });
-
+  console.log(siList);
   const [guvalue, setGuvalue] = useState({
     id: 0, // -1은 설정이 되어있어있어서 0으로 바꿈 0빼고 나머지 숫자는 다 true 이기때문에 0은 false
     name: '구'
@@ -75,6 +75,7 @@ const HouseRangking = ({ breadShopList, onBreadShopList, onBreadShopTrue, onBrea
     }
 
     async function fetchGuAddress(siCodeId) {
+      console.log(siCodeId);
       try {
         const { status, data } = await axios.get(`/util/address/gu/${siCodeId}`);
         console.log(data);
