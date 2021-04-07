@@ -33,6 +33,7 @@ const ShopDetaile = ({ ShopDetaileList, onShopDetaileList, match }) => {
     async function fetchDetailData() {
       try {
         const { breadShopId } = match.params;
+
         const { status, data } = await axios.get(`/bread/shop/${breadShopId}`);
         if (status === 200) {
           onShopDetaileList(data.list);

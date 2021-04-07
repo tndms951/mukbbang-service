@@ -182,6 +182,8 @@ margin-top: 100px;
 
 export const BreadShopList = styled.div`
   outline: 1px solid red;
+  display: block;
+  height: 300px;
 
   .list_wrap {
     padding-left: 24px;

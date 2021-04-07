@@ -1,8 +1,10 @@
+/* eslint-disable import/named */
 import React, { useEffect, useState } from 'react';
 import { createStructuredSelector } from 'reselect';
 import { connect } from 'react-redux';
 import PropTypes from 'prop-types';
 import qs from 'qs';
+import { Link } from 'react-router-dom';
 
 import BreadShopLi from '../../../common-component/breadShop_li_component';
 
@@ -278,15 +280,17 @@ const HouseRangking = ({
       <RangkingList>
         <ul className="list_wrap">
           {breadShopList.map((breadShopData) => (
-            <BreadShopLi
-              key={`bread_shop_list${breadShopData.id}`}
-              shopList={breadShopData}
-              shopImage={breadShopData.image}
-              shopSeverLike={breadShopData.like}
-              shopId={breadShopData.id}
-              likeTrue={onBreadShopTrue}
-              likeFalse={onBreadShopFalse}
-            />
+            <Link to={`/rank/bread-house/detaile/${breadShopData.id}`}>
+              <BreadShopLi
+                key={`bread_shop_list${breadShopData.id}`}
+                shopList={breadShopData}
+                shopImage={breadShopData.image}
+                shopSeverLike={breadShopData.like}
+                shopId={breadShopData.id}
+                likeTrue={onBreadShopTrue}
+                likeFalse={onBreadShopFalse}
+              />
+            </Link>
           ))}
         </ul>
       </RangkingList>
