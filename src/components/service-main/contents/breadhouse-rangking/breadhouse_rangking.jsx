@@ -2,7 +2,9 @@ import React, { useEffect } from 'react';
 import { createStructuredSelector } from 'reselect';
 import { connect } from 'react-redux';
 import PropTypes from 'prop-types';
-import { Link } from 'react-router-dom';
+// import { Link } from 'react-router-dom';
+
+import BreadShopLi from '../../../common-component/breadShop_li_component';
 
 import axios from '../../../../utils/axios';
 import { errorhandler } from '../../../../utils/common';
@@ -23,7 +25,13 @@ import {
 // 하트 액션
 import { setHeartTrueData } from '../../../redux/breadlist/bread.actions';
 
-const HouseRangking = ({ breadShopList, onBreadShopList, onHeartSpace }) => {
+const HouseRangking = ({
+  breadShopList,
+  onBreadShopList,
+  onBreadShopTrue,
+  onBreadShopFalse,
+  onHeartSpace
+}) => {
   useEffect(() => {
     async function fetchShopData() {
       try {
@@ -39,9 +47,9 @@ const HouseRangking = ({ breadShopList, onBreadShopList, onHeartSpace }) => {
     fetchShopData();
   }, []);
 
-  const changeHeart = () => {
-    alert('하투하투');
-  };
+  // const changeHeart = () => {
+  //   alert('하투하투');
+  // };
 
   return (
     <HouseRangkingWrap>
@@ -156,35 +164,16 @@ const HouseRangking = ({ breadShopList, onBreadShopList, onHeartSpace }) => {
       <RangkingList>
         <ul className="list_wrap">
           {breadShopList.map((breadShopData) => (
-            <li
-              key={breadShopData.id}
-              style={{
-                outline: '1px solid red'
-              }}>
-              <Link to="/rank/bread-house/detaile">
-                <img src={breadShopData.image} alt="" />
-              </Link>
-              {breadShopList ? (
-                <img
-                  src="https://s3.ap-northeast-2.amazonaws.com/image.mercuryeunoia.com/images/web/jisu/+common_icon/spaceheart.png"
-                  alt=""
-                  className="heart_image"
-                  aria-hidden="true"
-                  onClick={changeHeart}
-                  active
-                />
-              ) : (
-                <img
-                  src="https://s3.ap-northeast-2.amazonaws.com/image.mercuryeunoia.com/images/web/jisu/+common_icon/heart.png"
-                  alt=""
-                />
-              )}
-
-              <dl>
-                <dt>{breadShopData.title}</dt>
-                <dd />
-              </dl>
-            </li>
+            // console.log(breadShopData.title);
+            <BreadShopLi
+              key={`bread_shop_list${breadShopData.id}`}
+              shopList={breadShopData}
+              shopImage={breadShopData.image}
+              shopSeverLike={breadShopData.like}
+              shopId={breadShopData.id}
+              likeTrue={onBreadShopTrue}
+              likeFalse={onBreadShopFalse}
+            />
           ))}
         </ul>
       </RangkingList>
@@ -195,6 +184,8 @@ const HouseRangking = ({ breadShopList, onBreadShopList, onHeartSpace }) => {
 HouseRangking.propTypes = {
   breadShopList: PropTypes.instanceOf(Array).isRequired,
   onBreadShopList: PropTypes.func.isRequired,
+  onBreadShopTrue: PropTypes.func.isRequired,
+  onBreadShopFalse: PropTypes.func.isRequired,
   onHeartSpace: PropTypes.bool.isRequired
 };
 
