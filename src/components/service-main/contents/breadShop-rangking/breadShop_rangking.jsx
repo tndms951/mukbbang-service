@@ -8,7 +8,7 @@ import { Link } from 'react-router-dom';
 import BreadShopLi from '../../../common-component/breadShop_li_component';
 
 import axios from '../../../../utils/axios';
-import { errorhandler } from '../../../../utils/common';
+import { errorhandler, sweetAlert } from '../../../../utils/common';
 
 import { selectShopList, selectAddress, selectdongAddress } from '../../../redux/breadshoplist/breadShop.selectors';
 import { setCurrentBreadShop, setShopTrueData, setShopFalseData, setSiAddressData, setDongAddressData } from '../../../redux/breadshoplist/breadShop.actions';
@@ -153,36 +153,40 @@ const HouseRangking = ({ breadShopList, onBreadShopList, onBreadShopTrue, onBrea
     }
   };
 
+  const successGeo = (position) => {
+    const query = qs.parse(location.search, {
+      ignoreQueryPrefix: true
+    });
+    const queryObject = { ...query };
+    delete queryObject.si_code;
+    delete queryObject.gu_code;
+
+    setSiList({
+      id: -1,
+      name: '시.도'
+    });
+    setGuvalue({
+      id: 0,
+      name: '구'
+    });
+
+    const { latitude, longitude } = position.coords;
+    queryObject.lat = String(latitude);
+    queryObject.lon = String(longitude);
+
+    const queryData = qs.stringify(queryObject);
+    history.push(`/rank/bread-house?${queryData}`);
+  };
+
+  const errorGeo = () => {
+    sweetAlert('위치정보를 받아오지 못했습니다.');
+  };
+
   const handleLocal = () => {
-    try {
-      if (window.navigator.geolocation) {
-        window.navigator.geolocation.getCurrentPosition(async (position) => {
-          const query = qs.parse(location.search, {
-            ignoreQueryPrefix: true
-          });
-          const queryObject = { ...query };
-          delete queryObject.si_code;
-          delete queryObject.gu_code;
-
-          setSiList({
-            name: '시.도'
-          });
-          setGuvalue({
-            name: '구'
-          });
-
-          const { latitude, longitude } = position.coords;
-          queryObject.lat = String(latitude);
-          queryObject.lon = String(longitude);
-
-          const queryData = qs.stringify(queryObject);
-          history.push(`/rank/bread-house?${queryData}`);
-        });
-      } else {
-        alert('위치정보를 받아오지 못했습니다.');
-      }
-    } catch (err) {
-      errorhandler(err);
+    if (window.navigator.geolocation) {
+      window.navigator.geolocation.getCurrentPosition(successGeo, errorGeo);
+    } else {
+      sweetAlert('위치정보를 받아오지 못했습니다.');
     }
   };
 
