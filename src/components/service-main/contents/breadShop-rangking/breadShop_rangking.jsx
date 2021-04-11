@@ -15,14 +15,14 @@ import {
   selectShopList,
   selectAddress,
   selectdongAddress
-} from '../../../redux/breadshoplist/breadShop.selectors';
+} from '../../../redux/breadshop/list/breadShop.selectors';
 import {
   setCurrentBreadShop,
   setShopTrueData,
   setShopFalseData,
   setSiAddressData,
   setDongAddressData
-} from '../../../redux/breadshoplist/breadShop.actions';
+} from '../../../redux/breadshop/breadShop.actions';
 
 import {
   HouseRangkingWrap,
@@ -280,7 +280,7 @@ const HouseRangking = ({
       <RangkingList>
         <ul className="list_wrap">
           {breadShopList.map((breadShopData) => (
-            <Link to={`/rank/bread-house/detaile/${breadShopData.id}`}>
+            <Link to={`/rank/bread-house/detail/${breadShopData.id}`}>
               <BreadShopLi
                 key={`bread_shop_list${breadShopData.id}`}
                 shopList={breadShopData}

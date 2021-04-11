@@ -1,15 +1,13 @@
 import { combineReducers } from 'redux';
 
 import userReducer from './user/user.reducer';
-import breadShopReducer from './breadshoplist/breadShop.reducer';
+import breadShopReducer from './breadshop/bread-shop-reducer';
 import breadReducer from './breadlist/bread.reducer';
-import breadShopDetaileReducer from './breadshoplist/detaile/breadShopDetaile.reducer';
 
 const rootReducer = combineReducers({
   user: userReducer,
   breadShop: breadShopReducer,
-  bread: breadReducer,
-  detaileShop: breadShopDetaileReducer
+  bread: breadReducer
 });
 
 export default rootReducer;

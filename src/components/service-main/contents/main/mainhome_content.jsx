@@ -5,8 +5,8 @@ import PropTypes from 'prop-types';
 
 import { errorhandler } from '../../../../utils/common';
 
-import { selectShopList } from '../../../redux/breadshoplist/breadShop.selectors';
-import { setCurrentBreadShop } from '../../../redux/breadshoplist/breadShop.actions';
+import { selectShopList } from '../../../redux/breadshop/list/breadShop.selectors';
+import { setCurrentBreadShop } from '../../../redux/breadshop/list/breadShop.actions';
 
 import { selectBreadList } from '../../../redux/breadlist/bread.selectors';
 import { setBreadRankingList, setHeartTrueData } from '../../../redux/breadlist/bread.actions';

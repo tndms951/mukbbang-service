@@ -19,8 +19,8 @@ import {
 } from './breadhouse_detaile_style';
 import axios from '../../../../../utils/axios';
 import BreadShopLi from '../../../../common-component/breadShop_li_component';
-import { selectShopListDetaile } from '../../../../redux/breadshoplist/detaile/breadShopDetaile.selectors';
-import { setCurrentBreadShopDetaile } from '../../../../redux/breadshoplist/detaile/breadShopDetaile.actions';
+import { selectShopListDetaile } from '../../../../redux/breadshop/detaile/breadShopDetaile.selectors';
+import { setCurrentBreadShopDetaile } from '../../../../redux/breadshop/detaile/breadShopDetaile.actions';
 
 import { errorhandler } from '../../../../../utils/common';
 
@@ -28,6 +28,7 @@ const ShopDetaile = ({ ShopDetaileList, onShopDetaileList, match }) => {
   console.log(match);
   console.log('디테일');
   console.log(ShopDetaileList);
+  console.log(onShopDetaileList);
 
   useEffect(() => {
     async function fetchDetailData() {
@@ -35,8 +36,10 @@ const ShopDetaile = ({ ShopDetaileList, onShopDetaileList, match }) => {
         const { breadShopId } = match.params;
 
         const { status, data } = await axios.get(`/bread/shop/${breadShopId}`);
+        console.log(data);
         if (status === 200) {
-          onShopDetaileList(data.list);
+          onShopDetaileList(data.data);
+          // ShopDetaileList(data.id);
         }
       } catch (err) {
         errorhandler(err);

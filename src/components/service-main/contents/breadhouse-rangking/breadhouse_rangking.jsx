@@ -2,6 +2,7 @@ import React, { useEffect } from 'react';
 import { createStructuredSelector } from 'reselect';
 import { connect } from 'react-redux';
 import PropTypes from 'prop-types';
+import { Link } from 'react-router-dom';
 // import { Link } from 'react-router-dom';
 
 import BreadShopLi from '../../../common-component/breadShop_li_component';
@@ -9,8 +10,8 @@ import BreadShopLi from '../../../common-component/breadShop_li_component';
 import axios from '../../../../utils/axios';
 import { errorhandler } from '../../../../utils/common';
 
-import { selectShopList } from '../../../redux/breadshoplist/breadShop.selectors';
-import { setCurrentBreadShop } from '../../../redux/breadshoplist/breadShop.actions';
+import { selectShopList } from '../../../redux/breadshop/list/breadShop.selectors';
+import { setCurrentBreadShop } from '../../../redux/breadshop/list/breadShop.actions';
 
 import {
   HouseRangkingWrap,
@@ -164,16 +165,17 @@ const HouseRangking = ({
       <RangkingList>
         <ul className="list_wrap">
           {breadShopList.map((breadShopData) => (
-            // console.log(breadShopData.title);
-            <BreadShopLi
-              key={`bread_shop_list${breadShopData.id}`}
-              shopList={breadShopData}
-              shopImage={breadShopData.image}
-              shopSeverLike={breadShopData.like}
-              shopId={breadShopData.id}
-              likeTrue={onBreadShopTrue}
-              likeFalse={onBreadShopFalse}
-            />
+            <Link to={`/rank/bread-house/detail/${breadShopData.id}`}>
+              <BreadShopLi
+                key={`bread_shop_list${breadShopData.id}`}
+                shopList={breadShopData}
+                shopImage={breadShopData.image}
+                shopSeverLike={breadShopData.like}
+                shopId={breadShopData.id}
+                likeTrue={onBreadShopTrue}
+                likeFalse={onBreadShopFalse}
+              />
+            </Link>
           ))}
         </ul>
       </RangkingList>

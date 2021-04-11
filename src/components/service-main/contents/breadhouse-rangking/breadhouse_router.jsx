@@ -1,15 +1,18 @@
 import React from 'react';
 import { Route, Switch } from 'react-router-dom';
+import PropTypes from 'prop-types';
 
 import ShopDetaile from './detaile/breadhouse_detaile';
 import HouseRangking from './breadhouse_rangking';
 
-const BreadHouseRouter = () => (
-  // console.log(match);
-  // eslint-disable-next-line react/jsx-indent
+const BreadHouseRouter = ({ match }) => (
   <Switch>
-    <Route path="/rank/bread-house/detaile" component={ShopDetaile} />
-    <Route exact path="/rank/bread-house" component={HouseRangking} />
+    <Route path={`${match.path}/detail/:breadShopId`} component={ShopDetaile} />
+    <Route exact path={match.path} component={HouseRangking} />
   </Switch>
 );
+
+BreadHouseRouter.propTypes = {
+  match: PropTypes.instanceOf(Object).isRequired
+};
 export default BreadHouseRouter;
