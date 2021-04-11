@@ -179,7 +179,7 @@ const HouseRangking = ({ breadShopList, onBreadShopList, onBreadShopTrue, onBrea
           history.push(`/rank/bread-house?${queryData}`);
         });
       } else {
-        alert('nono');
+        alert('위치정보를 받아오지 못했습니다.');
       }
     } catch (err) {
       errorhandler(err);
