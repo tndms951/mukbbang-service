@@ -10,18 +10,10 @@ import BreadLi from '../../../common-component/bread_li_component';
 import BreadShopLi from '../../../common-component/breadShop_li_component';
 
 import { selectShopList } from '../../../redux/breadshoplist/breadShop.selectors';
-import {
-  setCurrentBreadShop,
-  setShopTrueData,
-  setShopFalseData
-} from '../../../redux/breadshoplist/breadShop.actions';
+import { setCurrentBreadShop, setShopTrueData, setShopFalseData } from '../../../redux/breadshoplist/breadShop.actions';
 
 import { selectBreadList } from '../../../redux/breadlist/bread.selectors';
-import {
-  setBreadRankingList,
-  setHeartTrueData,
-  setHeartFalseData
-} from '../../../redux/breadlist/bread.actions';
+import { setBreadRankingList, setHeartTrueData, setHeartFalseData } from '../../../redux/breadlist/bread.actions';
 
 import { selectEventSwiper } from '../../../redux/main/main.selectors';
 import { setEventSwiper } from '../../../redux/main/main.actions';
@@ -59,7 +51,6 @@ const MainHome = ({
     async function fetchEventBanner() {
       try {
         const { status, data: eventData } = await axios.get('/banner/event');
-        console.log(eventData);
 
         if (status === 200) {
           onEventList(eventData.list);
@@ -116,14 +107,7 @@ const MainHome = ({
         <BreadShopList>
           <ul className="list_wrap">
             {breadShopList.map((breadShopData) => (
-              <BreadShopLi
-                key={`breadShop_list${breadShopData.id}`}
-                shopList={breadShopData}
-                shopSeverLike={breadShopData.like}
-                shopId={breadShopData.id}
-                likeTrue={onBreadShopTrue}
-                likeFalse={onBreadShopFalse}
-              />
+              <BreadShopLi key={`breadShop_list${breadShopData.id}`} shopList={breadShopData} shopSeverLike={breadShopData.like} shopId={breadShopData.id} likeTrue={onBreadShopTrue} likeFalse={onBreadShopFalse} />
             ))}
           </ul>
         </BreadShopList>
@@ -142,14 +126,7 @@ const MainHome = ({
         <BreadShopList>
           <ul className="list_wrap">
             {breadList.map((list) => (
-              <BreadLi
-                key={`bread_li_list${list.id}`}
-                dataList={list}
-                likeTrue={onBreadHeartTrue}
-                likeFalse={onBreadHeartFalse}
-                breadId={list.id}
-                breadLike={list.like}
-              />
+              <BreadLi key={`bread_li_list${list.id}`} dataList={list} likeTrue={onBreadHeartTrue} likeFalse={onBreadHeartFalse} breadId={list.id} breadLike={list.like} />
             ))}
           </ul>
         </BreadShopList>

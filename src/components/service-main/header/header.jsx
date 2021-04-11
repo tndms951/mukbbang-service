@@ -9,15 +9,7 @@ import { Link } from 'react-router-dom';
 import { selectCurrentUser } from '../../redux/user/user.selectors';
 import { setLogout } from '../../redux/user/user.actions';
 
-import {
-  HeaderWrap,
-  BookMark,
-  LeftBookMark,
-  RightLogin,
-  MyProfile,
-  GroupNav,
-  NaveSearch
-} from './header_style';
+import { HeaderWrap, BookMark, LeftBookMark, RightLogin, MyProfile, GroupNav, NaveSearch } from './header_style';
 
 /**
  * @author 송지수
@@ -29,7 +21,6 @@ import {
 
 const Header = ({ currentUser, onLogout }) => {
   const [myProfileBox, setMyProfileBox] = useState(false);
-  console.log(myProfileBox);
 
   return (
     <HeaderWrap>
@@ -39,10 +30,7 @@ const Header = ({ currentUser, onLogout }) => {
             <span>즐겨찾기</span>
             <span>입점신청</span>
             <span>
-              <img
-                src="https://s3.ap-northeast-2.amazonaws.com/image.mercuryeunoia.com/images/web/jisu/+common_icon/Vector+1.png"
-                alt="아래화살표"
-              />
+              <img src="https://s3.ap-northeast-2.amazonaws.com/image.mercuryeunoia.com/images/web/jisu/+common_icon/Vector+1.png" alt="아래화살표" />
             </span>
           </LeftBookMark>
           <RightLogin>
@@ -84,10 +72,7 @@ const Header = ({ currentUser, onLogout }) => {
       <GroupNav className="clearfix">
         <Link to="/">
           <h1>
-            <img
-              src="https://s3.ap-northeast-2.amazonaws.com/image.mercuryeunoia.com/images/web/jisu/+common_icon/Meokppang.png"
-              alt="먹방로그"
-            />
+            <img src="https://s3.ap-northeast-2.amazonaws.com/image.mercuryeunoia.com/images/web/jisu/+common_icon/Meokppang.png" alt="먹방로그" />
           </h1>
         </Link>
         <ul>

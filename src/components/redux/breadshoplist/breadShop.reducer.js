@@ -10,7 +10,7 @@ const breadShopReducer = (state = INITAL_STATE, action) => {
   switch (action.type) {
     case breadShopTypes.SET_BREAD_SHOP_LIST: {
       const { breadShop } = action.payload;
-      console.log(breadShop);
+
       return {
         ...state,
         breadShopList: breadShop
@@ -43,7 +43,7 @@ const breadShopReducer = (state = INITAL_STATE, action) => {
     }
     case breadShopTypes.SET_ADDRESS_SI: {
       const { siAddress } = action.payload;
-      console.log(siAddress);
+
       return {
         ...state,
         siAddressList: siAddress
@@ -51,7 +51,7 @@ const breadShopReducer = (state = INITAL_STATE, action) => {
     }
     case breadShopTypes.SET_ADDRESS_DONG: {
       const { dongAddress } = action.payload;
-      console.log(dongAddress);
+
       return {
         ...state,
         dongAddressList: dongAddress

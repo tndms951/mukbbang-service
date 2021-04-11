@@ -8,7 +8,7 @@ const breadListReducer = (state = INITAL_STATE, action) => {
   switch (action.type) {
     case breadTypes.BREAD_LIST_SET: {
       const { bread } = action.payload;
-      console.log(bread);
+
       return {
         ...state,
         breadList: bread
@@ -33,14 +33,13 @@ const breadListReducer = (state = INITAL_STATE, action) => {
 
     case breadTypes.HEART_LIKE_FALSE: {
       const { falseBreadId } = action.payload;
-      console.log(falseBreadId);
+
       const newLikeFalse = [...state.breadList];
 
       const updateFalse = newLikeFalse.findIndex((dislike) => dislike.id === Number(falseBreadId));
 
       if (updateFalse > -1) {
         newLikeFalse[updateFalse].like = false;
-        console.log(newLikeFalse[updateFalse].like);
       }
       return {
         ...state,

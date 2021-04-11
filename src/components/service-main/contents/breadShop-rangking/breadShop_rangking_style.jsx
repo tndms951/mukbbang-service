@@ -191,6 +191,13 @@ export const CurrentLocation = styled.div`
   }
 `;
 
+export const LocationText = styled.div`
+  padding: 12px 24px;
+  font-size: 24px;
+  font-weight: 700;
+  margin-bottom: 24px;
+`;
+
 export const RangkingList = styled.div`
   width: 1024px;
   margin: 0 auto;
@@ -210,7 +217,7 @@ export const RangkingList = styled.div`
 
     & li {
       float: left;
-      margin-right: 40px;
+      margin-right: 30px;
       margin-bottom: 26px;
       position: relative;
 
