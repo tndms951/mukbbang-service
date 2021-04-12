@@ -1,8 +1,7 @@
 import breadTypes from './bread.types';
 
 const INITAL_STATE = {
-  breadList: [],
-  heartspace: false
+  breadList: []
 };
 
 const breadListReducer = (state = INITAL_STATE, action) => {
@@ -15,12 +14,36 @@ const breadListReducer = (state = INITAL_STATE, action) => {
         breadList: bread
       };
     }
-    case breadTypes.HEART_FILLED: {
-      const { filled } = action.payload;
 
+    case breadTypes.HEART_LIKE_TRUE: {
+      const { trueBreadId } = action.payload;
+
+      const newLike = [...state.breadList];
+
+      const updateLike = newLike.findIndex((like) => like.id === Number(trueBreadId));
+
+      if (updateLike > -1) {
+        newLike[updateLike].like = true;
+      }
       return {
         ...state,
-        heartspace: filled
+        breadList: newLike
+      };
+    }
+
+    case breadTypes.HEART_LIKE_FALSE: {
+      const { falseBreadId } = action.payload;
+
+      const newLikeFalse = [...state.breadList];
+
+      const updateFalse = newLikeFalse.findIndex((dislike) => dislike.id === Number(falseBreadId));
+
+      if (updateFalse > -1) {
+        newLikeFalse[updateFalse].like = false;
+      }
+      return {
+        ...state,
+        breadList: newLikeFalse
       };
     }
     default:

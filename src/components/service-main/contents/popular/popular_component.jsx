@@ -5,16 +5,17 @@ import { createStructuredSelector } from 'reselect';
 
 import BreadLi from '../../../common-component/bread_li_component';
 import { selectBreadList } from '../../../redux/breadlist/bread.selectors';
-import { setBreadRankingList, setHeartTrueData } from '../../../redux/breadlist/bread.actions';
+import { setBreadRankingList } from '../../../redux/breadlist/bread.actions';
 import axios from '../../../../utils/axios';
 import { errorhandler } from '../../../../utils/common';
 import { PopularBreadWrap, PopularWrap, BreadList } from './popular_style';
 
-const PopularBread = ({ breadList, onBreadList, onHeartFilled }) => {
+const PopularBread = ({ breadList, onBreadList }) => {
   useEffect(() => {
     async function fetchbreadData() {
       try {
         const { status, data: breadData } = await axios.get('/bread');
+
         if (status === 200) {
           onBreadList(breadData.list);
         }
@@ -34,7 +35,7 @@ const PopularBread = ({ breadList, onBreadList, onHeartFilled }) => {
       <BreadList>
         <ul className="list_wrap">
           {breadList.map((breadData) => (
-            <BreadLi breadData={breadData} onHeartFilled={onHeartFilled} />
+            <BreadLi key={`{bread-list${breadData.id}}`} data={breadData} />
           ))}
         </ul>
       </BreadList>
@@ -44,8 +45,7 @@ const PopularBread = ({ breadList, onBreadList, onHeartFilled }) => {
 
 PopularBread.propTypes = {
   breadList: PropTypes.instanceOf(Array).isRequired,
-  onBreadList: PropTypes.func.isRequired,
-  onHeartFilled: PropTypes.func.isRequired
+  onBreadList: PropTypes.func.isRequired
 };
 
 const breadStateToProps = createStructuredSelector({
@@ -53,8 +53,7 @@ const breadStateToProps = createStructuredSelector({
 });
 
 const breadDispathchToProps = (dispatch) => ({
-  onBreadList: (bread) => dispatch(setBreadRankingList(bread)),
-  onHeartFilled: (filled, heartId) => dispatch(setHeartTrueData(filled, heartId))
+  onBreadList: (bread) => dispatch(setBreadRankingList(bread))
 });
 
 export default connect(breadStateToProps, breadDispathchToProps)(PopularBread);
