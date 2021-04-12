@@ -20,7 +20,6 @@ const ShopDetaile = ({ ShopDetaileList, onShopDetaileList, match }) => {
 
         if (status === 200) {
           onShopDetaileList(data.data);
-          // ShopDetaileList(data.id);
         }
       } catch (err) {
         errorhandler(err);

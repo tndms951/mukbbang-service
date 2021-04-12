@@ -15,6 +15,14 @@ import { setCurrentBreadShop, setShopTrueData, setShopFalseData, setSiAddressDat
 
 import { HouseRangkingWrap, ShopRangking, Location, SelectWrap, City, CurrentLocation, LocationText, RangkingList } from './breadShop_rangking_style';
 
+/**
+ * @author 송지수
+ * @email tndms951@naver.com
+ * @create date 2021-03-21 15:42:55
+ * @modify date 2021-03-21 15:42:55
+ * @desc [breadShop컴포넌트]
+ */
+
 // eslint-disable-next-line no-unused-vars
 const HouseRangking = ({ breadShopList, onBreadShopList, onBreadShopTrue, onBreadShopFalse, siAddressList, onAddressSi, dongAddressList, onAddressDong, location, history }) => {
   const [siList, setSiList] = useState({
@@ -30,7 +38,6 @@ const HouseRangking = ({ breadShopList, onBreadShopList, onBreadShopTrue, onBrea
   const [addressName, setAddressName] = useState('전체');
 
   useEffect(() => {
-    // 쿼리 연습용 거의확정!!
     async function fetchShopData() {
       try {
         const { status, data: breadShopData } = await axios.get(`/bread/shop${location.search}`);
@@ -49,6 +56,7 @@ const HouseRangking = ({ breadShopList, onBreadShopList, onBreadShopTrue, onBrea
     const query = qs.parse(location.search, {
       ignoreQueryPrefix: true
     });
+    console.log(query);
     if (!query.si_code) {
       setSiList({
         id: -1,

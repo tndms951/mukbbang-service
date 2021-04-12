@@ -2,14 +2,11 @@ import styled from 'styled-components';
 import Slider from 'react-slick';
 
 export const Main = styled.div`
-  // margin: 0 auto;
-  // outline: 5px solid red;
   margin-top: 110px;
 `;
 
 export const MainBackground = styled(Slider)`
   width: 1024px;
-  // height: 400px;
   outline: 1px solid red;
   margin-bottom: 64px;
   margin: 0 auto;
@@ -28,8 +25,7 @@ export const MainBackground = styled(Slider)`
     top: 200px;
     left: 1px;
     background: rgba(255, 255, 255, 0.9);
-    box-shadow: transparent 0px 0px 0px 1px, transparent 0px 0px 0px 4px,
-      rgb(0 0 0 / 18%) 0px 2px 4px !important;
+    box-shadow: transparent 0px 0px 0px 1px, transparent 0px 0px 0px 4px, rgb(0 0 0 / 18%) 0px 2px 4px !important;
     border-radius: 50%;
   }
 
@@ -45,8 +41,7 @@ export const MainBackground = styled(Slider)`
     top: 200px;
     right: 1px;
     background: rgba(255, 255, 255, 0.9);
-    box-shadow: transparent 0px 0px 0px 1px, transparent 0px 0px 0px 4px,
-      rgb(0 0 0 / 18%) 0px 2px 4px !important;
+    box-shadow: transparent 0px 0px 0px 1px, transparent 0px 0px 0px 4px, rgb(0 0 0 / 18%) 0px 2px 4px !important;
     border-radius: 50%;
   }
 
@@ -112,7 +107,6 @@ export const BreadShopList = styled.div`
     margin-bottom: 26px;
     width: 100%;
     box-sizing: border-box;
-    // outline: 1px solid red;
 
     &::after {
       clear: both;
@@ -123,7 +117,6 @@ export const BreadShopList = styled.div`
     & li {
       float: left;
       margin-right: 40px;
-      // outline: 1px solid red;
       margin-bottom: 26px;
       position: relative;
 

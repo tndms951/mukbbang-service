@@ -46,7 +46,6 @@ const PopularBread = ({ breadList, onBreadList }) => {
 PopularBread.propTypes = {
   breadList: PropTypes.instanceOf(Array).isRequired,
   onBreadList: PropTypes.func.isRequired
-  // onHeartFilled: PropTypes.func.isRequired
 };
 
 const breadStateToProps = createStructuredSelector({
@@ -55,7 +54,6 @@ const breadStateToProps = createStructuredSelector({
 
 const breadDispathchToProps = (dispatch) => ({
   onBreadList: (bread) => dispatch(setBreadRankingList(bread))
-  // onHeartFilled: (filled, heartId) => dispatch(setHeartTrueData(filled, heartId))
 });
 
 export default connect(breadStateToProps, breadDispathchToProps)(PopularBread);

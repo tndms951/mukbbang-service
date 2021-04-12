@@ -5,7 +5,6 @@ import PropTypes from 'prop-types';
 import { createStructuredSelector } from 'reselect';
 import { Link } from 'react-router-dom';
 
-// import styled from 'styled-components';
 import { selectCurrentUser } from '../../redux/user/user.selectors';
 import { setLogout } from '../../redux/user/user.actions';
 
