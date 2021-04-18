@@ -2,8 +2,8 @@ import React from 'react';
 import { Route, Switch } from 'react-router-dom';
 import PropTypes from 'prop-types';
 
-import ShopDetaile from './detaile/breadhouse_detaile';
-import HouseRangking from './breadhouse_rangking';
+import ShopDetaile from './detail/breadShop_detail';
+import HouseRangking from './breadShop_rangking';
 
 const BreadHouseRouter = ({ match }) => (
   <Switch>

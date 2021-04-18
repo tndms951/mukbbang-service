@@ -1,4 +1,3 @@
-/* eslint-disable import/named */
 import React, { useEffect, useState } from 'react';
 import { createStructuredSelector } from 'reselect';
 import { connect } from 'react-redux';
@@ -9,73 +8,67 @@ import { Link } from 'react-router-dom';
 import BreadShopLi from '../../../common-component/breadShop_li_component';
 
 import axios from '../../../../utils/axios';
-import { errorhandler } from '../../../../utils/common';
+import { errorhandler, sweetAlert } from '../../../../utils/common';
 
-import {
-  selectShopList,
-  selectAddress,
-  selectdongAddress
-} from '../../../redux/breadshop/list/breadShop.selectors';
-import {
-  setCurrentBreadShop,
-  setShopTrueData,
-  setShopFalseData,
-  setSiAddressData,
-  setDongAddressData
-} from '../../../redux/breadshop/breadShop.actions';
+import { selectShopList, selectAddress, selectdongAddress } from '../../../redux/breadshop/list/breadShop.selectors';
+import { setCurrentBreadShop, setShopTrueData, setShopFalseData, setSiAddressData, setDongAddressData } from '../../../redux/breadshoplist/breadShop.actions';
 
-import {
-  HouseRangkingWrap,
-  ShopRangking,
-  Location,
-  SelectWrap,
-  City,
-  CurrentLocation,
-  RangkingList
-} from './breadShop_rangking_style';
+import { HouseRangkingWrap, ShopRangking, Location, SelectWrap, City, CurrentLocation, LocationText, RangkingList } from './breadShop_rangking_style';
+
+/**
+ * @author 송지수
+ * @email tndms951@naver.com
+ * @create date 2021-03-21 15:42:55
+ * @modify date 2021-03-21 15:42:55
+ * @desc [breadShop컴포넌트]
+ */
 
 // eslint-disable-next-line no-unused-vars
-const HouseRangking = ({
-  breadShopList,
-  onBreadShopList,
-  onBreadShopTrue,
-  onBreadShopFalse,
-  siAddressList,
-  onAddressSi,
-  dongAddressList,
-  onAddressDong,
-  location,
-  history
-}) => {
-  console.log(dongAddressList);
-  console.log(location);
-
+const HouseRangking = ({ breadShopList, onBreadShopList, onBreadShopTrue, onBreadShopFalse, siAddressList, onAddressSi, dongAddressList, onAddressDong, location, history }) => {
   const [siList, setSiList] = useState({
     id: -1,
     name: '시.도'
   });
-  console.log(siList);
+
   const [guvalue, setGuvalue] = useState({
     id: 0, // -1은 설정이 되어있어있어서 0으로 바꿈 0빼고 나머지 숫자는 다 true 이기때문에 0은 false
     name: '구'
   });
 
+  const [addressName, setAddressName] = useState('전체');
+
   useEffect(() => {
-    // 쿼리 연습용 거의확정!!
     async function fetchShopData() {
       try {
         const { status, data: breadShopData } = await axios.get(`/bread/shop${location.search}`);
-        console.log(breadShopData);
+
         if (status === 200) {
           onBreadShopList(breadShopData.list);
+          setAddressName(breadShopData.data.addressName);
         }
       } catch (err) {
-        console.log(err);
         errorhandler(err);
       }
     }
 
     fetchShopData();
+
+    const query = qs.parse(location.search, {
+      ignoreQueryPrefix: true
+    });
+    console.log(query);
+    if (!query.si_code) {
+      setSiList({
+        id: -1,
+        name: '시.도'
+      });
+    }
+    if (!query.gu_code) {
+      setGuvalue({
+        id: 0,
+        name: '구'
+      });
+    }
   }, [location.search, onAddressSi, onBreadShopList]);
 
   useEffect(() => {
@@ -84,16 +77,13 @@ const HouseRangking = ({
     });
     async function fetchSiAddress() {
       try {
-        console.log(query);
         const { status, data } = await axios.get('/util/address/si');
-        console.log(data);
 
         if (status === 200) {
           onAddressSi(data.list);
           if (query.si_code) {
-            console.log(query.si_code);
             const ValueId = data.list.find((value) => value.id === Number(query.si_code));
-            console.log(ValueId);
+
             if (ValueId) {
               setSiList(ValueId);
             }
@@ -101,21 +91,18 @@ const HouseRangking = ({
         }
       } catch (err) {
         errorhandler(err);
-        console.log(err);
       }
     }
 
     async function fetchGuAddress(siCodeId) {
-      console.log(siCodeId);
       try {
         const { status, data } = await axios.get(`/util/address/gu/${siCodeId}`);
-        console.log(data);
+
         if (status === 200) {
           onAddressDong(data.list);
         }
 
         if (query.gu_code) {
-          console.log(query.gu_code);
           const ValueId = data.list.find((value) => value.id === Number(query.gu_code));
           if (ValueId) {
             setGuvalue(ValueId);
@@ -123,17 +110,16 @@ const HouseRangking = ({
         }
       } catch (err) {
         errorhandler(err);
-        console.log(err);
       }
     }
     fetchSiAddress();
+
     if (query.si_code) {
       fetchGuAddress(query.si_code);
     }
   }, []);
 
   const handleClickSi = async (address) => {
-    console.log(address.id);
     const query = qs.parse(location.search, {
       ignoreQueryPrefix: true
     });
@@ -150,18 +136,16 @@ const HouseRangking = ({
     history.push(`/rank/bread-house${queryData ? `?${queryData}` : ''}`);
     try {
       const { status, data } = await axios.get(`/util/address/gu/${address.id}`);
-      console.log(data);
+
       if (status === 200) {
         onAddressDong(data.list);
       }
     } catch (err) {
       errorhandler(err);
-      console.log(err);
     }
   };
 
   const handleClickGu = async (address) => {
-    console.log(address);
     try {
       const query = qs.parse(location.search, {
         ignoreQueryPrefix: true
@@ -170,46 +154,49 @@ const HouseRangking = ({
       queryObject.gu_code = address.id;
       const queryData = qs.stringify(queryObject);
       history.push(`/rank/bread-house${queryData ? `?${queryData}` : ''}`);
-      console.log(queryObject);
+
       setGuvalue(address);
-      console.log(address.id);
-      console.log('aaa');
     } catch (err) {
       errorhandler(err);
     }
   };
 
-  // const handleChange = (e) => {
-  //   setTitle(e.target.value);
-  // };
+  const successGeo = (position) => {
+    const query = qs.parse(location.search, {
+      ignoreQueryPrefix: true
+    });
+    const queryObject = { ...query };
+    delete queryObject.si_code;
+    delete queryObject.gu_code;
 
-  // 빵집입력할때 연습용
-  // const handleSearch = (e) => {
-  //   e.preventDefault();
+    setSiList({
+      id: -1,
+      name: '시.도'
+    });
+    setGuvalue({
+      id: 0,
+      name: '구'
+    });
 
-  //   const queryObject = {};
-  //   if (title) {
-  //     queryObject.title = title;
-  //   }
-  //   const queryData = qs.stringify(queryObject);
-  //   history.push(`/rank/bread-house${queryData ? `?${queryData}` : ''}`);
-  // };
+    const { latitude, longitude } = position.coords;
+    queryObject.lat = String(latitude);
+    queryObject.lon = String(longitude);
 
-  // 과외때 시,구 위에 쿼리 찍히게하기!!
-  // const handleSearch = (e) => {
-  //   e.preventDefault();
+    const queryData = qs.stringify(queryObject);
+    history.push(`/rank/bread-house?${queryData}`);
+  };
 
-  //   const queryObject = {};
-  //   if (siList.id) {
-  //     queryObject.si_code = siList.id;
-  //   }
-  //   if (guvalue.id) {
-  //     queryObject.gu_code = guvalue.id;
-  //   }
+  const errorGeo = () => {
+    sweetAlert('위치정보를 받아오지 못했습니다.');
+  };
 
-  //   const queryData = qs.stringify(queryObject); // 쿼리를 자기스스로 만들어줌
-  //   history.push(`/rank/bread-house${queryData ? `?${queryData}` : ''}`);
-  // };
+  const handleLocal = () => {
+    if (window.navigator.geolocation) {
+      window.navigator.geolocation.getCurrentPosition(successGeo, errorGeo);
+    } else {
+      sweetAlert('위치정보를 받아오지 못했습니다.');
+    }
+  };
 
   return (
     <HouseRangkingWrap>
@@ -226,11 +213,7 @@ const HouseRangking = ({
               </summary>
               <ul className="list">
                 {siAddressList.map((address) => (
-                  <li
-                    key={`siAddress${address.id}`}
-                    onClick={() => handleClickSi(address)}
-                    onKeyPress={handleClickSi}
-                    role="presentation">
+                  <li key={`siAddress-${address.id}`} onClick={() => handleClickSi(address)} onKeyPress={handleClickSi} role="presentation">
                     <label>{address.name}</label>
                   </li>
                 ))}
@@ -245,51 +228,34 @@ const HouseRangking = ({
               </summary>
               <ul className="list">
                 {dongAddressList.map((address) => (
-                  <li
-                    key={`dongAddress${address.id}`}
-                    onClick={() => handleClickGu(address)}
-                    onKeyPress={handleClickSi}
-                    role="presentation">
+                  <li key={`dongAddress-${address.id}`} onClick={() => handleClickGu(address)} onKeyPress={handleClickSi} role="presentation">
                     <label>{address.name}</label>
                   </li>
                 ))}
               </ul>
             </details>
           </City>
-          {/* <City>
-            <form onSubmit={handleSearch}>
-              <div className="col-sm-8">
-                <input type="title" className="form-control form-control-lg" placeholder="빵집을 입력해주세요" value={title} onChange={handleChange} />
-              </div>
-              <button type="submit">검색</button>
-            </form>
-          </City> */}
         </SelectWrap>
 
         <CurrentLocation>
           <button type="button">
-            <img
-              src="https://s3.ap-northeast-2.amazonaws.com/image.mercuryeunoia.com/images/web/jisu/+common_icon/search.png"
-              alt=""
-            />
-            <span>현재 위치로 설정</span>
+            <img src="https://s3.ap-northeast-2.amazonaws.com/image.mercuryeunoia.com/images/web/jisu/+common_icon/search.png" alt="" />
+            <span onClick={handleLocal} aria-hidden="true" role="button">
+              현재 위치로 설정
+            </span>
           </button>
         </CurrentLocation>
       </Location>
+
+      <LocationText>
+        <span>{addressName} 빵집 랭킹</span>
+      </LocationText>
 
       <RangkingList>
         <ul className="list_wrap">
           {breadShopList.map((breadShopData) => (
             <Link to={`/rank/bread-house/detail/${breadShopData.id}`}>
-              <BreadShopLi
-                key={`bread_shop_list${breadShopData.id}`}
-                shopList={breadShopData}
-                shopImage={breadShopData.image}
-                shopSeverLike={breadShopData.like}
-                shopId={breadShopData.id}
-                likeTrue={onBreadShopTrue}
-                likeFalse={onBreadShopFalse}
-              />
+              <BreadShopLi key={`bread_shop_list${breadShopData.id}`} shopList={breadShopData} shopImage={breadShopData.image} shopSeverLike={breadShopData.like} shopId={breadShopData.id} likeTrue={onBreadShopTrue} likeFalse={onBreadShopFalse} />
             </Link>
           ))}
         </ul>

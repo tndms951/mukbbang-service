@@ -2,7 +2,7 @@ import styled from 'styled-components';
 
 export const HouseDetaile = styled.div`
   margin: 0 auto;
-  margin-top: 110px;
+  margin-top: 150px;
   width: 1024px;
 `;
 
@@ -28,27 +28,29 @@ export const Grade = styled.div`
   }
 
   & img {
-    line-height: 100px;
     float: right;
     width: 30px;
+    line-height: 100px;
+    // margin-right: 170px;
   }
 `;
 export const ShopImage = styled.div`
   padding: 0 192px;
   margin-top: 24px;
+  z-index: 100;
 
-  & span {
+  & img {
     display: block;
     text-align: center;
+    outline: 1px solid red;
     width: 640px;
-    height: 240px;
-    background: #9a9a9a;
+    height: 248px;
     margin-bottom: 24px;
   }
 `;
 
 export const Information = styled.div`
-  margin-bottom: 16px;
+  margin-bottom: 20px;
   &::after {
     clear: both;
     content: '';
@@ -69,12 +71,81 @@ export const Information = styled.div`
   }
 `;
 
+export const ReviewWrap = styled.div`
+  &::after {
+    clear: both;
+    content: '';
+    display: block;
+  }
+
+  & input {
+    display: block;
+    outline: 1px solid red;
+    width: 500px;
+    height: 300px;
+  }
+`;
+
 export const Review = styled.div`
-  
   margin: 64px 0 29px; 0;
   padding: 8px 192px;
   font-size: 32px;
   font-weight: 700;
+  float: left;
+`;
+
+export const ReviewButton = styled.div`
+  width: 100px;
+  // outline: 1px solid red;
+  width: 100%;
+  float: right;
+  margin-top: 160px;
+  text-align: right;
+
+  & span {
+    width: 100px;
+    padding: 10px 12px;
+    display: inline-block;
+    font-size: 14px;
+    border: 1px solid #7f7f7f;
+    border-radius: 50px;
+    color: #7f7f7f;
+    margin-right: 10px;
+    text-align: center;
+    cursor: pointer;
+  }
+
+  & span:nth-child(2) {
+    margin-right: 0;
+  }
+
+  & span:nth-child(1):hover {
+    background: #d3d3d3;
+    color: white;
+    border: 1px solid white;
+  }
+
+  & span:nth-child(2):hover {
+    background: #fb7819;
+    color: white;
+    border: 1px solid white;
+  }
+`;
+
+export const Register = styled.div`
+  float: right;
+  margin: 70px 0px 29px 50px;
+  padding: 8px 42px;
+  font-size: 18px;
+  font-weight: 500;
+  border: 1px solid #9a9a9a;
+  cursor: pointer;
+
+  &:hover {
+    background: #9a9a9a;
+    color: white;
+    font-weight: 400;
+  }
 `;
 
 export const ReviewBox = styled.div`
@@ -83,8 +154,6 @@ export const ReviewBox = styled.div`
 `;
 
 export const BoxButton = styled.div`
-  outline: 2px solid blue;
-
   &::after {
     clear: both;
     content: '';
@@ -96,6 +165,7 @@ export const BoxLeft = styled.div`
   & img {
     background: #c4c4c4;
     border-radius: 50%;
+
     width: 48px;
     height: 48px;
     display: block;
@@ -107,19 +177,12 @@ export const BoxLeft = styled.div`
     font-size: 16px;
     font-weight: 700;
     margin-bottom: 6px;
+    padding: 4px 0;
   }
 
   & p:nth-child(3) {
     color: #9a9a9a;
-  }
-`;
-
-export const BoxRight = styled.div`
-  outline: 1px solid red;
-  float: right;
-
-  div {
-    vertical-align: middle;
+    font-size: 14px;
   }
 `;
 
@@ -128,8 +191,7 @@ export const Content = styled.div`
 `;
 
 export const UserImage = styled.div`
-  outline: 1px solid red;
-  display: block;
+  display: inline-block;
   margin-top: 24px;
 
   & img {
@@ -140,7 +202,124 @@ export const UserImage = styled.div`
   }
 `;
 
-export const OtherBreadShop = styled.div`
+export const Comment = styled.div`
+  margin-top: 40px;
+`;
+
+export const CommentBox = styled.div`
+  // outline: 1px solid red;
+  text-align: center;
+  margin-bottom: 40px;
+  & input {
+    width: 700px;
+    height: 50px;
+  }
+`;
+
+export const AuthorComment = styled.div`
+  padding: 0 192px;
+
+  &::after {
+    clear: both;
+    content: '';
+    display: block;
+  }
+
+  & img {
+    background: red;
+    display: inline-block;
+    width: 48px;
+    height: 48px;
+    line-height: 24px;
+    border-radius: 50%;
+    margin-right: 8px;
+    float: left;
+  }
+
+  & p {
+    display: inline-block;
+    font-weight: 700;
+    margin-top: 10px;
+  }
+
+  & span {
+    display: block;
+    margin-top: 10px;
+  }
+
+  & .date_wrap {
+    display: inline-block;
+    margin-left: 55px;
+
+    & span {
+      float: left;
+      margin-right: 15px;
+      font-size: 14px;
+      color: #5c5c5c;
+    }
+
+    & span:nth-child(2) {
+      &:hover {
+        cursor: pointer;
+        text-decoration: underline;
+      }
+    }
+  }
+
+  & .made_comment {
+    display: inline-block;
+  }
+`;
+
+export const ReComment = styled.div`
+  background: #f8f8f8;
+  margin-top: 20px;
+  padding: 0 192px;
+
+  // &::after {
+  //   clear: both;
+  //   content: '';
+  //   display: block;
+  // }
+
+  // & img {
+  //   background: red;
+  //   display: inline-block;
+  //   width: 48px;
+  //   height: 48px;
+  //   line-height: 24px;
+  //   border-radius: 50%;
+  //   margin-right: 8px;
+  //   float: left;
+  // }
+
+  // & p {
+  //   display: inline-block;
+  //   font-weight: 700;
+  //   margin-top: 10px;
+  // }
+
+  // & span {
+  //   display: block;
+  //   margin-top: 10px;
+
+  // }
+
+  // & .date {
+  //   display: inline-block;
+  //   margin-left: 10px;
+  //   font-size: 14px;
+  //   color: #5c5c5c;
+  // }
+
+  // & .made_comment {
+  //   display: inline-block;
+    
+  // }
+};
+`;
+
+export const OtherBread = styled.div`
 padding: 8px 24px;
 box-sizing: border-box;
 line-height: 28px;

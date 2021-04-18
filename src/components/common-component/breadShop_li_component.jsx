@@ -5,8 +5,6 @@ import axios from '../../utils/axios';
 import { errorhandler } from '../../utils/common';
 
 const BreadShopLi = ({ shopList, shopImage, shopSeverLike, likeTrue, likeFalse, shopId }) => {
-  console.log(shopList);
-  console.log(shopImage);
   const changeShopHeart = async () => {
     try {
       if (shopSeverLike) {
@@ -22,19 +20,14 @@ const BreadShopLi = ({ shopList, shopImage, shopSeverLike, likeTrue, likeFalse, 
       }
     } catch (err) {
       errorhandler(err);
-      console.log(err);
     }
   };
-  console.log(shopList.title);
+
   return (
     <li>
       <img src={shopImage} alt={`${shopList.title}의 이미지`} />
       <img
-        src={
-          shopSeverLike
-            ? 'https://s3.ap-northeast-2.amazonaws.com/image.mercuryeunoia.com/images/web/jisu/+common_icon/heart.png'
-            : 'https://s3.ap-northeast-2.amazonaws.com/image.mercuryeunoia.com/images/web/jisu/+common_icon/spaceheart.png'
-        }
+        src={shopSeverLike ? 'https://s3.ap-northeast-2.amazonaws.com/image.mercuryeunoia.com/images/web/jisu/+common_icon/heart.png' : 'https://s3.ap-northeast-2.amazonaws.com/image.mercuryeunoia.com/images/web/jisu/+common_icon/spaceheart.png'}
         alt="좋아요하트이미지"
         className="heart_image"
         aria-hidden="true"

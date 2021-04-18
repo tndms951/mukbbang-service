@@ -1,0 +1,7 @@
+const breadShopDetailTypes = {
+  SET_BREAD_SHOP_DETAIL_LIST: 'SET_BREAD_SHOP_DETAIL_LIST',
+  SET_SHOP_DETAIL_TRUE: 'SET_SHOP_DETAIL_TRUE',
+  SET_SHOP_DETAIL_FALSE: 'SET_SHOP_DETAIL_FALSE'
+};
+
+export default breadShopDetailTypes;
