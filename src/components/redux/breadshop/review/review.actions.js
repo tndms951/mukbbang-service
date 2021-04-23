@@ -6,3 +6,10 @@ export const setBreadShopReview = (shopReview) => ({
     shopReview
   }
 });
+
+// export const setShopReviewWriting = (writingReview) => ({
+//   type: breadShopReview.SET_SHOP_REVIEW_WRITING,
+//   payload: {
+//     writingReview
+//   }
+// });

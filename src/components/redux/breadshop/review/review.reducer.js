@@ -1,7 +1,8 @@
 import breadShopReview from './review.types';
 
 const INITAL_STATE = {
-  shopReview: []
+  shopReview: [],
+  writingReview: []
 };
 
 const shopReviewReducer = (state = INITAL_STATE, action) => {
@@ -13,6 +14,14 @@ const shopReviewReducer = (state = INITAL_STATE, action) => {
         shopReview
       };
     }
+    // case breadShopReview.SET_SHOP_REVIEW_WRITING: {
+    //   const { writingReview } = action.payload;
+    //   console.log(writingReview);
+    //   return {
+    //     ...state,
+    //     writingReview
+    //   };
+    // }
     default:
       return state;
   }
