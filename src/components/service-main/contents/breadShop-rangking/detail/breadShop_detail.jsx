@@ -16,23 +16,19 @@ import Comment from '../../../../common-component/comment/comment';
 
 import { selectShopBread, selectShopImages, selectShopMenuImages, selectShopHolidays, selectShopAddress, selectShopInfo } from '../../../../redux/breadshop/detail/breadShopDetail.selectors';
 import { setCurrentBreadShopDetail, setShopDetailTrue, setShopDetailFalse } from '../../../../redux/breadshop/detail/breadShopDetail.actions';
-import { selectShopReview } from '../../../../redux/breadshop/review/review.selectors';
-import { setBreadShopReview } from '../../../../redux/breadshop/review/review.actions';
+import { selectShopReview, selectWritingReview } from '../../../../redux/breadshop/review/review.selectors';
+import { setBreadShopReview, setShopReviewWriting } from '../../../../redux/breadshop/review/review.actions';
 import { selectShopComment } from '../../../../redux/breadshop/comment/breadShopComment.selectors';
 import { setShopDetailComment } from '../../../../redux/breadshop/comment/breadShopComment.actions';
 
 // eslint-disable-next-line no-unused-vars
-const ShopDetail = ({ shopDetailBread, shopDetailImages, shopDetailAddress, shopDetailInfo, onShopDetailBread, match, onDetailTrue, onDetailFalse, onDetailReview, shopDetailReview, shopDetailComment }) => {
+const ShopDetail = ({ shopDetailBread, shopDetailImages, shopDetailAddress, shopDetailInfo, onShopDetailBread, match, onDetailTrue, onDetailFalse, onDetailReview, onDetailReviewWriting, shopDetailReview, shopDetailComment }) => {
   console.log(shopDetailBread);
-  // console.log(shopDetailImages);
-  console.log(shopDetailInfo);
-  // console.log(shopDetailAddress);
-  // console.log(shopDetailReview);
-  // console.log(onDetailWriting);
-  // console.log(shopwritingReview);
   console.log(shopDetailReview);
   console.log(shopDetailComment);
   console.log(shopDetailInfo?.title);
+  console.log(shopDetailReview);
+  console.log(onDetailReview);
 
   useEffect(() => {
     async function fetchDetailData() {
@@ -87,9 +83,7 @@ const ShopDetail = ({ shopDetailBread, shopDetailImages, shopDetailAddress, shop
   return (
     <HouseDetaile>
       <Grade>
-        <h1>
-          빵집 이름 <span className="text_color">(평점)</span>
-        </h1>
+        <h1>빵집 이름</h1>
 
         <img
           src={shopDetailInfo?.like ? 'https://s3.ap-northeast-2.amazonaws.com/image.mercuryeunoia.com/images/web/jisu/+common_icon/heart.png' : 'https://s3.ap-northeast-2.amazonaws.com/image.mercuryeunoia.com/images/web/jisu/+common_icon/spaceheart.png'}
@@ -123,7 +117,7 @@ const ShopDetail = ({ shopDetailBread, shopDetailImages, shopDetailAddress, shop
         </Information>
       </ShopImage>
 
-      <Review breadShopId={shopDetailInfo?.id} ShopDetailList={shopDetailInfo} shopDetailReview={shopDetailReview} />
+      <Review breadShopId={shopDetailInfo?.id} ShopDetailList={shopDetailInfo} shopDetailReview={shopDetailReview} onDetailReview={onDetailReview} onDetailReviewWriting={onDetailReviewWriting} />
 
       <Comment breadShopId={shopDetailInfo?.id} ShopDetailList={shopDetailInfo} />
 
@@ -156,6 +150,7 @@ ShopDetail.propTypes = {
   onDetailTrue: PropTypes.func.isRequired,
   onDetailFalse: PropTypes.func.isRequired,
   onDetailReview: PropTypes.instanceOf(Object).isRequired,
+  onDetailReviewWriting: PropTypes.instanceOf(Object).isRequired,
   shopDetailReview: PropTypes.instanceOf(Array).isRequired,
   shopDetailComment: PropTypes.instanceOf(Object).isRequired
 };
@@ -174,6 +169,7 @@ const breadShopStateToProps = createStructuredSelector({
   shopDetailAddress: selectShopAddress,
   shopDetailInfo: selectShopInfo,
   shopDetailReview: selectShopReview,
+  shopDetailReviewWriting: selectWritingReview,
   shopDetailComment: selectShopComment
 });
 
@@ -182,6 +178,7 @@ const breadShopDetaileDispathch = (dispatch) => ({
   onDetailTrue: () => dispatch(setShopDetailTrue()),
   onDetailFalse: () => dispatch(setShopDetailFalse()),
   onDetailReview: (review) => dispatch(setBreadShopReview(review)),
+  onDetailReviewWriting: (Writing) => dispatch(setShopReviewWriting(Writing)),
   onDetailComment: (comment) => dispatch(setShopDetailComment(comment))
 });
 

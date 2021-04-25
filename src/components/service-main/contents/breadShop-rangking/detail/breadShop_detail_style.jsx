@@ -27,15 +27,10 @@ export const Grade = styled.div`
     width: 225px;
   }
 
-  & span {
-    color: #fb7819;
-  }
-
   & img {
     float: right;
     width: 30px;
     line-height: 100px;
-    // margin-right: 170px;
   }
 `;
 export const ShopImage = styled.div`
@@ -46,7 +41,6 @@ export const ShopImage = styled.div`
   & img {
     display: block;
     text-align: center;
-    outline: 1px solid red;
     width: 640px;
     height: 248px;
     margin-bottom: 24px;

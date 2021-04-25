@@ -7,9 +7,9 @@ export const setBreadShopReview = (shopReview) => ({
   }
 });
 
-// export const setShopReviewWriting = (writingReview) => ({
-//   type: breadShopReview.SET_SHOP_REVIEW_WRITING,
-//   payload: {
-//     writingReview
-//   }
-// });
+export const setShopReviewWriting = (writingReview) => ({
+  type: breadShopReview.SET_SHOP_REVIEW_WRITING,
+  payload: {
+    writingReview
+  }
+});

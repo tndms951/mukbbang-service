@@ -1,18 +1,20 @@
+/* eslint-disable react/button-has-type */
 /* eslint-disable react/no-array-index-key */
 /* eslint-disable react/jsx-props-no-spreading */
-import React, { useState } from 'react';
+import React, { useState, useRef } from 'react';
 import Dialog from '@material-ui/core/Dialog';
 import DialogTitle from '@material-ui/core/DialogTitle';
 import { makeStyles } from '@material-ui/core/styles';
 import Slider from 'react-slick';
 import PropTypes from 'prop-types';
-
-import { ReviewWrapBox, ReviewWrap, ReviewText, Register, ImageMap, ImageWrap, CloseWrap, ReviewButton, ReviewSlid, ReviewBox, BoxButton, BoxLeft, Content, UserImage } from './review_style';
+import { ReviewWrapBox, ReviewWrap, ReviewText, Register, ImageMap, ImageWrap, CloseWrap, ReviewButton, ReviewSlid, ReviewBox, BoxButton, BoxLeft, Content, UserImage, ReviewModal } from './review_style';
 import axios from '../../../utils/axios';
 import { errorhandler } from '../../../utils/common';
 
-const Review = ({ breadShopId, shopDetailReview, history }) => {
+const Review = ({ breadShopId, shopDetailReview, onDetailReview, onDetailReviewWriting, history }) => {
   console.log(shopDetailReview);
+  console.log(onDetailReview);
+  console.log(onDetailReviewWriting);
   console.log(history);
   // 리뷰등록
   const [writingReview, setWritingReview] = useState({
@@ -24,6 +26,19 @@ const Review = ({ breadShopId, shopDetailReview, history }) => {
   console.log(writingImage);
 
   const { text } = writingReview;
+
+  const [modalOpen, setModalOpen] = useState(false);
+  const el = useRef();
+
+  // 오픈 모달
+  const opneModal = () => {
+    setModalOpen(true);
+  };
+
+  // 클로짓 모달
+  const closeModal = () => {
+    setModalOpen(false);
+  };
 
   // Material UI
   const useStyles = makeStyles({
@@ -109,12 +124,14 @@ const Review = ({ breadShopId, shopDetailReview, history }) => {
         imageUrl: arr
       };
       console.log('wowo');
-      const { status } = await axios.post(`/review/${breadShopId}`, reviewObject);
-
+      const { status, data } = await axios.post(`/review/${breadShopId}`, reviewObject);
+      console.log(status);
+      console.log(data);
       if (status === 201) {
-        history.push(`/rank/bread-house/detail/${breadShopId}`);
+        console.log('aaaaa');
+        onDetailReviewWriting(data.data);
+        // history.push(`/rank/bread-house/detail/${breadShopId}`);
       }
-      return;
     } catch (err) {
       errorhandler(err);
       console.log(err);
@@ -127,7 +144,6 @@ const Review = ({ breadShopId, shopDetailReview, history }) => {
   };
 
   const resetButton = (index) => {
-    console.log(index);
     const deleteImageList = [...writingImage];
     deleteImageList.splice(index, 1);
     setWritingImage(deleteImageList);
@@ -267,7 +283,7 @@ const Review = ({ breadShopId, shopDetailReview, history }) => {
 
               {review.images.map((reviewImage) => (
                 <UserImage>
-                  <button type="button">
+                  <button type="button" onClick={opneModal}>
                     <img src={reviewImage} alt="리뷰 사진" />
                   </button>
                 </UserImage>
@@ -276,6 +292,28 @@ const Review = ({ breadShopId, shopDetailReview, history }) => {
           ))}
         </Slider>
       </ReviewSlid>
+
+      <ReviewModal>
+        {modalOpen && (
+          <>
+            <div className="Modal-overlay" ref={el} onClick={closeModal} aria-hidden="true" />
+            <div className="Modal">
+              <div>
+                <button type="button" onClick={closeModal}>
+                  X
+                </button>
+                <p className="title">Modal Title</p>
+              </div>
+              <div className="content">
+                <p>Lorem, ipsum dolor sit amet consectetur adipisicing elit. Vel tempora nulla, non molestiae dicta ducimus. Et unde laborum eveniet ex quod doloribus quae, aliquam beatae atque, vero assumenda rem quo?</p>
+              </div>
+              <div className="button-wrap">
+                <button> Confirm </button>
+              </div>
+            </div>
+          </>
+        )}
+      </ReviewModal>
     </ReviewWrapBox>
   );
 };
@@ -283,6 +321,8 @@ const Review = ({ breadShopId, shopDetailReview, history }) => {
 Review.propTypes = {
   breadShopId: PropTypes.instanceOf(Array).isRequired,
   shopDetailReview: PropTypes.instanceOf(Array).isRequired,
+  onDetailReview: PropTypes.instanceOf(Array).isRequired,
+  onDetailReviewWriting: PropTypes.instanceOf(Array).isRequired,
   history: PropTypes.instanceOf(Object).isRequired
 };
 
