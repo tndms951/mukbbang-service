@@ -49,6 +49,7 @@ export const ImageMap = styled.div`
     content: '';
     display: block;
   }
+  outline: 1px solid red;
 `;
 
 export const ImageWrap = styled.div`

@@ -6,3 +6,10 @@ export const setShopDetailComment = (detailComment) => ({
     detailComment
   }
 });
+
+export const setRegisterComment = (registerComment) => ({
+  type: breadShopDetailComment.SET_DETAIL_COMMENT_REGISTER,
+  payload: {
+    registerComment
+  }
+});

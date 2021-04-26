@@ -1,3 +1,4 @@
+/* eslint-disable no-shadow */
 import React, { useState } from 'react';
 
 import PropTypes from 'prop-types';
@@ -5,9 +6,10 @@ import { CommentWrap, CommentBox, AuthorComment, ReComment } from './comment_sty
 import axios from '../../../utils/axios';
 import { errorhandler } from '../../../utils/common';
 
-const Comment = ({ breadShopId, ShopDetailList }) => {
+const Comment = ({ breadShopId, onRegisterComment, shopDetailComment }) => {
   console.log(breadShopId);
-  console.log(ShopDetailList);
+  console.log(onRegisterComment);
+  console.log(shopDetailComment);
 
   // 댓글등록
   const [comment, setComment] = useState('');
@@ -30,6 +32,7 @@ const Comment = ({ breadShopId, ShopDetailList }) => {
       console.log(commentObject);
       if (status === 201) {
         setComment('');
+        onRegisterComment(data.data);
         // history.push(`/rank/bread-house/detail/${breadShopId}`);
       }
     } catch (err) {
@@ -46,8 +49,6 @@ const Comment = ({ breadShopId, ShopDetailList }) => {
       }
     } catch (err) {
       errorhandler(err);
-      console.log('aaaa');
-      console.log(err);
     }
   };
 
@@ -55,40 +56,44 @@ const Comment = ({ breadShopId, ShopDetailList }) => {
     <CommentWrap>
       <CommentBox>
         <form onSubmit={registerSubmit}>
-          <textarea placeholder="댓글을 입력해 주세요~~~." onChange={handleComment} value={comment} name="comment" />
+          <textarea placeholder="댓글을 입력해 주세요." onChange={handleComment} value={comment} name="comment" />
           <button type="submit" className="registerButton">
             등록하기
           </button>
         </form>
       </CommentBox>
 
-      <AuthorComment>
-        <img src="" alt="" />
-        <p>UserName</p>
-        <span>빵이 넘나 맛있어요~~~</span>
-        <div className="date_wrap">
-          <span>2020.03.16</span>
-          <span className="made_comment">댓글달기</span>
-        </div>
-      </AuthorComment>
+      {shopDetailComment.map((comment) => (
+        <AuthorComment>
+          <img src="" alt="" />
+          <p>{comment.user.name}</p>
+          <span>{comment.content}</span>
+          <div className="date_wrap">
+            <span>{comment.createdAt}</span>
+            <span>삭제</span>
+            <span className="made_comment">댓글달기</span>
+          </div>
+        </AuthorComment>
+      ))}
 
       <ReComment>
-        <form>
+        {/* <form>
           <input type="text" name="reviewRegister" placeholder="댓글을 입력해 주세요." />
-          <button type="submit">등록하기</button>
-          {/* <img src="" alt="" />
+          <button type="submit">등록하기</button> */}
+        {/* <img src="" alt="" />
       <p>UserName2</p>
       <span className="date">2020.03.16</span>
       <span>오 무슨 맛인가요~?~~~</span> */}
-        </form>
+        {/* </form> */}
       </ReComment>
     </CommentWrap>
   );
 };
 
 Comment.propTypes = {
-  breadShopId: PropTypes.func.isRequired,
-  ShopDetailList: PropTypes.instanceOf(Object).isRequired
+  breadShopId: PropTypes.number.isRequired,
+  onRegisterComment: PropTypes.instanceOf(Object).isRequired,
+  shopDetailComment: PropTypes.instanceOf(Array).isRequired
 };
 
 export default Comment;

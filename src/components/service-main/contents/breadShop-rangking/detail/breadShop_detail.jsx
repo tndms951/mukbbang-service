@@ -16,20 +16,13 @@ import Comment from '../../../../common-component/comment/comment';
 
 import { selectShopBread, selectShopImages, selectShopMenuImages, selectShopHolidays, selectShopAddress, selectShopInfo } from '../../../../redux/breadshop/detail/breadShopDetail.selectors';
 import { setCurrentBreadShopDetail, setShopDetailTrue, setShopDetailFalse } from '../../../../redux/breadshop/detail/breadShopDetail.actions';
-import { selectShopReview, selectWritingReview } from '../../../../redux/breadshop/review/review.selectors';
+import { selectShopReview } from '../../../../redux/breadshop/review/review.selectors';
 import { setBreadShopReview, setShopReviewWriting } from '../../../../redux/breadshop/review/review.actions';
 import { selectShopComment } from '../../../../redux/breadshop/comment/breadShopComment.selectors';
-import { setShopDetailComment } from '../../../../redux/breadshop/comment/breadShopComment.actions';
+import { setShopDetailComment, setRegisterComment } from '../../../../redux/breadshop/comment/breadShopComment.actions';
 
 // eslint-disable-next-line no-unused-vars
-const ShopDetail = ({ shopDetailBread, shopDetailImages, shopDetailAddress, shopDetailInfo, onShopDetailBread, match, onDetailTrue, onDetailFalse, onDetailReview, onDetailReviewWriting, shopDetailReview, shopDetailComment }) => {
-  console.log(shopDetailBread);
-  console.log(shopDetailReview);
-  console.log(shopDetailComment);
-  console.log(shopDetailInfo?.title);
-  console.log(shopDetailReview);
-  console.log(onDetailReview);
-
+const ShopDetail = ({ shopDetailBread, shopDetailImages, shopDetailAddress, shopDetailInfo, onShopDetailBread, match, onDetailTrue, onDetailFalse, onDetailReview, onDetailReviewWriting, shopDetailReview, onDetailComment, shopDetailComment, onRegisterComment }) => {
   useEffect(() => {
     async function fetchDetailData() {
       try {
@@ -37,8 +30,6 @@ const ShopDetail = ({ shopDetailBread, shopDetailImages, shopDetailAddress, shop
         console.log(breadShopId);
 
         const { status, data: detaileData } = await axios.get(`/bread/shop/${breadShopId}`);
-        console.log(detaileData);
-        console.log(detaileData.data.id);
         if (status === 200) {
           onShopDetailBread(detaileData.data);
         }
@@ -51,6 +42,7 @@ const ShopDetail = ({ shopDetailBread, shopDetailImages, shopDetailAddress, shop
       try {
         const { breadShopId } = match.params;
         const { status, data } = await axios.get(`/review/${breadShopId}`);
+        console.log(data);
         if (status === 200) {
           onDetailReview(data.list);
         }
@@ -58,9 +50,23 @@ const ShopDetail = ({ shopDetailBread, shopDetailImages, shopDetailAddress, shop
         errorhandler(err);
       }
     }
+
+    async function fetchDetailComment() {
+      try {
+        const { breadShopId } = match.params;
+        const { status, data } = await axios.get(`/comment/bread/shop/${breadShopId}`);
+        console.log(data);
+        if (status === 200) {
+          onDetailComment(data.list);
+        }
+      } catch (err) {
+        errorhandler(err);
+      }
+    }
     fetchDetailData();
     fetchDetailReview();
-  }, []);
+    fetchDetailComment();
+  }, [match.params, onDetailComment, onDetailReview, onShopDetailBread]);
 
   const onDetailHeart = async () => {
     try {
@@ -117,9 +123,9 @@ const ShopDetail = ({ shopDetailBread, shopDetailImages, shopDetailAddress, shop
         </Information>
       </ShopImage>
 
-      <Review breadShopId={shopDetailInfo?.id} ShopDetailList={shopDetailInfo} shopDetailReview={shopDetailReview} onDetailReview={onDetailReview} onDetailReviewWriting={onDetailReviewWriting} />
+      <Review breadShopId={shopDetailInfo?.id} ShopDetailList={shopDetailInfo} shopDetailReview={shopDetailReview} onDetailReviewWriting={onDetailReviewWriting} />
 
-      <Comment breadShopId={shopDetailInfo?.id} ShopDetailList={shopDetailInfo} />
+      <Comment breadShopId={shopDetailInfo?.id} shopDetailComment={shopDetailComment} onRegisterComment={onRegisterComment} />
 
       <OtherBread>
         <h1>빵 랭킹</h1>
@@ -152,7 +158,9 @@ ShopDetail.propTypes = {
   onDetailReview: PropTypes.instanceOf(Object).isRequired,
   onDetailReviewWriting: PropTypes.instanceOf(Object).isRequired,
   shopDetailReview: PropTypes.instanceOf(Array).isRequired,
-  shopDetailComment: PropTypes.instanceOf(Object).isRequired
+  onDetailComment: PropTypes.instanceOf(Object).isRequired,
+  shopDetailComment: PropTypes.instanceOf(Array).isRequired,
+  onRegisterComment: PropTypes.instanceOf(Array).isRequired
 };
 
 // 초기값이 없거나 null인 경우 예외처리
@@ -169,7 +177,6 @@ const breadShopStateToProps = createStructuredSelector({
   shopDetailAddress: selectShopAddress,
   shopDetailInfo: selectShopInfo,
   shopDetailReview: selectShopReview,
-  shopDetailReviewWriting: selectWritingReview,
   shopDetailComment: selectShopComment
 });
 
@@ -179,7 +186,8 @@ const breadShopDetaileDispathch = (dispatch) => ({
   onDetailFalse: () => dispatch(setShopDetailFalse()),
   onDetailReview: (review) => dispatch(setBreadShopReview(review)),
   onDetailReviewWriting: (Writing) => dispatch(setShopReviewWriting(Writing)),
-  onDetailComment: (comment) => dispatch(setShopDetailComment(comment))
+  onDetailComment: (comment) => dispatch(setShopDetailComment(comment)),
+  onRegisterComment: (register) => dispatch(setRegisterComment(register))
 });
 
 export default connect(breadShopStateToProps, breadShopDetaileDispathch)(ShopDetail);

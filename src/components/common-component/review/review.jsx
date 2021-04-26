@@ -11,19 +11,14 @@ import { ReviewWrapBox, ReviewWrap, ReviewText, Register, ImageMap, ImageWrap, C
 import axios from '../../../utils/axios';
 import { errorhandler } from '../../../utils/common';
 
-const Review = ({ breadShopId, shopDetailReview, onDetailReview, onDetailReviewWriting, history }) => {
-  console.log(shopDetailReview);
-  console.log(onDetailReview);
+const Review = ({ breadShopId, shopDetailReview, onDetailReviewWriting, history }) => {
   console.log(onDetailReviewWriting);
-  console.log(history);
   // 리뷰등록
   const [writingReview, setWritingReview] = useState({
     text: ''
   });
-  console.log(writingReview);
 
   const [writingImage, setWritingImage] = useState([]);
-  console.log(writingImage);
 
   const { text } = writingReview;
 
@@ -115,7 +110,6 @@ const Review = ({ breadShopId, shopDetailReview, onDetailReview, onDetailReviewW
     e.preventDefault();
     try {
       const arr = [];
-      console.log(arr);
       for (let i = 0; i < writingImage.length; i += 1) {
         arr.push(writingImage[i].imageUrl);
       }
@@ -123,19 +117,20 @@ const Review = ({ breadShopId, shopDetailReview, onDetailReview, onDetailReviewW
         content: writingReview.text,
         imageUrl: arr
       };
-      console.log('wowo');
+
       const { status, data } = await axios.post(`/review/${breadShopId}`, reviewObject);
-      console.log(status);
-      console.log(data);
+
       if (status === 201) {
-        console.log('aaaaa');
         onDetailReviewWriting(data.data);
+        setWritingReview({
+          text: ''
+        });
+        setWritingImage([]);
+        // 모달창 꺼지게 설정하기!
         // history.push(`/rank/bread-house/detail/${breadShopId}`);
       }
     } catch (err) {
       errorhandler(err);
-      console.log(err);
-      console.log('abbbbbb');
     }
   };
 
@@ -176,7 +171,7 @@ const Review = ({ breadShopId, shopDetailReview, onDetailReview, onDetailReviewW
           'Content-Type': 'multipart/form-data'
         }
       });
-      console.log(imageData);
+
       if (status === 200) {
         const {
           data: { imageUrl: newImageUrlList }
@@ -319,9 +314,8 @@ const Review = ({ breadShopId, shopDetailReview, onDetailReview, onDetailReviewW
 };
 
 Review.propTypes = {
-  breadShopId: PropTypes.instanceOf(Array).isRequired,
+  breadShopId: PropTypes.number.isRequired,
   shopDetailReview: PropTypes.instanceOf(Array).isRequired,
-  onDetailReview: PropTypes.instanceOf(Array).isRequired,
   onDetailReviewWriting: PropTypes.instanceOf(Array).isRequired,
   history: PropTypes.instanceOf(Object).isRequired
 };
