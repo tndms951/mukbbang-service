@@ -2,16 +2,16 @@
 /* eslint-disable react/no-array-index-key */
 /* eslint-disable react/jsx-props-no-spreading */
 import React, { useState, useRef } from 'react';
-import Dialog from '@material-ui/core/Dialog';
-import DialogTitle from '@material-ui/core/DialogTitle';
-import { makeStyles } from '@material-ui/core/styles';
+// import Dialog from '@material-ui/core/Dialog';
+// import DialogTitle from '@material-ui/core/DialogTitle';
+// import { makeStyles } from '@material-ui/core/styles';
 import Slider from 'react-slick';
 import PropTypes from 'prop-types';
-import { ReviewWrapBox, ReviewWrap, ReviewText, Register, ImageMap, ImageWrap, CloseWrap, ReviewButton, ReviewSlid, ReviewBox, BoxButton, BoxLeft, Content, UserImage, ReviewModal } from './review_style';
+import { ReviewWrapBox, ReviewWrap, ReviewText, Register, RegisterReviewWrap, RegisterReview, ImageMap, ImageWrap, CloseWrap, ReviewButton, ReviewSlid, ReviewBox, BoxButton, BoxLeft, Content, UserImage, ReviewModal } from './review_style';
 import axios from '../../../utils/axios';
 import { errorhandler } from '../../../utils/common';
 
-const Review = ({ breadShopId, shopDetailReview, onDetailReviewWriting, history }) => {
+const Review = ({ breadShopId, shopDetailReview, onDetailReviewWriting }) => {
   console.log(onDetailReviewWriting);
   // 리뷰등록
   const [writingReview, setWritingReview] = useState({
@@ -22,6 +22,17 @@ const Review = ({ breadShopId, shopDetailReview, onDetailReviewWriting, history 
 
   const { text } = writingReview;
 
+  // 리뷰 등록시 모달
+  const [openModal, setOpenModal] = useState(false);
+
+  const reviewOpenModal = () => {
+    setOpenModal(true);
+  };
+  const reviewCloseModal = () => {
+    setOpenModal(false);
+  };
+
+  // 등록후 이미지 모달
   const [modalOpen, setModalOpen] = useState(false);
   const el = useRef();
 
@@ -33,76 +44,6 @@ const Review = ({ breadShopId, shopDetailReview, onDetailReviewWriting, history 
   // 클로짓 모달
   const closeModal = () => {
     setModalOpen(false);
-  };
-
-  // Material UI
-  const useStyles = makeStyles({
-    reviewBox: {
-      width: 500,
-      height: 500,
-      padding: 40
-    },
-    reviewInput: {
-      width: 450,
-      height: 200,
-      border: '1px solid #dbdbdb',
-      padding: 13,
-      resize: 'none',
-      outline: 'none'
-    },
-
-    inputText: {
-      opacity: 0,
-      width: 90,
-      height: 90,
-      position: 'absolute',
-      display: 'inline',
-      cursor: 'pointer',
-      marginTop: 20,
-      zIndex: 100
-    },
-
-    reviewText: {
-      color: '#fb7819',
-      fontSize: '28px'
-    },
-    reviewTexted: {
-      color: '#383838',
-      fontSize: '16px'
-    },
-    button: {
-      display: 'block',
-      marginTop: 20,
-      marginRight: 100,
-      border: '1px dashed #DBDBDB',
-      cursor: 'pointer',
-      width: 90,
-      height: 90,
-      position: 'absolute',
-      opacity: 1,
-      transform: 'scale(1)',
-      background: 'transparent'
-    },
-    addImage: {
-      display: 'block',
-      margin: '0 auto',
-      width: 27,
-      height: 27,
-      backgroundImage: 'url(https://mp-seoul-image-production-s3.mangoplate.com/web/resources/plus_icon.svg)',
-      backgroundSize: 'cover'
-    }
-  });
-
-  const classes = useStyles();
-
-  // 모달 handleClick
-  const [open, setOpen] = useState(false);
-
-  const handleOpen = () => {
-    setOpen(!open);
-  };
-  const handleClose = () => {
-    setOpen(!open);
   };
 
   // 리뷰등록
@@ -119,24 +60,23 @@ const Review = ({ breadShopId, shopDetailReview, onDetailReviewWriting, history 
       };
 
       const { status, data } = await axios.post(`/review/${breadShopId}`, reviewObject);
-
+      console.log(data);
       if (status === 201) {
         onDetailReviewWriting(data.data);
         setWritingReview({
           text: ''
         });
         setWritingImage([]);
-        // 모달창 꺼지게 설정하기!
-        // history.push(`/rank/bread-house/detail/${breadShopId}`);
+        setOpenModal(false);
       }
     } catch (err) {
       errorhandler(err);
     }
   };
 
-  const goback = () => {
-    history.goBack();
-  };
+  // const goback = () => {
+  //   history.goBack();
+  // };
 
   const resetButton = (index) => {
     const deleteImageList = [...writingImage];
@@ -207,55 +147,64 @@ const Review = ({ breadShopId, shopDetailReview, onDetailReviewWriting, history 
           <h1>리뷰</h1>
         </ReviewText>
         <Register>
-          <span onClick={handleOpen} aria-hidden="true" role="button">
+          <span onClick={reviewOpenModal} aria-hidden="true" role="button">
             리뷰쓰기
           </span>
         </Register>
       </ReviewWrap>
 
-      <Dialog open={open} onClose={handleClose}>
-        <DialogTitle className={classes.reviewBox}>
-          <div className={classes.reviewText}>
-            지수빵집 <span className={classes.reviewTexted}>리뷰를 작성해 주세요</span>
-          </div>
+      <RegisterReviewWrap>
+        {openModal && (
+          <RegisterReview ref={el} aria-hidden="true">
+            <div className="aaa" onClick={reviewCloseModal} aria-hidden="true" />
+            <div className="bbb">
+              <div className="title">
+                지수빵집 <span className="title_text">리뷰를 작성해 주세요</span>
+              </div>
 
-          <form onSubmit={handleSubmit}>
-            <textarea placeholder="지수빵집에 대한 분위기와 맛은 어떤가요?" className={classes.reviewInput} onChange={handleChange} value={text} name="text" />
+              <div className="ccc">
+                <form onSubmit={handleSubmit}>
+                  <textarea placeholder="지수빵집에 대한 분위기와 맛은 어떤가요?" onChange={handleChange} value={text} name="text" />
 
-            <ImageMap>
-              {writingImage.map((imageData, index) => (
-                <ImageWrap>
-                  <div key={`image-${index}`}>
-                    <img src={imageData.imageUrl} alt="이미지 사진" className="review_image" />
-                    <div className="bread_button_wrap" onClick={() => resetButton(index)} aria-hidden="true">
-                      <CloseWrap>
-                        <div className="image_close_container1">
-                          <div id="image_close_menu">
-                            <span />
-                            <span />
+                  <ImageMap>
+                    {writingImage.map((imageData, index) => (
+                      <ImageWrap key={`image-${index}`}>
+                        <div>
+                          <img src={imageData.imageUrl} alt="이미지 사진" className="review_image" />
+                          <div className="bread_button_wrap" onClick={() => resetButton(index)} aria-hidden="true">
+                            <CloseWrap>
+                              <div className="image_close_container1">
+                                <div id="image_close_menu">
+                                  <span />
+                                  <span />
+                                </div>
+                              </div>
+                            </CloseWrap>
                           </div>
                         </div>
-                      </CloseWrap>
-                    </div>
-                  </div>
-                </ImageWrap>
-              ))}
-            </ImageMap>
+                      </ImageWrap>
+                    ))}
+                  </ImageMap>
 
-            <input type="file" id="file" className={classes.inputText} onChange={ImagehandleChange} name="reviewImage" multiple />
-            <button type="button" className={classes.button}>
-              <i className={classes.addImage} />
-            </button>
+                  <input type="file" id="file" onChange={ImagehandleChange} name="reviewImage" multiple />
+                  <button type="button" className="file_button">
+                    <i />
+                  </button>
 
-            <ReviewButton>
-              <button type="button" onClick={goback}>
-                취소
-              </button>
-              <button type="submit">리뷰올리기</button>
-            </ReviewButton>
-          </form>
-        </DialogTitle>
-      </Dialog>
+                  <ReviewButton>
+                    <button type="button" onClick={reviewCloseModal} className="reviewButton">
+                      취소
+                    </button>
+                    <button type="submit" className="reviewButton">
+                      리뷰올리기
+                    </button>
+                  </ReviewButton>
+                </form>
+              </div>
+            </div>
+          </RegisterReview>
+        )}
+      </RegisterReviewWrap>
 
       <ReviewSlid>
         <Slider {...settings}>
@@ -294,16 +243,13 @@ const Review = ({ breadShopId, shopDetailReview, onDetailReviewWriting, history 
             <div className="Modal-overlay" ref={el} onClick={closeModal} aria-hidden="true" />
             <div className="Modal">
               <div>
-                <button type="button" onClick={closeModal}>
-                  X
-                </button>
-                <p className="title">Modal Title</p>
+                <p className="title">리뷰클릭시 모달</p>
               </div>
               <div className="content">
-                <p>Lorem, ipsum dolor sit amet consectetur adipisicing elit. Vel tempora nulla, non molestiae dicta ducimus. Et unde laborum eveniet ex quod doloribus quae, aliquam beatae atque, vero assumenda rem quo?</p>
+                <p>이미지가 들어와야됨</p>
               </div>
               <div className="button-wrap">
-                <button> Confirm </button>
+                <button onClick={closeModal}> 취소 </button>
               </div>
             </div>
           </>
@@ -316,8 +262,8 @@ const Review = ({ breadShopId, shopDetailReview, onDetailReviewWriting, history 
 Review.propTypes = {
   breadShopId: PropTypes.number.isRequired,
   shopDetailReview: PropTypes.instanceOf(Array).isRequired,
-  onDetailReviewWriting: PropTypes.instanceOf(Array).isRequired,
-  history: PropTypes.instanceOf(Object).isRequired
+  onDetailReviewWriting: PropTypes.func.isRequired
+  // history: PropTypes.instanceOf(Object).isRequired
 };
 
 export default Review;

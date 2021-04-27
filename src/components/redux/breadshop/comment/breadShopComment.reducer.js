@@ -1,3 +1,4 @@
+// @ts-nocheck
 import breadShopDetailComment from './breadShopComment.types';
 
 const INITAL_STATE = {
@@ -21,6 +22,20 @@ const breadShopCommentReducer = (state = INITAL_STATE, action) => {
       return {
         ...state,
         content: newRegister
+      };
+    }
+
+    case breadShopDetailComment.SET_COMMNET_DELETE: {
+      const { commentDelete } = action.payload;
+      console.log(commentDelete);
+      const newDelete = [...state.content];
+      console.log(newDelete);
+      const updateDelete = newDelete.findIndex((comment) => comment.id === Number(commentDelete));
+      const commentA = updateDelete.splice(1);
+      console.log(commentA);
+      return {
+        ...state,
+        content: commentA
       };
     }
     default:

@@ -43,20 +43,121 @@ export const Register = styled.div`
   }
 `;
 
+// 리뷰 등록시 모달
+export const RegisterReviewWrap = styled.div`
+  & .aaa {
+    position: fixed;
+    top: 0;
+    left: 0;
+    bottom: 0;
+    right: 0;
+    z-index: 100;
+    background-color: rgba(0, 0, 0, 0.5);
+  }
+
+  & .bbb {
+    position: fixed;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    padding: 20px;
+    width: 50%;
+    height: 500px;
+    z-index: 101;
+    border-radius: 10px;
+    background-color: white;
+    overflow: scroll;
+    box-shadow: 0px 3px 6px rgba(0, 0, 0, 0.16);
+  }
+
+  & .bbb > * {
+    margin-left: 16px;
+    margin-right: 16px;
+  }
+
+  & .bbb > *:first-child {
+    margin-top: 16px;
+  }
+
+  & .bbb .title {
+    font-size: 16pt;
+    font-weight: bold;
+    color: #fb7819;
+    fontsize: 28px;
+  }
+  & .bbb .title_text {
+    color: #383838;
+    font-size: 18px;
+  }
+
+  & .bbb .ccc {
+    border-top: 1px solid #bebebe;
+    margin-top: 16px;
+  }
+`;
+export const RegisterReview = styled.div`
+  & textarea {
+    width: 90%;
+    height: 200px;
+    border: 1px solid #dbdbdb;
+    padding: 13px;
+    margin: 20px 0 0 20px;
+    resize: none;
+    outline: none;
+  }
+
+  & input {
+    opacity: 0;
+    position: absolute;
+    display: inline;
+    margin-top: 20px;
+    margin-left: 25px;
+    z-index: 100;
+    width: 89px;
+    height: 89px;
+    line-height: 89px;
+    text-align: center;
+    border: 1px dashed #DBDBDB;
+    background: white;
+    cursor: pointer;
+  }
+
+  & .file_button {
+    width: 89px;
+    height: 89px;
+    line-height: 89px;
+    padding: 0;
+    margin-top: 20px;
+    margin-left: 25px;
+    text-align: center;
+    border: 1px dashed #DBDBDB;
+    background: white;
+    cursor: pointer;
+  }
+    & i {
+      display: block;
+      margin: 0 auto;
+      width: 27px;
+      height: 27px;
+      cursor: pointer;
+      background-image: url(https://mp-seoul-image-production-s3.mangoplate.com/web/resources/plus_icon.svg);
+      background-size: cover;
+    }
+  }
+`;
+
 export const ImageMap = styled.div`
   &::after {
     clear: both;
     content: '';
     display: block;
   }
-  outline: 1px solid red;
 `;
 
 export const ImageWrap = styled.div`
   width: 20%;
   display: inline;
-  margin-right: 10px;
-  margin-top: 20px;
+  margin: 20px 10px 0 20px;
   float: left;
   position: relative;
 
@@ -90,14 +191,11 @@ export const CloseWrap = styled.div`
 `;
 
 export const ReviewButton = styled.div`
-  width: 100px;
-  // outline: 1px solid red;
   width: 100%;
   float: right;
-  margin-top: 160px;
   text-align: right;
 
-  & button {
+  & .reviewButton {
     width: 100px;
     padding: 10px 12px;
     display: inline-block;
@@ -133,7 +231,7 @@ export const ReviewSlid = styled.div`
   .slick-prev {
     width: 32px;
     height: 32px;
-    z-index: 100;
+    z-index: 90;
     position: absolute;
     top: 150px;
     left: 1px;
@@ -149,7 +247,7 @@ export const ReviewSlid = styled.div`
   .slick-next {
     width: 32px;
     height: 32px;
-    z-index: 100;
+    z-index: 90;
     position: absolute;
     top: 150px;
     right: 1px;
@@ -231,6 +329,7 @@ export const UserImage = styled.div`
   }
 `;
 
+// 이미지 클릭 모달
 export const ReviewModal = styled.div`
   & .Modal-overlay {
     position: fixed;

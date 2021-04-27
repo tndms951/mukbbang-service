@@ -7,7 +7,12 @@ export const CommentWrap = styled.div`
 export const CommentBox = styled.div`
   // outline: 1px solid red;
   text-align: center;
-  margin-bottom: 40px;
+  margin-bottom: 70px;
+
+  & form {
+    width: 78%;
+    margin: 0 auto;
+  }
 
   & textarea {
     width: 700px;
@@ -17,13 +22,23 @@ export const CommentBox = styled.div`
   }
 
   & .registerButton {
-    text-align: right;
+    width: 100px;
+    height: 30px;
+    font-size: 15px;
+    background-color: white;
+    text-align: center;
+    cursor: pointer;
+    border: 1px solid #9a9a9a;
+    display: block;
+    float: right;
+    margin-top: 10px;
+    margin-right: 45px;
   }
 `;
 
 export const AuthorComment = styled.div`
   padding: 0 192px;
-  outline: 1px solid red;
+  margin-bottom: 20px;
 
   &::after {
     clear: both;
@@ -65,6 +80,12 @@ export const AuthorComment = styled.div`
     }
 
     & span:nth-child(2) {
+      &:hover {
+        cursor: pointer;
+        text-decoration: underline;
+      }
+    }
+    & span:nth-child(3) {
       &:hover {
         cursor: pointer;
         text-decoration: underline;

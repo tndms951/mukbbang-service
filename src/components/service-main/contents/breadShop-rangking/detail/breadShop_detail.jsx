@@ -19,10 +19,10 @@ import { setCurrentBreadShopDetail, setShopDetailTrue, setShopDetailFalse } from
 import { selectShopReview } from '../../../../redux/breadshop/review/review.selectors';
 import { setBreadShopReview, setShopReviewWriting } from '../../../../redux/breadshop/review/review.actions';
 import { selectShopComment } from '../../../../redux/breadshop/comment/breadShopComment.selectors';
-import { setShopDetailComment, setRegisterComment } from '../../../../redux/breadshop/comment/breadShopComment.actions';
+import { setShopDetailComment, setRegisterComment, setCommentDelete } from '../../../../redux/breadshop/comment/breadShopComment.actions';
 
 // eslint-disable-next-line no-unused-vars
-const ShopDetail = ({ shopDetailBread, shopDetailImages, shopDetailAddress, shopDetailInfo, onShopDetailBread, match, onDetailTrue, onDetailFalse, onDetailReview, onDetailReviewWriting, shopDetailReview, onDetailComment, shopDetailComment, onRegisterComment }) => {
+const ShopDetail = ({ shopDetailBread, shopDetailImages, shopDetailAddress, shopDetailInfo, onShopDetailBread, match, onDetailTrue, onDetailFalse, onDetailReview, onDetailReviewWriting, shopDetailReview, onDetailComment, shopDetailComment, onRegisterComment, onCommentDelete }) => {
   useEffect(() => {
     async function fetchDetailData() {
       try {
@@ -41,10 +41,12 @@ const ShopDetail = ({ shopDetailBread, shopDetailImages, shopDetailAddress, shop
     async function fetchDetailReview() {
       try {
         const { breadShopId } = match.params;
-        const { status, data } = await axios.get(`/review/${breadShopId}`);
-        console.log(data);
+        const { status, data: reviewData } = await axios.get(`/review/${breadShopId}`);
+        console.log(reviewData.list);
+        console.log('aaaaaaa@@@@@@@');
+
         if (status === 200) {
-          onDetailReview(data.list);
+          onDetailReview(reviewData.list);
         }
       } catch (err) {
         errorhandler(err);
@@ -56,6 +58,7 @@ const ShopDetail = ({ shopDetailBread, shopDetailImages, shopDetailAddress, shop
         const { breadShopId } = match.params;
         const { status, data } = await axios.get(`/comment/bread/shop/${breadShopId}`);
         console.log(data);
+        console.log('@@@@@@@');
         if (status === 200) {
           onDetailComment(data.list);
         }
@@ -66,7 +69,8 @@ const ShopDetail = ({ shopDetailBread, shopDetailImages, shopDetailAddress, shop
     fetchDetailData();
     fetchDetailReview();
     fetchDetailComment();
-  }, [match.params, onDetailComment, onDetailReview, onShopDetailBread]);
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, []);
 
   const onDetailHeart = async () => {
     try {
@@ -125,7 +129,7 @@ const ShopDetail = ({ shopDetailBread, shopDetailImages, shopDetailAddress, shop
 
       <Review breadShopId={shopDetailInfo?.id} ShopDetailList={shopDetailInfo} shopDetailReview={shopDetailReview} onDetailReviewWriting={onDetailReviewWriting} />
 
-      <Comment breadShopId={shopDetailInfo?.id} shopDetailComment={shopDetailComment} onRegisterComment={onRegisterComment} />
+      <Comment breadShopId={shopDetailInfo?.id} shopDetailComment={shopDetailComment} onRegisterComment={onRegisterComment} onCommentDelete={onCommentDelete} />
 
       <OtherBread>
         <h1>빵 랭킹</h1>
@@ -160,7 +164,8 @@ ShopDetail.propTypes = {
   shopDetailReview: PropTypes.instanceOf(Array).isRequired,
   onDetailComment: PropTypes.instanceOf(Object).isRequired,
   shopDetailComment: PropTypes.instanceOf(Array).isRequired,
-  onRegisterComment: PropTypes.instanceOf(Array).isRequired
+  onRegisterComment: PropTypes.func.isRequired,
+  onCommentDelete: PropTypes.func.isRequired
 };
 
 // 초기값이 없거나 null인 경우 예외처리
@@ -187,7 +192,8 @@ const breadShopDetaileDispathch = (dispatch) => ({
   onDetailReview: (review) => dispatch(setBreadShopReview(review)),
   onDetailReviewWriting: (Writing) => dispatch(setShopReviewWriting(Writing)),
   onDetailComment: (comment) => dispatch(setShopDetailComment(comment)),
-  onRegisterComment: (register) => dispatch(setRegisterComment(register))
+  onRegisterComment: (register) => dispatch(setRegisterComment(register)),
+  onCommentDelete: (commentDelete) => dispatch(setCommentDelete(commentDelete))
 });
 
 export default connect(breadShopStateToProps, breadShopDetaileDispathch)(ShopDetail);
