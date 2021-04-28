@@ -17,12 +17,33 @@ import Comment from '../../../../common-component/comment/comment';
 import { selectShopBread, selectShopImages, selectShopMenuImages, selectShopHolidays, selectShopAddress, selectShopInfo } from '../../../../redux/breadshop/detail/breadShopDetail.selectors';
 import { setCurrentBreadShopDetail, setShopDetailTrue, setShopDetailFalse } from '../../../../redux/breadshop/detail/breadShopDetail.actions';
 import { selectShopReview } from '../../../../redux/breadshop/review/review.selectors';
-import { setBreadShopReview, setShopReviewWriting } from '../../../../redux/breadshop/review/review.actions';
+import { setBreadShopReview, setShopReviewWriting, setShopReviewDelete, setShopReviewModify } from '../../../../redux/breadshop/review/review.actions';
 import { selectShopComment } from '../../../../redux/breadshop/comment/breadShopComment.selectors';
 import { setShopDetailComment, setRegisterComment, setCommentDelete } from '../../../../redux/breadshop/comment/breadShopComment.actions';
 
 // eslint-disable-next-line no-unused-vars
-const ShopDetail = ({ shopDetailBread, shopDetailImages, shopDetailAddress, shopDetailInfo, onShopDetailBread, match, onDetailTrue, onDetailFalse, onDetailReview, onDetailReviewWriting, shopDetailReview, onDetailComment, shopDetailComment, onRegisterComment, onCommentDelete }) => {
+const ShopDetail = ({
+  shopDetailBread,
+  shopDetailImages,
+  shopDetailAddress,
+  shopDetailInfo,
+  onShopDetailBread,
+  match,
+  onDetailTrue,
+  onDetailFalse,
+  onDetailReview,
+  onDetailReviewWriting,
+  shopDetailReview,
+  onDetaileReviewModify,
+  onDetailReviewDelete,
+
+  onDetailComment,
+  shopDetailComment,
+  onRegisterComment,
+  onCommentDelete
+}) => {
+  console.log(shopDetailInfo);
+  console.log(onCommentDelete);
   useEffect(() => {
     async function fetchDetailData() {
       try {
@@ -42,9 +63,7 @@ const ShopDetail = ({ shopDetailBread, shopDetailImages, shopDetailAddress, shop
       try {
         const { breadShopId } = match.params;
         const { status, data: reviewData } = await axios.get(`/review/${breadShopId}`);
-        console.log(reviewData.list);
         console.log('aaaaaaa@@@@@@@');
-
         if (status === 200) {
           onDetailReview(reviewData.list);
         }
@@ -58,7 +77,6 @@ const ShopDetail = ({ shopDetailBread, shopDetailImages, shopDetailAddress, shop
         const { breadShopId } = match.params;
         const { status, data } = await axios.get(`/comment/bread/shop/${breadShopId}`);
         console.log(data);
-        console.log('@@@@@@@');
         if (status === 200) {
           onDetailComment(data.list);
         }
@@ -127,7 +145,7 @@ const ShopDetail = ({ shopDetailBread, shopDetailImages, shopDetailAddress, shop
         </Information>
       </ShopImage>
 
-      <Review breadShopId={shopDetailInfo?.id} ShopDetailList={shopDetailInfo} shopDetailReview={shopDetailReview} onDetailReviewWriting={onDetailReviewWriting} />
+      <Review breadShopId={shopDetailInfo?.id} ShopDetailList={shopDetailInfo} shopDetailReview={shopDetailReview} onDetailReviewWriting={onDetailReviewWriting} onDetaileReviewModify={onDetaileReviewModify} onDetailReviewDelete={onDetailReviewDelete} />
 
       <Comment breadShopId={shopDetailInfo?.id} shopDetailComment={shopDetailComment} onRegisterComment={onRegisterComment} onCommentDelete={onCommentDelete} />
 
@@ -162,6 +180,9 @@ ShopDetail.propTypes = {
   onDetailReview: PropTypes.instanceOf(Object).isRequired,
   onDetailReviewWriting: PropTypes.instanceOf(Object).isRequired,
   shopDetailReview: PropTypes.instanceOf(Array).isRequired,
+  onDetaileReviewModify: PropTypes.instanceOf(Array).isRequired,
+  onDetailReviewDelete: PropTypes.instanceOf(Array).isRequired,
+
   onDetailComment: PropTypes.instanceOf(Object).isRequired,
   shopDetailComment: PropTypes.instanceOf(Array).isRequired,
   onRegisterComment: PropTypes.func.isRequired,
@@ -190,7 +211,10 @@ const breadShopDetaileDispathch = (dispatch) => ({
   onDetailTrue: () => dispatch(setShopDetailTrue()),
   onDetailFalse: () => dispatch(setShopDetailFalse()),
   onDetailReview: (review) => dispatch(setBreadShopReview(review)),
-  onDetailReviewWriting: (Writing) => dispatch(setShopReviewWriting(Writing)),
+  onDetailReviewWriting: (writing) => dispatch(setShopReviewWriting(writing)),
+  onDetaileReviewModify: (modify) => dispatch(setShopReviewModify(modify)),
+  onDetailReviewDelete: (remove) => dispatch(setShopReviewDelete(remove)),
+
   onDetailComment: (comment) => dispatch(setShopDetailComment(comment)),
   onRegisterComment: (register) => dispatch(setRegisterComment(register)),
   onCommentDelete: (commentDelete) => dispatch(setCommentDelete(commentDelete))

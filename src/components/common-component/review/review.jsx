@@ -11,8 +11,9 @@ import { ReviewWrapBox, ReviewWrap, ReviewText, Register, RegisterReviewWrap, Re
 import axios from '../../../utils/axios';
 import { errorhandler } from '../../../utils/common';
 
-const Review = ({ breadShopId, shopDetailReview, onDetailReviewWriting }) => {
+const Review = ({ breadShopId, shopDetailReview, onDetailReviewWriting, onDetaileReviewModify, onDetailReviewDelete }) => {
   console.log(onDetailReviewWriting);
+  console.log(shopDetailReview);
   // 리뷰등록
   const [writingReview, setWritingReview] = useState({
     text: ''
@@ -74,10 +75,6 @@ const Review = ({ breadShopId, shopDetailReview, onDetailReviewWriting }) => {
     }
   };
 
-  // const goback = () => {
-  //   history.goBack();
-  // };
-
   const resetButton = (index) => {
     const deleteImageList = [...writingImage];
     deleteImageList.splice(index, 1);
@@ -125,6 +122,29 @@ const Review = ({ breadShopId, shopDetailReview, onDetailReviewWriting }) => {
           newimageList.push(newImage);
         });
         setWritingImage([...writingImage, ...newimageList]);
+      }
+    } catch (err) {
+      errorhandler(err);
+    }
+  };
+
+  // 리뷰 수정
+  const commentModify = async (reviewId) => {
+    try {
+      const { data } = await axios.put(`/review/${breadShopId}/${reviewId}`);
+      console.log(data);
+      onDetaileReviewModify();
+    } catch (err) {
+      errorhandler(err);
+    }
+  };
+
+  // 리뷰삭제
+  const reviewDelete = async (reviewId) => {
+    try {
+      const { status } = await axios.delete(`/review/${reviewId}`);
+      if (status === 200) {
+        onDetailReviewDelete(reviewId);
       }
     } catch (err) {
       errorhandler(err);
@@ -212,11 +232,21 @@ const Review = ({ breadShopId, shopDetailReview, onDetailReviewWriting }) => {
             <ReviewBox>
               <BoxButton>
                 <BoxLeft>
-                  <>
-                    <img src="" alt="" />
-                    <p>{review.user.name}</p>
-                    <p>{review.createdAt}</p>
-                  </>
+                  <div className="button_wrap">
+                    <div className="user_wrap">
+                      <img src={review.user.imageUrl} alt="" />
+                      <p>{review.user.name}</p>
+                      <p>{review.createdAt}</p>
+                    </div>
+                    <div className="_button">
+                      <button type="button" onClick={() => commentModify(review.id)} className="review_button">
+                        수정
+                      </button>
+                      <button type="button" onClick={() => reviewDelete(review.id)} className="review_button">
+                        삭제
+                      </button>
+                    </div>
+                  </div>
                 </BoxLeft>
               </BoxButton>
 
@@ -246,7 +276,7 @@ const Review = ({ breadShopId, shopDetailReview, onDetailReviewWriting }) => {
                 <p className="title">리뷰클릭시 모달</p>
               </div>
               <div className="content">
-                <p>이미지가 들어와야됨</p>
+                <img src={writingImage} alt="" />
               </div>
               <div className="button-wrap">
                 <button onClick={closeModal}> 취소 </button>
@@ -262,8 +292,9 @@ const Review = ({ breadShopId, shopDetailReview, onDetailReviewWriting }) => {
 Review.propTypes = {
   breadShopId: PropTypes.number.isRequired,
   shopDetailReview: PropTypes.instanceOf(Array).isRequired,
-  onDetailReviewWriting: PropTypes.func.isRequired
-  // history: PropTypes.instanceOf(Object).isRequired
+  onDetailReviewWriting: PropTypes.func.isRequired,
+  onDetaileReviewModify: PropTypes.func.isRequired,
+  onDetailReviewDelete: PropTypes.instanceOf(Array).isRequired
 };
 
 export default Review;

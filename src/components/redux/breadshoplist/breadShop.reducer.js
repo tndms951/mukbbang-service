@@ -21,6 +21,7 @@ const breadShopReducer = (state = INITAL_STATE, action) => {
       const { trueBreadShop } = action.payload;
       const newLike = [...state.breadShopList];
       const updateTrue = newLike.findIndex((like) => like.id === Number(trueBreadShop));
+      console.log(updateTrue);
       if (updateTrue > -1) {
         newLike[updateTrue].like = true;
       }

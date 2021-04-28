@@ -19,6 +19,7 @@ const breadShopCommentReducer = (state = INITAL_STATE, action) => {
       const { registerComment } = action.payload;
       const newRegister = [...state.content];
       newRegister.unshift(registerComment);
+      console.log(newRegister);
       return {
         ...state,
         content: newRegister
@@ -29,13 +30,11 @@ const breadShopCommentReducer = (state = INITAL_STATE, action) => {
       const { commentDelete } = action.payload;
       console.log(commentDelete);
       const newDelete = [...state.content];
-      console.log(newDelete);
       const updateDelete = newDelete.findIndex((comment) => comment.id === Number(commentDelete));
-      const commentA = updateDelete.splice(1);
-      console.log(commentA);
+      newDelete.splice(updateDelete, 1);
       return {
         ...state,
-        content: commentA
+        content: newDelete
       };
     }
     default:

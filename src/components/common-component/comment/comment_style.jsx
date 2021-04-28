@@ -22,16 +22,16 @@ export const CommentBox = styled.div`
   }
 
   & .registerButton {
-    width: 100px;
-    height: 30px;
-    font-size: 15px;
-    background-color: white;
-    text-align: center;
-    cursor: pointer;
     border: 1px solid #9a9a9a;
-    display: block;
     float: right;
+    width: 100px;
+    background: white;
+    padding: 8px;
+    cursor: pointer;
+    font-size: 15px;
+    font-weight: 400;
     margin-top: 10px;
+    float: right;
     margin-right: 45px;
   }
 `;

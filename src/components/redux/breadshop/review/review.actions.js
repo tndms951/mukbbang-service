@@ -13,3 +13,17 @@ export const setShopReviewWriting = (writingReview) => ({
     writingReview
   }
 });
+
+export const setShopReviewDelete = (reviewDelete) => ({
+  type: breadShopReview.SET_SHOP_REVIEW_DELETE,
+  payload: {
+    reviewDelete
+  }
+});
+
+export const setShopReviewModify = (reviewModify) => ({
+  type: breadShopReview.SET_SHOP_REVIEW_MODIFY,
+  payload: {
+    reviewModify
+  }
+});

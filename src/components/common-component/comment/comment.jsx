@@ -7,9 +7,6 @@ import axios from '../../../utils/axios';
 import { errorhandler } from '../../../utils/common';
 
 const Comment = ({ breadShopId, onRegisterComment, shopDetailComment, onCommentDelete }) => {
-  console.log(breadShopId);
-  console.log(onRegisterComment);
-
   // 댓글등록
   const [comment, setComment] = useState('');
   console.log(comment);
@@ -27,19 +24,10 @@ const Comment = ({ breadShopId, onRegisterComment, shopDetailComment, onCommentD
         content: comment
       };
       const { status, data } = await axios.post(`/comment/bread/shop/${breadShopId}`, commentObject);
-      if (status === 201) {
-        setComment('');
-        onRegisterComment(data.data);
-      }
-    } catch (err) {
-      errorhandler(err);
-    }
-
-    try {
-      const { status, data } = await axios.get(`/comment/bread/shop/${breadShopId}`);
       console.log(data);
-      if (status === 200) {
-        setComment(data.list);
+      if (status === 201) {
+        onRegisterComment(data.data);
+        setComment('');
       }
     } catch (err) {
       errorhandler(err);
@@ -50,16 +38,15 @@ const Comment = ({ breadShopId, onRegisterComment, shopDetailComment, onCommentD
   const commentDelete = async (commentId) => {
     console.log(commentId);
     try {
-      const { status, data } = await axios.delete(`/comment/bread/shop/${commentId}`);
-      console.log(data);
-
+      const { status } = await axios.delete(`/comment/bread/shop/${commentId}`);
       if (status === 200) {
-        onCommentDelete(data);
+        onCommentDelete(commentId);
       }
     } catch (err) {
       errorhandler(err);
     }
   };
+
   return (
     <CommentWrap>
       <CommentBox>
@@ -78,6 +65,7 @@ const Comment = ({ breadShopId, onRegisterComment, shopDetailComment, onCommentD
           <span>{comment.content}</span>
           <div className="date_wrap">
             <span>{comment.createdAt}</span>
+            <span>수정</span>
             <span onClick={() => commentDelete(comment.id)} aria-hidden="true">
               삭제
             </span>

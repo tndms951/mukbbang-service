@@ -91,7 +91,6 @@ export const RegisterReviewWrap = styled.div`
   }
 
   & .bbb .ccc {
-    border-top: 1px solid #bebebe;
     margin-top: 16px;
   }
 `;
@@ -272,6 +271,10 @@ export const ReviewBox = styled.div`
   &.slick-arrow .slick-prev {
     outline: 1px solid red;
   }
+
+  & .review_button {
+    display: inline-block;
+  }
 `;
 
 export const BoxButton = styled.div`
@@ -286,12 +289,38 @@ export const BoxLeft = styled.div`
   & img {
     background: #c4c4c4;
     border-radius: 50%;
-
     width: 48px;
     height: 48px;
     display: block;
     float: left;
     margin-right: 14px;
+  }
+
+  & .button_wrap {
+    width: 80%;
+  }
+
+  & .user_wrap {
+    float: left;
+    width: 70%;
+  }
+
+  & ._button {
+    display: inline-block;
+    // float: right;
+  }
+
+  & .review_button {
+    border: 1px solid #9a9a9a;
+
+    width: 100px;
+    background: white;
+    padding: 8px;
+    cursor: pointer;
+    font-size: 15px;
+    font-weight: 400;
+    margin-top: 10px;
+    margin-right: 7px;
   }
 
   & p:nth-child(2) {
@@ -314,17 +343,18 @@ export const Content = styled.div`
 export const UserImage = styled.div`
   display: inline-block;
   margin-top: 24px;
+  margin-bottom: 40px;
 
   & button {
     cursor: pointer;
     border: none;
     outline: none;
+    margin-right: 15px;
   }
 
   & img {
     width: 96px;
     height: 96px;
-    margin-right: 24px;
     background: #c4c4c4;
   }
 `;
@@ -333,6 +363,7 @@ export const UserImage = styled.div`
 export const ReviewModal = styled.div`
   & .Modal-overlay {
     position: fixed;
+    z-index: 100;
     top: 0;
     left: 0;
     bottom: 0;
@@ -343,8 +374,12 @@ export const ReviewModal = styled.div`
     position: fixed;
     top: 50%;
     left: 50%;
+    padding: 20px;
+    z-index: 101;
     transform: translate(-50%, -50%);
-    width: 320px;
+    width: 50%;
+    height: 430px;
+    overflow: scroll;
     border-radius: 10px;
     background-color: white;
     box-shadow: 0px 3px 6px rgba(0, 0, 0, 0.16);
@@ -362,17 +397,18 @@ export const ReviewModal = styled.div`
     color: #333;
   }
   & .Modal .content {
-    border-top: 1px solid #bebebe;
     margin-top: 16px;
   }
-  & .Modal .content p {
+  & .Modal .content img {
     padding: 8px;
     font-size: 12pt;
+    display: block;
     color: #999;
   }
   & .Modal .button-wrap {
     margin: 0;
     margin-top: 8px;
+    vertical-align: bottom;
   }
   & .Modal .button-wrap button {
     width: 100%;
