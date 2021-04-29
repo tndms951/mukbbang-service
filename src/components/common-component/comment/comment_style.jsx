@@ -2,20 +2,26 @@ import styled from 'styled-components';
 
 export const CommentWrap = styled.div`
   margin-top: 40px;
+  width: 1024px;
+  padding: 0 192px;
+  margin: 0 auto;
+  box-sizing: border-box;
 `;
 
 export const CommentBox = styled.div`
-  // outline: 1px solid red;
-  text-align: center;
   margin-bottom: 70px;
 
+  h2 {
+    margin-top: 50px;
+  }
+
   & form {
-    width: 78%;
-    margin: 0 auto;
+    width: 100%;
+    margin-top: 15px;
   }
 
   & textarea {
-    width: 700px;
+    width: 100%;
     height: 100px;
     outline: none;
     resize: none;
@@ -32,69 +38,6 @@ export const CommentBox = styled.div`
     font-weight: 400;
     margin-top: 10px;
     float: right;
-    margin-right: 45px;
-  }
-`;
-
-export const AuthorComment = styled.div`
-  padding: 0 192px;
-  margin-bottom: 20px;
-
-  &::after {
-    clear: both;
-    content: '';
-    display: block;
-  }
-
-  & img {
-    background: red;
-    display: inline-block;
-    width: 48px;
-    height: 48px;
-    line-height: 24px;
-    border-radius: 50%;
-    margin-right: 8px;
-    float: left;
-  }
-
-  & p {
-    display: inline-block;
-    font-weight: 700;
-    margin-top: 10px;
-  }
-
-  & span {
-    display: block;
-    margin-top: 10px;
-  }
-
-  & .date_wrap {
-    display: inline-block;
-    margin-left: 55px;
-
-    & span {
-      float: left;
-      margin-right: 15px;
-      font-size: 14px;
-      color: #5c5c5c;
-    }
-
-    & span:nth-child(2) {
-      &:hover {
-        cursor: pointer;
-        text-decoration: underline;
-      }
-    }
-    & span:nth-child(3) {
-      &:hover {
-        cursor: pointer;
-        text-decoration: underline;
-      }
-    }
-  }
-
-  & .made_comment {
-    display: inline-block;
   }
 `;
 

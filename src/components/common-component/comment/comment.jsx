@@ -1,17 +1,19 @@
 /* eslint-disable no-shadow */
 import React, { useState } from 'react';
-
 import PropTypes from 'prop-types';
-import { CommentWrap, CommentBox, AuthorComment, ReComment } from './comment_style';
+
+import { CommentWrap, CommentBox, ReComment } from './comment_style';
+import RegisterComment from './value-commend/valueCommend';
 import axios from '../../../utils/axios';
 import { errorhandler } from '../../../utils/common';
 
-const Comment = ({ breadShopId, onRegisterComment, shopDetailComment, onCommentDelete }) => {
+const Comment = ({ breadShopId, onRegisterComment, shopDetailComment }) => {
+  console.log(shopDetailComment);
   // 댓글등록
   const [comment, setComment] = useState('');
   console.log(comment);
 
-  // 댓글 핸들체인지
+  // 댓글 핸들체인지1
   const handleComment = (e) => {
     setComment(e.target.value);
   };
@@ -34,22 +36,10 @@ const Comment = ({ breadShopId, onRegisterComment, shopDetailComment, onCommentD
     }
   };
 
-  // 댓글 삭제
-  const commentDelete = async (commentId) => {
-    console.log(commentId);
-    try {
-      const { status } = await axios.delete(`/comment/bread/shop/${commentId}`);
-      if (status === 200) {
-        onCommentDelete(commentId);
-      }
-    } catch (err) {
-      errorhandler(err);
-    }
-  };
-
   return (
     <CommentWrap>
       <CommentBox>
+        <h2>현재 10개의 댓글</h2>
         <form onSubmit={registerSubmit}>
           <textarea placeholder="댓글을 입력해 주세요." onChange={handleComment} value={comment} name="comment" />
           <button type="submit" className="registerButton">
@@ -59,30 +49,18 @@ const Comment = ({ breadShopId, onRegisterComment, shopDetailComment, onCommentD
       </CommentBox>
 
       {shopDetailComment.map((comment) => (
-        <AuthorComment>
-          <img src="" alt="" />
-          <p>{comment.user.name}</p>
-          <span>{comment.content}</span>
-          <div className="date_wrap">
-            <span>{comment.createdAt}</span>
-            <span>수정</span>
-            <span onClick={() => commentDelete(comment.id)} aria-hidden="true">
-              삭제
-            </span>
-            <span className="made_comment">댓글달기</span>
-          </div>
-        </AuthorComment>
+        <RegisterComment comment={comment} />
       ))}
 
       <ReComment>
         {/* <form>
           <input type="text" name="reviewRegister" placeholder="댓글을 입력해 주세요." />
-          <button type="submit">등록하기</button> */}
-        {/* <img src="" alt="" />
-      <p>UserName2</p>
-      <span className="date">2020.03.16</span>
-      <span>오 무슨 맛인가요~?~~~</span> */}
-        {/* </form> */}
+          <button type="submit">등록하기</button>
+          <img src="" alt="" />
+          <p>UserName2</p>
+          <span className="date">2020.03.16</span>
+          <span>오 무슨 맛인가요~?~~~</span>
+        </form> */}
       </ReComment>
     </CommentWrap>
   );
@@ -91,8 +69,7 @@ const Comment = ({ breadShopId, onRegisterComment, shopDetailComment, onCommentD
 Comment.propTypes = {
   breadShopId: PropTypes.number.isRequired,
   onRegisterComment: PropTypes.instanceOf(Object).isRequired,
-  shopDetailComment: PropTypes.instanceOf(Array).isRequired,
-  onCommentDelete: PropTypes.func.isRequired
+  shopDetailComment: PropTypes.instanceOf(Array).isRequired
 };
 
 export default Comment;

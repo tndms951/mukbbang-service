@@ -14,6 +14,16 @@ export const setRegisterComment = (registerComment) => ({
   }
 });
 
+export const setCommentModify = (commentModify) => {
+  console.log(commentModify);
+  return {
+    type: breadShopDetailComment.SET_COMMENT_MODIFY,
+    payload: {
+      commentModify
+    }
+  };
+};
+
 export const setCommentDelete = (commentDelete) => {
   console.log(commentDelete);
   return {

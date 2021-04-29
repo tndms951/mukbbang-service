@@ -19,7 +19,7 @@ import { setCurrentBreadShopDetail, setShopDetailTrue, setShopDetailFalse } from
 import { selectShopReview } from '../../../../redux/breadshop/review/review.selectors';
 import { setBreadShopReview, setShopReviewWriting, setShopReviewDelete, setShopReviewModify } from '../../../../redux/breadshop/review/review.actions';
 import { selectShopComment } from '../../../../redux/breadshop/comment/breadShopComment.selectors';
-import { setShopDetailComment, setRegisterComment, setCommentDelete } from '../../../../redux/breadshop/comment/breadShopComment.actions';
+import { setShopDetailComment, setRegisterComment, setCommentModify, setCommentDelete } from '../../../../redux/breadshop/comment/breadShopComment.actions';
 
 // eslint-disable-next-line no-unused-vars
 const ShopDetail = ({
@@ -40,6 +40,7 @@ const ShopDetail = ({
   onDetailComment,
   shopDetailComment,
   onRegisterComment,
+  onCommentModify,
   onCommentDelete
 }) => {
   console.log(shopDetailInfo);
@@ -147,7 +148,7 @@ const ShopDetail = ({
 
       <Review breadShopId={shopDetailInfo?.id} ShopDetailList={shopDetailInfo} shopDetailReview={shopDetailReview} onDetailReviewWriting={onDetailReviewWriting} onDetaileReviewModify={onDetaileReviewModify} onDetailReviewDelete={onDetailReviewDelete} />
 
-      <Comment breadShopId={shopDetailInfo?.id} shopDetailComment={shopDetailComment} onRegisterComment={onRegisterComment} onCommentDelete={onCommentDelete} />
+      <Comment breadShopId={shopDetailInfo?.id} shopDetailComment={shopDetailComment} onRegisterComment={onRegisterComment} onCommentDelete={onCommentDelete} onCommentModify={onCommentModify} />
 
       <OtherBread>
         <h1>빵 랭킹</h1>
@@ -177,6 +178,7 @@ ShopDetail.propTypes = {
   shopDetailInfo: PropTypes.instanceOf(Object),
   onDetailTrue: PropTypes.func.isRequired,
   onDetailFalse: PropTypes.func.isRequired,
+
   onDetailReview: PropTypes.instanceOf(Object).isRequired,
   onDetailReviewWriting: PropTypes.instanceOf(Object).isRequired,
   shopDetailReview: PropTypes.instanceOf(Array).isRequired,
@@ -186,6 +188,7 @@ ShopDetail.propTypes = {
   onDetailComment: PropTypes.instanceOf(Object).isRequired,
   shopDetailComment: PropTypes.instanceOf(Array).isRequired,
   onRegisterComment: PropTypes.func.isRequired,
+  onCommentModify: PropTypes.func.isRequired,
   onCommentDelete: PropTypes.func.isRequired
 };
 
@@ -217,6 +220,7 @@ const breadShopDetaileDispathch = (dispatch) => ({
 
   onDetailComment: (comment) => dispatch(setShopDetailComment(comment)),
   onRegisterComment: (register) => dispatch(setRegisterComment(register)),
+  onCommentModify: (modify) => dispatch(setCommentModify(modify)),
   onCommentDelete: (commentDelete) => dispatch(setCommentDelete(commentDelete))
 });
 

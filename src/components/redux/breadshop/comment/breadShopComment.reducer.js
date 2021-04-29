@@ -26,6 +26,21 @@ const breadShopCommentReducer = (state = INITAL_STATE, action) => {
       };
     }
 
+    // 댓글수정
+    case breadShopDetailComment.SET_COMMENT_MODIFY: {
+      const { commentModify } = action.payload;
+      console.log(commentModify);
+      const newModify = [...state.content];
+      console.log(newModify);
+      const updateModify = newModify.findIndex((modify) => modify.id === Number(commentModify));
+      newModify.splice(updateModify, newModify);
+      console.log(updateModify);
+      return {
+        ...state,
+        content: newModify
+      };
+    }
+
     case breadShopDetailComment.SET_COMMNET_DELETE: {
       const { commentDelete } = action.payload;
       console.log(commentDelete);
