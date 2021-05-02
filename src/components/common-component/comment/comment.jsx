@@ -3,11 +3,11 @@ import React, { useState } from 'react';
 import PropTypes from 'prop-types';
 
 import { CommentWrap, CommentBox, ReComment } from './comment_style';
-import RegisterComment from './value-commend/valueCommend';
+import RegisterComment from './first-commend/firstCommend';
 import axios from '../../../utils/axios';
 import { errorhandler } from '../../../utils/common';
 
-const Comment = ({ breadShopId, onRegisterComment, shopDetailComment }) => {
+const Comment = ({ breadShopId, onRegisterComment, onCommentModify, onCommentDelete, shopDetailComment }) => {
   console.log(shopDetailComment);
   // 댓글등록
   const [comment, setComment] = useState('');
@@ -49,7 +49,7 @@ const Comment = ({ breadShopId, onRegisterComment, shopDetailComment }) => {
       </CommentBox>
 
       {shopDetailComment.map((comment) => (
-        <RegisterComment comment={comment} />
+        <RegisterComment comment={comment} onCommentModify={onCommentModify} onCommentDelete={onCommentDelete} />
       ))}
 
       <ReComment>
@@ -69,7 +69,9 @@ const Comment = ({ breadShopId, onRegisterComment, shopDetailComment }) => {
 Comment.propTypes = {
   breadShopId: PropTypes.number.isRequired,
   onRegisterComment: PropTypes.instanceOf(Object).isRequired,
-  shopDetailComment: PropTypes.instanceOf(Array).isRequired
+  shopDetailComment: PropTypes.instanceOf(Array).isRequired,
+  onCommentModify: PropTypes.func.isRequired,
+  onCommentDelete: PropTypes.func.isRequired
 };
 
 export default Comment;

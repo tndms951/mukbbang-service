@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
 import PropTypes from 'prop-types';
 
-import { AuthorComment } from './valueCommend_style';
+import { AuthorComment } from './firstCommend_style';
 import axios from '../../../../utils/axios';
 import { errorhandler } from '../../../../utils/common';
 
@@ -9,12 +9,10 @@ const RegisterComment = ({ onCommentModify, onCommentDelete, comment }) => {
   console.log(onCommentModify);
   console.log(onCommentDelete);
 
-  // 댓글수정
-  const [commentEdit, setCommentEdit] = useState('');
-
-  // 댓글수정 두번재form
+  // 댓글수정 form
   const [editValue, setEditValue] = useState('');
-
+  console.log(editValue);
+  // 인풋창 open close
   const [inputOpen, setInputOpen] = useState(false);
 
   // 댓글 핸들체인지2
@@ -28,7 +26,7 @@ const RegisterComment = ({ onCommentModify, onCommentDelete, comment }) => {
     try {
       const { status } = await axios.delete(`/comment/bread/shop/${commentId}`);
       if (status === 200) {
-        onCommentDelete();
+        onCommentDelete(commentId);
       }
     } catch (err) {
       errorhandler(err);
@@ -36,7 +34,7 @@ const RegisterComment = ({ onCommentModify, onCommentDelete, comment }) => {
     }
   };
 
-  // 댓글 수정
+  // 댓글 수정(저장)
   const commentModify = async (commentId) => {
     setInputOpen(!inputOpen);
     setEditValue(comment.content);
@@ -47,15 +45,21 @@ const RegisterComment = ({ onCommentModify, onCommentDelete, comment }) => {
       };
       if (inputOpen) {
         const { status } = await axios.put(`/comment/bread/shop/${commentId}`, modifyObject);
+
         if (status === 201) {
-          onCommentModify();
-          setCommentEdit(commentEdit);
+          onCommentModify(editValue, commentId);
+          setEditValue(editValue);
         }
       }
     } catch (err) {
       errorhandler(err);
       console.log(err);
     }
+  };
+
+  const commentCancel = () => {
+    setInputOpen(!inputOpen);
+    setEditValue(comment.content);
   };
 
   return (
@@ -71,9 +75,16 @@ const RegisterComment = ({ onCommentModify, onCommentDelete, comment }) => {
         <span onClick={() => commentModify(comment.id)} aria-hidden="true">
           {inputOpen ? '저장' : '수정'}
         </span>
-        <span onClick={() => commentDelete(comment.id)} aria-hidden="true">
-          삭제
-        </span>
+        {inputOpen ? (
+          <span onClick={commentCancel} aria-hidden="true">
+            취소
+          </span>
+        ) : (
+          <span onClick={() => commentDelete(comment.id)} aria-hidden="true">
+            삭제
+          </span>
+        )}
+
         <span className="made_comment">댓글달기</span>
       </div>
     </AuthorComment>

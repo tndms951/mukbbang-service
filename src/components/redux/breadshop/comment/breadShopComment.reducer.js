@@ -28,13 +28,14 @@ const breadShopCommentReducer = (state = INITAL_STATE, action) => {
 
     // 댓글수정
     case breadShopDetailComment.SET_COMMENT_MODIFY: {
-      const { commentModify } = action.payload;
-      console.log(commentModify);
+      const { commentModify, commentId } = action.payload;
       const newModify = [...state.content];
-      console.log(newModify);
-      const updateModify = newModify.findIndex((modify) => modify.id === Number(commentModify));
-      newModify.splice(updateModify, newModify);
-      console.log(updateModify);
+      const updateModify = newModify.findIndex((modify) => modify.id === Number(commentId));
+      const updateComment = {
+        ...newModify[updateModify],
+        content: commentModify
+      };
+      newModify.splice(updateModify, 1, updateComment);
       return {
         ...state,
         content: newModify

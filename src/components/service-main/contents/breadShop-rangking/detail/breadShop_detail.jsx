@@ -43,13 +43,10 @@ const ShopDetail = ({
   onCommentModify,
   onCommentDelete
 }) => {
-  console.log(shopDetailInfo);
-  console.log(onCommentDelete);
   useEffect(() => {
     async function fetchDetailData() {
       try {
         const { breadShopId } = match.params;
-        console.log(breadShopId);
 
         const { status, data: detaileData } = await axios.get(`/bread/shop/${breadShopId}`);
         if (status === 200) {
@@ -64,7 +61,7 @@ const ShopDetail = ({
       try {
         const { breadShopId } = match.params;
         const { status, data: reviewData } = await axios.get(`/review/${breadShopId}`);
-        console.log('aaaaaaa@@@@@@@');
+
         if (status === 200) {
           onDetailReview(reviewData.list);
         }
@@ -220,7 +217,7 @@ const breadShopDetaileDispathch = (dispatch) => ({
 
   onDetailComment: (comment) => dispatch(setShopDetailComment(comment)),
   onRegisterComment: (register) => dispatch(setRegisterComment(register)),
-  onCommentModify: (modify) => dispatch(setCommentModify(modify)),
+  onCommentModify: (modify, commentId) => dispatch(setCommentModify(modify, commentId)),
   onCommentDelete: (commentDelete) => dispatch(setCommentDelete(commentDelete))
 });
 

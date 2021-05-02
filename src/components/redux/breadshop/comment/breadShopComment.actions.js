@@ -14,12 +14,14 @@ export const setRegisterComment = (registerComment) => ({
   }
 });
 
-export const setCommentModify = (commentModify) => {
+export const setCommentModify = (commentModify, commentId) => {
   console.log(commentModify);
+  console.log(commentId);
   return {
     type: breadShopDetailComment.SET_COMMENT_MODIFY,
     payload: {
-      commentModify
+      commentModify,
+      commentId
     }
   };
 };

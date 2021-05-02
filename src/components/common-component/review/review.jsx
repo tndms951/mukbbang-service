@@ -2,9 +2,7 @@
 /* eslint-disable react/no-array-index-key */
 /* eslint-disable react/jsx-props-no-spreading */
 import React, { useState, useRef } from 'react';
-// import Dialog from '@material-ui/core/Dialog';
-// import DialogTitle from '@material-ui/core/DialogTitle';
-// import { makeStyles } from '@material-ui/core/styles';
+
 import Slider from 'react-slick';
 import PropTypes from 'prop-types';
 import { ReviewWrapBox, ReviewWrap, ReviewText, Register, RegisterReviewWrap, RegisterReview, ImageMap, ImageWrap, CloseWrap, ReviewButton, ReviewSlid, ReviewBox, BoxButton, BoxLeft, Content, UserImage, ReviewModal } from './review_style';
