@@ -35,3 +35,12 @@ export const setCommentDelete = (commentDelete) => {
     }
   };
 };
+
+// 대댓글
+export const setReCommentRegister = (reCommentRegister, commenstId) => ({
+  type: breadShopDetailComment.SET_RECOMMENT_REGISTER,
+  payload: {
+    reCommentRegister,
+    commenstId
+  }
+});

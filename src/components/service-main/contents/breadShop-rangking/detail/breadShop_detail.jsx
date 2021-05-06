@@ -18,31 +18,10 @@ import { selectShopBread, selectShopImages, selectShopMenuImages, selectShopHoli
 import { setCurrentBreadShopDetail, setShopDetailTrue, setShopDetailFalse } from '../../../../redux/breadshop/detail/breadShopDetail.actions';
 import { selectShopReview } from '../../../../redux/breadshop/review/review.selectors';
 import { setBreadShopReview, setShopReviewWriting, setShopReviewDelete, setShopReviewModify } from '../../../../redux/breadshop/review/review.actions';
-import { selectShopComment } from '../../../../redux/breadshop/comment/breadShopComment.selectors';
-import { setShopDetailComment, setRegisterComment, setCommentModify, setCommentDelete } from '../../../../redux/breadshop/comment/breadShopComment.actions';
 
 // eslint-disable-next-line no-unused-vars
-const ShopDetail = ({
-  shopDetailBread,
-  shopDetailImages,
-  shopDetailAddress,
-  shopDetailInfo,
-  onShopDetailBread,
-  match,
-  onDetailTrue,
-  onDetailFalse,
-  onDetailReview,
-  onDetailReviewWriting,
-  shopDetailReview,
-  onDetaileReviewModify,
-  onDetailReviewDelete,
-
-  onDetailComment,
-  shopDetailComment,
-  onRegisterComment,
-  onCommentModify,
-  onCommentDelete
-}) => {
+const ShopDetail = ({ shopDetailBread, shopDetailImages, shopDetailAddress, shopDetailInfo, onShopDetailBread, match, onDetailTrue, onDetailFalse, onDetailReview, onDetailReviewWriting, shopDetailReview, onDetaileReviewModify, onDetailReviewDelete }) => {
+  console.log(match);
   useEffect(() => {
     async function fetchDetailData() {
       try {
@@ -70,21 +49,9 @@ const ShopDetail = ({
       }
     }
 
-    async function fetchDetailComment() {
-      try {
-        const { breadShopId } = match.params;
-        const { status, data } = await axios.get(`/comment/bread/shop/${breadShopId}`);
-        console.log(data);
-        if (status === 200) {
-          onDetailComment(data.list);
-        }
-      } catch (err) {
-        errorhandler(err);
-      }
-    }
     fetchDetailData();
     fetchDetailReview();
-    fetchDetailComment();
+
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
@@ -145,10 +112,10 @@ const ShopDetail = ({
 
       <Review breadShopId={shopDetailInfo?.id} ShopDetailList={shopDetailInfo} shopDetailReview={shopDetailReview} onDetailReviewWriting={onDetailReviewWriting} onDetaileReviewModify={onDetaileReviewModify} onDetailReviewDelete={onDetailReviewDelete} />
 
-      <Comment breadShopId={shopDetailInfo?.id} shopDetailComment={shopDetailComment} onRegisterComment={onRegisterComment} onCommentDelete={onCommentDelete} onCommentModify={onCommentModify} />
-
+      <Comment match={match.params} />
+      {/* breadShopId={shopDetailInfo?.id} */}
       <OtherBread>
-        <h1>빵 랭킹</h1>
+        <h1>빵</h1>
         <div className="all_show">
           <span>모두보기</span>
           <span className="triangle" />
@@ -180,13 +147,9 @@ ShopDetail.propTypes = {
   onDetailReviewWriting: PropTypes.instanceOf(Object).isRequired,
   shopDetailReview: PropTypes.instanceOf(Array).isRequired,
   onDetaileReviewModify: PropTypes.instanceOf(Array).isRequired,
-  onDetailReviewDelete: PropTypes.instanceOf(Array).isRequired,
+  onDetailReviewDelete: PropTypes.instanceOf(Array).isRequired
 
-  onDetailComment: PropTypes.instanceOf(Object).isRequired,
-  shopDetailComment: PropTypes.instanceOf(Array).isRequired,
-  onRegisterComment: PropTypes.func.isRequired,
-  onCommentModify: PropTypes.func.isRequired,
-  onCommentDelete: PropTypes.func.isRequired
+  // onRegisterComment: PropTypes.func.isRequired,
 };
 
 // 초기값이 없거나 null인 경우 예외처리
@@ -202,8 +165,7 @@ const breadShopStateToProps = createStructuredSelector({
   shopDetailHolidays: selectShopHolidays,
   shopDetailAddress: selectShopAddress,
   shopDetailInfo: selectShopInfo,
-  shopDetailReview: selectShopReview,
-  shopDetailComment: selectShopComment
+  shopDetailReview: selectShopReview
 });
 
 const breadShopDetaileDispathch = (dispatch) => ({
@@ -213,12 +175,7 @@ const breadShopDetaileDispathch = (dispatch) => ({
   onDetailReview: (review) => dispatch(setBreadShopReview(review)),
   onDetailReviewWriting: (writing) => dispatch(setShopReviewWriting(writing)),
   onDetaileReviewModify: (modify) => dispatch(setShopReviewModify(modify)),
-  onDetailReviewDelete: (remove) => dispatch(setShopReviewDelete(remove)),
-
-  onDetailComment: (comment) => dispatch(setShopDetailComment(comment)),
-  onRegisterComment: (register) => dispatch(setRegisterComment(register)),
-  onCommentModify: (modify, commentId) => dispatch(setCommentModify(modify, commentId)),
-  onCommentDelete: (commentDelete) => dispatch(setCommentDelete(commentDelete))
+  onDetailReviewDelete: (remove) => dispatch(setShopReviewDelete(remove))
 });
 
 export default connect(breadShopStateToProps, breadShopDetaileDispathch)(ShopDetail);

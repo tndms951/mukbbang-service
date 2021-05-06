@@ -40,7 +40,6 @@ export const AuthorComment = styled.div`
   }
 
   & .date_wrap {
-    display: inline-block;
     margin-left: 55px;
 
     & span {
@@ -50,21 +49,23 @@ export const AuthorComment = styled.div`
       color: #5c5c5c;
     }
 
-    & span:nth-child(2) {
-      &:hover {
-        cursor: pointer;
-        text-decoration: underline;
-      }
+    & .button_wrap {
+      display: block;
+      float: left;
+      margin-right: 12px;
     }
-    & span:nth-child(3) {
-      &:hover {
-        cursor: pointer;
-        text-decoration: underline;
-      }
-    }
-  }
 
-  & .made_comment {
-    display: inline-block;
+    & .button {
+      font-size: 14px;
+      margin-top: 7px;
+      color: #5c5c5c;
+      background-color: white;
+      border: none;
+
+      &:hover {
+        cursor: pointer;
+        text-decoration: underline;
+      }
+    }
   }
 `;

@@ -4,16 +4,18 @@ import PropTypes from 'prop-types';
 import { AuthorComment } from './firstCommend_style';
 import axios from '../../../../utils/axios';
 import { errorhandler } from '../../../../utils/common';
+import Recommend from '../second-recomment/secondRecomment';
 
-const RegisterComment = ({ onCommentModify, onCommentDelete, comment }) => {
-  console.log(onCommentModify);
-  console.log(onCommentDelete);
-
+const RegisterComment = ({ onCommentModify, onCommentDelete, comment, breadShopId }) => {
+  console.log(comment);
+  console.log(breadShopId);
   // 댓글수정 form
   const [editValue, setEditValue] = useState('');
   console.log(editValue);
   // 인풋창 open close
   const [inputOpen, setInputOpen] = useState(false);
+
+  // const [reCommendList, setReCommendList] = useState([]);
 
   // 댓글 핸들체인지2
   const hanldeModifyChange = (e) => {
@@ -72,26 +74,29 @@ const RegisterComment = ({ onCommentModify, onCommentDelete, comment }) => {
       <div className="date_wrap">
         <span>{comment.createdAt}</span>
 
-        <span onClick={() => commentModify(comment.id)} aria-hidden="true">
-          {inputOpen ? '저장' : '수정'}
-        </span>
-        {inputOpen ? (
-          <span onClick={commentCancel} aria-hidden="true">
-            취소
-          </span>
-        ) : (
-          <span onClick={() => commentDelete(comment.id)} aria-hidden="true">
-            삭제
-          </span>
-        )}
+        <div className="button_wrap">
+          <button type="button" className="button" onClick={() => commentModify(comment.id)} aria-hidden="true">
+            {inputOpen ? '저장' : '수정'}
+          </button>
 
-        <span className="made_comment">댓글달기</span>
+          {inputOpen ? (
+            <button type="button" className="button" onClick={commentCancel} aria-hidden="true">
+              취소
+            </button>
+          ) : (
+            <button type="button" className="button" onClick={() => commentDelete(comment.id)} aria-hidden="true">
+              삭제
+            </button>
+          )}
+        </div>
       </div>
+      <Recommend commenstId={comment.id} reComment={comment.comments} breadShopId={breadShopId} />
     </AuthorComment>
   );
 };
 
 RegisterComment.propTypes = {
+  breadShopId: PropTypes.number.isRequired,
   onCommentModify: PropTypes.func.isRequired,
   onCommentDelete: PropTypes.func.isRequired,
   comment: PropTypes.instanceOf(Object).isRequired

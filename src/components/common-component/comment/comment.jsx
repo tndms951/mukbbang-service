@@ -1,17 +1,38 @@
 /* eslint-disable no-shadow */
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import PropTypes from 'prop-types';
+import { createStructuredSelector } from 'reselect';
+import { connect } from 'react-redux';
 
-import { CommentWrap, CommentBox, ReComment } from './comment_style';
+import { CommentWrap, CommentBox } from './comment_style';
 import RegisterComment from './first-commend/firstCommend';
 import axios from '../../../utils/axios';
 import { errorhandler } from '../../../utils/common';
 
-const Comment = ({ breadShopId, onRegisterComment, onCommentModify, onCommentDelete, shopDetailComment }) => {
+import { setShopDetailComment, setRegisterComment, setCommentModify, setCommentDelete } from '../../redux/breadshop/comment/breadShopComment.actions';
+import { selectShopComment } from '../../redux/breadshop/comment/breadShopComment.selectors';
+
+const Comment = ({ match, onDetailComment, onRegisterComment, onCommentModify, onCommentDelete, shopDetailComment }) => {
   console.log(shopDetailComment);
   // 댓글등록
   const [comment, setComment] = useState('');
-  console.log(comment);
+  const { breadShopId } = match;
+
+  useEffect(() => {
+    async function fetchDetailComment() {
+      try {
+        const { status, data } = await axios.get(`/comment/bread/shop/${breadShopId}`);
+
+        if (status === 200) {
+          onDetailComment(data.list);
+        }
+      } catch (err) {
+        errorhandler(err);
+        console.log(err);
+      }
+    }
+    fetchDetailComment();
+  }, []);
 
   // 댓글 핸들체인지1
   const handleComment = (e) => {
@@ -49,29 +70,30 @@ const Comment = ({ breadShopId, onRegisterComment, onCommentModify, onCommentDel
       </CommentBox>
 
       {shopDetailComment.map((comment) => (
-        <RegisterComment comment={comment} onCommentModify={onCommentModify} onCommentDelete={onCommentDelete} />
+        <RegisterComment comment={comment} onCommentModify={onCommentModify} onCommentDelete={onCommentDelete} breadShopId={breadShopId} />
       ))}
-
-      <ReComment>
-        {/* <form>
-          <input type="text" name="reviewRegister" placeholder="댓글을 입력해 주세요." />
-          <button type="submit">등록하기</button>
-          <img src="" alt="" />
-          <p>UserName2</p>
-          <span className="date">2020.03.16</span>
-          <span>오 무슨 맛인가요~?~~~</span>
-        </form> */}
-      </ReComment>
     </CommentWrap>
   );
 };
 
 Comment.propTypes = {
-  breadShopId: PropTypes.number.isRequired,
-  onRegisterComment: PropTypes.instanceOf(Object).isRequired,
+  match: PropTypes.instanceOf(Object).isRequired,
   shopDetailComment: PropTypes.instanceOf(Array).isRequired,
+  onRegisterComment: PropTypes.instanceOf(Object).isRequired,
+  onDetailComment: PropTypes.instanceOf(Object).isRequired,
   onCommentModify: PropTypes.func.isRequired,
   onCommentDelete: PropTypes.func.isRequired
 };
 
-export default Comment;
+const detailCommentStateToProps = createStructuredSelector({
+  shopDetailComment: selectShopComment
+});
+
+const detailCommentDispatch = (dispatch) => ({
+  onDetailComment: (comment) => dispatch(setShopDetailComment(comment)),
+  onRegisterComment: (register) => dispatch(setRegisterComment(register)),
+  onCommentModify: (modify, commentId) => dispatch(setCommentModify(modify, commentId)),
+  onCommentDelete: (commentDelete) => dispatch(setCommentDelete(commentDelete))
+});
+
+export default connect(detailCommentStateToProps, detailCommentDispatch)(Comment);
