@@ -59,13 +59,51 @@ const breadShopCommentReducer = (state = INITAL_STATE, action) => {
     case breadShopDetailComment.SET_RECOMMENT_REGISTER: {
       const { reCommentRegister, commenstId } = action.payload;
       console.log(reCommentRegister);
-      const newReComment = [...state.content];
-      const updateReComment = newReComment.findIndex((list) => list.id === commenstId);
-
+      console.log(commenstId);
+      const newReComment = state.content.map((comment) => ({ ...comment }));
+      console.log(state.content);
+      const updateReComment = newReComment.findIndex((list) => list.id === Number(commenstId));
+      console.log(updateReComment);
       newReComment[updateReComment].comments.unshift(reCommentRegister);
       return {
         ...state,
         content: newReComment
+      };
+    }
+    // case breadShopDetailComment.SET_RECOMMENT_MODIFY: {
+    //   const { commentId } = action.payload;
+    //   console.log(commentId); // 대댓글id
+    //   const newModify = [...state.content];
+    //   console.log(newModify);
+
+    //   const updateModify
+    //   const updateModify = newModify.findIndex((list) => list.id === Number(commentId));
+    //   console.log(newModify[updateModify]);
+    //   console.log(updateModify);
+    //   const newDate = {
+    //     ...newModify[updateModify],
+    //     content: newModify
+    //   };
+    //   newModify[updateModify].comments.splice(updateModify, 1, newDate);
+    //   console.log(updateModify);
+
+    //   return {
+    //     ...state,
+    //     content: newModify
+    //   };
+    // }
+    case breadShopDetailComment.SET_RECOMMENT_MODIFY: {
+      const { commentId, reCommentId, modifyForm } = action.payload;
+      const newReComment = state.content.map((comment) => ({ ...comment }));
+      const findIndexComment = newReComment.findIndex((list) => list.id === Number(commentId));
+      const findIndexReComment = newReComment[findIndexComment].comments.findIndex((list) => list.id === Number(reCommentId));
+      const newObject = {
+        ...newReComment[findIndexReComment],
+        content: modifyForm
+      };
+      newReComment[findIndexComment].comments.splice(findIndexComment, 1, newObject);
+      return {
+        ...state
       };
     }
     default:

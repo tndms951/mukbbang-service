@@ -1,12 +1,16 @@
 import React, { useState } from 'react';
 import PropTypes from 'prop-types';
+import { createStructuredSelector } from 'reselect';
+import { connect } from 'react-redux';
 
-import { AuthorComment } from './firstCommend_style';
+import { AuthorComment, ReCommentForm } from './firstCommend_style';
 import axios from '../../../../utils/axios';
 import { errorhandler } from '../../../../utils/common';
 import Recommend from '../second-recomment/secondRecomment';
+import { setReCommentRegister } from '../../../redux/breadshop/comment/breadShopComment.actions';
+import { selectShopReComment } from '../../../redux/breadshop/comment/breadShopComment.selectors';
 
-const RegisterComment = ({ onCommentModify, onCommentDelete, comment, breadShopId }) => {
+const RegisterComment = ({ onCommentModify, onCommentDelete, onReCommentRegister, comment, breadShopId }) => {
   console.log(comment);
   console.log(breadShopId);
   // 댓글수정 form
@@ -15,7 +19,9 @@ const RegisterComment = ({ onCommentModify, onCommentDelete, comment, breadShopI
   // 인풋창 open close
   const [inputOpen, setInputOpen] = useState(false);
 
-  // const [reCommendList, setReCommendList] = useState([]);
+  // 대댓글
+  const [reCommendOpen, setReCommendOpen] = useState(false);
+  const [reCommendForm, setReCommendForm] = useState('');
 
   // 댓글 핸들체인지2
   const hanldeModifyChange = (e) => {
@@ -64,6 +70,32 @@ const RegisterComment = ({ onCommentModify, onCommentDelete, comment, breadShopI
     setEditValue(comment.content);
   };
 
+  // 대댓글
+  const reCommendClick = () => {
+    setReCommendOpen(!reCommendOpen);
+  };
+
+  const reCommentChange = (e) => {
+    setReCommendForm(e.target.value);
+  };
+
+  const handleSubmit = async (e, commentId) => {
+    e.preventDefault();
+    try {
+      const reCommentObject = {
+        content: reCommendForm
+      };
+
+      const { status, data } = await axios.post(`/comment/bread/shop/${breadShopId}/${commentId}`, reCommentObject);
+
+      if (status === 201) {
+        onReCommentRegister(data.data, commentId);
+      }
+    } catch (err) {
+      errorhandler(err);
+    }
+  };
+
   return (
     <AuthorComment>
       <img src="" alt="" />
@@ -90,7 +122,31 @@ const RegisterComment = ({ onCommentModify, onCommentDelete, comment, breadShopI
           )}
         </div>
       </div>
-      <Recommend commenstId={comment.id} reComment={comment.comments} breadShopId={breadShopId} />
+
+      <ReCommentForm>
+        {reCommendOpen ? (
+          <>
+            <button type="button" className="made_comment" onClick={reCommendClick}>
+              취소
+            </button>
+            <div className="all_wrap">
+              <form onSubmit={(e) => handleSubmit(e, comment.id)}>
+                <textarea className="reCommend_Input" onChange={reCommentChange} value={reCommendForm} placeholder="댓글을 입력해 주세요." />
+                <button type="submit" className="recomment_button">
+                  댓글등록
+                </button>
+              </form>
+            </div>
+          </>
+        ) : (
+          <button type="button" className="made_comment" onClick={reCommendClick} aria-hidden="true">
+            댓글{comment.comments.length}개
+          </button>
+        )}
+      </ReCommentForm>
+      {comment.comments.map((list) => (
+        <Recommend key={`recomment-${list.id}`} list={list} reCommendOpen={reCommendOpen} comment={comment} />
+      ))}
     </AuthorComment>
   );
 };
@@ -99,7 +155,15 @@ RegisterComment.propTypes = {
   breadShopId: PropTypes.number.isRequired,
   onCommentModify: PropTypes.func.isRequired,
   onCommentDelete: PropTypes.func.isRequired,
-  comment: PropTypes.instanceOf(Object).isRequired
+  comment: PropTypes.instanceOf(Object).isRequired,
+  onReCommentRegister: PropTypes.instanceOf(Object).isRequired
 };
 
-export default RegisterComment;
+const reCommentStateToProps = createStructuredSelector({
+  shopDetailReComment: selectShopReComment
+});
+
+const reCommentDispatch = (dispatch) => ({
+  onReCommentRegister: (register, commenstId) => dispatch(setReCommentRegister(register, commenstId))
+});
+export default connect(reCommentStateToProps, reCommentDispatch)(RegisterComment);

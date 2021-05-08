@@ -70,7 +70,7 @@ const Comment = ({ match, onDetailComment, onRegisterComment, onCommentModify, o
       </CommentBox>
 
       {shopDetailComment.map((comment) => (
-        <RegisterComment comment={comment} onCommentModify={onCommentModify} onCommentDelete={onCommentDelete} breadShopId={breadShopId} />
+        <RegisterComment key={`comment-${comment.id}`} comment={comment} onCommentModify={onCommentModify} onCommentDelete={onCommentDelete} breadShopId={breadShopId} />
       ))}
     </CommentWrap>
   );

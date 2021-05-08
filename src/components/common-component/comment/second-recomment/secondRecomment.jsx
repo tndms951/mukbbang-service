@@ -1,76 +1,86 @@
 import React, { useState } from 'react';
 import PropTypes from 'prop-types';
-import { createStructuredSelector } from 'reselect';
-import { connect } from 'react-redux';
 
 import { errorhandler } from 'utils/common';
+import { connect } from 'react-redux';
+import { createStructuredSelector } from 'reselect';
 import axios from '../../../../utils/axios';
-import { ReComment } from './secondRecomment_style';
-import { setReCommentRegister } from '../../../redux/breadshop/comment/breadShopComment.actions';
+import { ReComment, ButtonWrap } from './secondRecomment_style';
 import { selectShopReComment } from '../../../redux/breadshop/comment/breadShopComment.selectors';
+import { setReCommentModify } from '../../../redux/breadshop/comment/breadShopComment.actions';
 
-const Recommend = ({ breadShopId, commenstId, reComment, onReCommentRegister }) => {
-  console.log(reComment);
+const Recommend = ({ list, reCommendOpen, onReCommentModify, comment }) => {
+  // 대댓글 수정
+  const [modifyInput, setModifyInput] = useState(false);
+  const [modifyForm, setModifyForm] = useState(list.content);
+  console.log(modifyForm);
 
-  // 대댓글
-  const [reCommendOpen, setReCommendOpen] = useState(false);
-  const [reCommendForm, setReCommendForm] = useState('');
-
-  const reCommendClick = () => {
-    setReCommendOpen(!reCommendOpen);
+  const reCommentClick = () => {
+    setModifyInput(!modifyInput);
   };
 
-  const reCommentChange = (e) => {
-    setReCommendForm(e.target.value);
+  // 수정
+  const reCommentHandle = (e) => {
+    setModifyForm(e.target.value);
   };
 
-  const handleSubmit = async (e) => {
-    e.preventDefault();
+  // 댓글 수정(저장)
+  const reCommentSave = async (commentId) => {
+    console.log(commentId);
     try {
       const reCommentObject = {
-        content: reCommendForm
+        content: modifyForm
       };
-
-      const { status, data } = await axios.post(`/comment/bread/shop/${breadShopId}/${commenstId}`, reCommentObject);
-
+      const { status } = await axios.put(`/comment/bread/shop/${commentId}`, reCommentObject);
       if (status === 201) {
-        onReCommentRegister(data.data, commenstId);
+        onReCommentModify(comment.id, commentId, modifyForm);
       }
+      setModifyInput(false);
     } catch (err) {
       errorhandler(err);
+      console.log(err);
     }
+  };
+
+  // 취소
+  const cancelClick = () => {
+    setModifyInput(list.content);
+    setModifyInput(false);
   };
 
   return (
     <ReComment>
       {reCommendOpen ? (
-        <button type="button" className="made_comment" onClick={reCommendClick}>
-          취소
-        </button>
-      ) : (
-        <button type="button" className="made_comment" onClick={reCommendClick} aria-hidden="true">
-          댓글{reComment.length}개
-        </button>
-      )}
-      {reCommendOpen ? (
         <>
-          <div className="aaa">
-            {reComment.map((list) => (
-              <div className="bbb" key={`reComment-${list.id}`}>
-                <img src="" alt="" />
-                <p>{list.user.name}</p>
-                <div className="content">{list.content}</div>
-                <div>{list.createdAt}</div>
-                <button type="button">수정</button>
-                <button type="button">삭제</button>
+          <div className="list_all_wrap">
+            <div className="list_wrap" key={`reComment-${list.id}`}>
+              <img src="" alt="" />
+              <p>{list.user.name}</p>
+              {modifyInput ? <textarea onChange={reCommentHandle} value={modifyForm} /> : <div className="content">{list.content}</div>}
+              <div className="content">{list.content}</div>
+              <div className="abc">
+                <div className="current_date">{list.createdAt}</div>
+                <ButtonWrap>
+                  {modifyInput ? (
+                    <>
+                      <button type="button" onClick={() => reCommentSave(list.id)}>
+                        저장
+                      </button>
+                      <button type="button" onClick={cancelClick}>
+                        취소
+                      </button>
+                    </>
+                  ) : (
+                    <>
+                      <button type="button" onClick={() => reCommentClick()}>
+                        수정
+                      </button>
+                      <button type="button">삭제</button>
+                    </>
+                  )}
+                </ButtonWrap>
               </div>
-            ))}
-            <form onSubmit={handleSubmit}>
-              <textarea className="reCommend_Input" onChange={reCommentChange} value={reCommendForm} placeholder="댓글을 입력해 주세요." />
-              <button type="submit" className="recomment_button">
-                댓글등록
-              </button>
-            </form>
+            </div>
           </div>
         </>
       ) : null}
@@ -79,19 +89,18 @@ const Recommend = ({ breadShopId, commenstId, reComment, onReCommentRegister }) 
 };
 
 Recommend.propTypes = {
-  breadShopId: PropTypes.number.isRequired,
-  commenstId: PropTypes.number.isRequired,
-  reComment: PropTypes.instanceOf(Array).isRequired,
-  // shopDetailReComment: PropTypes.instanceOf(Array).isRequired,
-  onReCommentRegister: PropTypes.instanceOf(Object).isRequired
+  list: PropTypes.instanceOf(Array).isRequired,
+  reCommendOpen: PropTypes.bool.isRequired,
+  onReCommentModify: PropTypes.func.isRequired,
+  comment: PropTypes.instanceOf(Object).isRequired
 };
 
 const reCommentStateToProps = createStructuredSelector({
-  shopDetailReComment: selectShopReComment
+  shopDetailModify: selectShopReComment
 });
 
 const reCommentDispatch = (dispatch) => ({
-  onReCommentRegister: (register, commenstId) => dispatch(setReCommentRegister(register, commenstId))
+  onReCommentModify: (commentId, reCommentId, modifyForm) => dispatch(setReCommentModify(commentId, reCommentId, modifyForm))
 });
 
 export default connect(reCommentStateToProps, reCommentDispatch)(Recommend);

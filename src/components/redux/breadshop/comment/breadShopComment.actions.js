@@ -44,3 +44,15 @@ export const setReCommentRegister = (reCommentRegister, commenstId) => ({
     commenstId
   }
 });
+
+export const setReCommentModify = (commentId, reCommentId, modifyForm) => {
+  console.log(commentId);
+  return {
+    type: breadShopDetailComment.SET_RECOMMENT_MODIFY,
+    payload: {
+      commentId,
+      reCommentId,
+      modifyForm
+    }
+  };
+};
