@@ -4,6 +4,7 @@ import { connect } from 'react-redux';
 import PropTypes from 'prop-types';
 import qs from 'qs';
 import { Link } from 'react-router-dom';
+import InfiniteScroll from 'react-infinite-scroll-component';
 
 import BreadShopLi from '../../../common-component/breadShop_li_component';
 
@@ -11,7 +12,7 @@ import axios from '../../../../utils/axios';
 import { errorhandler, sweetAlert } from '../../../../utils/common';
 
 import { selectShopList, selectAddress, selectdongAddress } from '../../../redux/breadshop/list/breadShop.selectors';
-import { setCurrentBreadShop, setShopTrueData, setShopFalseData, setSiAddressData, setDongAddressData } from '../../../redux/breadshoplist/breadShop.actions';
+import { setCurrentBreadShop, setShopTrueData, setShopFalseData, setSiAddressData, setDongAddressData } from '../../../redux/breadshop/list/breadShop.actions';
 
 import { HouseRangkingWrap, ShopRangking, Location, SelectWrap, City, CurrentLocation, LocationText, RangkingList } from './breadShop_rangking_style';
 
@@ -34,6 +35,8 @@ const HouseRangking = ({ breadShopList, onBreadShopList, onBreadShopTrue, onBrea
     id: 0, // -1은 설정이 되어있어있어서 0으로 바꿈 0빼고 나머지 숫자는 다 true 이기때문에 0은 false
     name: '구'
   });
+
+  const [page, setPage] = useState(1);
 
   const [addressName, setAddressName] = useState('전체');
 
@@ -117,6 +120,21 @@ const HouseRangking = ({ breadShopList, onBreadShopList, onBreadShopTrue, onBrea
     if (query.si_code) {
       fetchGuAddress(query.si_code);
     }
+
+    // 이벤트를 따로 빼야 removeEventListener함수가 먹음!
+    // const scrollEvent = (e) => {
+    //   console.log(e);
+    //   console.log(window.scrollY);
+    // };
+
+    // 스크롤 이벤트
+    // window.addEventListener('scroll', scrollEvent);
+
+    // 리턴을 하는 이유는 컴포넌트 파괴 예외처리때문에 하는거임!
+    // return () => {
+    //   console.log('파괴!!');
+    //   window.removeEventListener('scroll', scrollEvent);
+    // };
   }, []);
 
   const handleClickSi = async (address) => {
@@ -197,6 +215,25 @@ const HouseRangking = ({ breadShopList, onBreadShopList, onBreadShopTrue, onBrea
       sweetAlert('위치정보를 받아오지 못했습니다.');
     }
   };
+  const fetchMoreData = async () => {
+    console.log('스크롤');
+    try {
+      const query = qs.parse(location.search, {
+        ignoreQueryPrefix: true
+      });
+      const queryObject = { ...query };
+      queryObject.page = String(page + 1);
+      queryObject.limit = String(12);
+      const queryData = qs.stringify(queryObject);
+      const { status, data: breadShopData } = await axios.get(`/bread/shop?${queryData}`);
+      if (status === 200) {
+        onBreadShopList(breadShopData.list);
+        setPage(page + 1);
+      }
+    } catch (err) {
+      errorhandler(err);
+    }
+  };
 
   return (
     <HouseRangkingWrap>
@@ -252,13 +289,16 @@ const HouseRangking = ({ breadShopList, onBreadShopList, onBreadShopTrue, onBrea
       </LocationText>
 
       <RangkingList>
-        <ul className="list_wrap">
-          {breadShopList.map((breadShopData) => (
-            <Link to={`/rank/bread-house/detail/${breadShopData.id}`}>
-              <BreadShopLi key={`bread_shop_list${breadShopData.id}`} shopList={breadShopData} shopImage={breadShopData.image} shopSeverLike={breadShopData.like} shopId={breadShopData.id} likeTrue={onBreadShopTrue} likeFalse={onBreadShopFalse} />
-            </Link>
-          ))}
-        </ul>
+        {/* @ts-ignore */}
+        <InfiniteScroll dataLength={breadShopList.length} next={fetchMoreData} hasMore scrollThreshold="50px">
+          <ul className="list_wrap">
+            {breadShopList.map((breadShopData) => (
+              <Link to={`/rank/bread-house/detail/${breadShopData.id}`}>
+                <BreadShopLi key={`bread_shop_list${breadShopData.id}`} shopList={breadShopData} shopImage={breadShopData.image} shopSeverLike={breadShopData.like} shopId={breadShopData.id} likeTrue={onBreadShopTrue} likeFalse={onBreadShopFalse} />
+              </Link>
+            ))}
+          </ul>
+        </InfiniteScroll>
       </RangkingList>
     </HouseRangkingWrap>
   );

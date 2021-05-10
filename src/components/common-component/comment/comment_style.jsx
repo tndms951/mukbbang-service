@@ -40,3 +40,18 @@ export const CommentBox = styled.div`
     float: right;
   }
 `;
+
+export const MoreButton = styled.div`
+  margin-top: 40px;
+  text-align: center;
+  border: 1px solid #9a9a9a;
+
+  & button {
+    background: white;
+    border: none;
+    cursor: pointer;
+    padding: 10px;
+    font-size: 14px;
+    font-weight: 500;
+  }
+`;

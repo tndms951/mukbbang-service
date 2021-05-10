@@ -1,34 +1,38 @@
+/* eslint-disable no-nested-ternary */
 /* eslint-disable no-shadow */
 import React, { useEffect, useState } from 'react';
 import PropTypes from 'prop-types';
 import { createStructuredSelector } from 'reselect';
 import { connect } from 'react-redux';
 
-import { CommentWrap, CommentBox } from './comment_style';
+import { CommentWrap, CommentBox, MoreButton } from './comment_style';
 import RegisterComment from './first-commend/firstCommend';
 import axios from '../../../utils/axios';
 import { errorhandler } from '../../../utils/common';
 
 import { setShopDetailComment, setRegisterComment, setCommentModify, setCommentDelete } from '../../redux/breadshop/comment/breadShopComment.actions';
-import { selectShopComment } from '../../redux/breadshop/comment/breadShopComment.selectors';
+import { selectShopComment, selectShopCommentPagnaition } from '../../redux/breadshop/comment/breadShopComment.selectors';
 
-const Comment = ({ match, onDetailComment, onRegisterComment, onCommentModify, onCommentDelete, shopDetailComment }) => {
+const limit = 1;
+
+const Comment = ({ match, onDetailComment, onRegisterComment, onCommentModify, onCommentDelete, shopDetailComment, shopCommentPagnaition }) => {
   console.log(shopDetailComment);
   // 댓글등록
   const [comment, setComment] = useState('');
   const { breadShopId } = match;
 
+  const [page, setPage] = useState(1);
+
   useEffect(() => {
     async function fetchDetailComment() {
       try {
-        const { status, data } = await axios.get(`/comment/bread/shop/${breadShopId}`);
+        const { status, data } = await axios.get(`/comment/bread/shop/${breadShopId}?page=${page}&limit=${limit}`);
 
         if (status === 200) {
-          onDetailComment(data.list);
+          onDetailComment(data.list, data.pagination);
         }
       } catch (err) {
         errorhandler(err);
-        console.log(err);
       }
     }
     fetchDetailComment();
@@ -54,6 +58,21 @@ const Comment = ({ match, onDetailComment, onRegisterComment, onCommentModify, o
       }
     } catch (err) {
       errorhandler(err);
+      console.log(err);
+    }
+  };
+
+  // 더보기 버튼
+  const moreButtonClick = async () => {
+    try {
+      const { status, data } = await axios.get(`/comment/bread/shop/${breadShopId}?page=${page + 1}&limit=${limit}`);
+      console.log(data);
+      if (status === 200) {
+        onDetailComment(data.list, data.pagination);
+        setPage(page + 1);
+      }
+    } catch (err) {
+      errorhandler(err);
     }
   };
 
@@ -72,8 +91,21 @@ const Comment = ({ match, onDetailComment, onRegisterComment, onCommentModify, o
       {shopDetailComment.map((comment) => (
         <RegisterComment key={`comment-${comment.id}`} comment={comment} onCommentModify={onCommentModify} onCommentDelete={onCommentDelete} breadShopId={breadShopId} />
       ))}
+      {shopCommentPagnaition ? (
+        shopCommentPagnaition.currentPage !== shopCommentPagnaition.totalPage ? (
+          <MoreButton>
+            <button type="button" onClick={moreButtonClick}>
+              더보기
+            </button>
+          </MoreButton>
+        ) : null
+      ) : null}
     </CommentWrap>
   );
+};
+
+Comment.defaultProps = {
+  shopCommentPagnaition: null
 };
 
 Comment.propTypes = {
@@ -82,15 +114,17 @@ Comment.propTypes = {
   onRegisterComment: PropTypes.instanceOf(Object).isRequired,
   onDetailComment: PropTypes.instanceOf(Object).isRequired,
   onCommentModify: PropTypes.func.isRequired,
-  onCommentDelete: PropTypes.func.isRequired
+  onCommentDelete: PropTypes.func.isRequired,
+  shopCommentPagnaition: PropTypes.instanceOf(Object)
 };
 
 const detailCommentStateToProps = createStructuredSelector({
-  shopDetailComment: selectShopComment
+  shopDetailComment: selectShopComment,
+  shopCommentPagnaition: selectShopCommentPagnaition
 });
 
 const detailCommentDispatch = (dispatch) => ({
-  onDetailComment: (comment) => dispatch(setShopDetailComment(comment)),
+  onDetailComment: (comment, pagnation) => dispatch(setShopDetailComment(comment, pagnation)),
   onRegisterComment: (register) => dispatch(setRegisterComment(register)),
   onCommentModify: (modify, commentId) => dispatch(setCommentModify(modify, commentId)),
   onCommentDelete: (commentDelete) => dispatch(setCommentDelete(commentDelete))

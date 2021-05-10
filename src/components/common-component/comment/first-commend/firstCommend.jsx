@@ -11,11 +11,8 @@ import { setReCommentRegister } from '../../../redux/breadshop/comment/breadShop
 import { selectShopReComment } from '../../../redux/breadshop/comment/breadShopComment.selectors';
 
 const RegisterComment = ({ onCommentModify, onCommentDelete, onReCommentRegister, comment, breadShopId }) => {
-  console.log(comment);
-  console.log(breadShopId);
   // 댓글수정 form
   const [editValue, setEditValue] = useState('');
-  console.log(editValue);
   // 인풋창 open close
   const [inputOpen, setInputOpen] = useState(false);
 
@@ -30,7 +27,6 @@ const RegisterComment = ({ onCommentModify, onCommentDelete, onReCommentRegister
 
   // 댓글 삭제
   const commentDelete = async (commentId) => {
-    console.log(commentId);
     try {
       const { status } = await axios.delete(`/comment/bread/shop/${commentId}`);
       if (status === 200) {
@@ -38,7 +34,6 @@ const RegisterComment = ({ onCommentModify, onCommentDelete, onReCommentRegister
       }
     } catch (err) {
       errorhandler(err);
-      console.log(err);
     }
   };
 
@@ -61,7 +56,6 @@ const RegisterComment = ({ onCommentModify, onCommentDelete, onReCommentRegister
       }
     } catch (err) {
       errorhandler(err);
-      console.log(err);
     }
   };
 
@@ -85,11 +79,11 @@ const RegisterComment = ({ onCommentModify, onCommentDelete, onReCommentRegister
       const reCommentObject = {
         content: reCommendForm
       };
-
       const { status, data } = await axios.post(`/comment/bread/shop/${breadShopId}/${commentId}`, reCommentObject);
 
       if (status === 201) {
         onReCommentRegister(data.data, commentId);
+        setReCommendForm('');
       }
     } catch (err) {
       errorhandler(err);
@@ -152,7 +146,7 @@ const RegisterComment = ({ onCommentModify, onCommentDelete, onReCommentRegister
 };
 
 RegisterComment.propTypes = {
-  breadShopId: PropTypes.number.isRequired,
+  breadShopId: PropTypes.string.isRequired,
   onCommentModify: PropTypes.func.isRequired,
   onCommentDelete: PropTypes.func.isRequired,
   comment: PropTypes.instanceOf(Object).isRequired,

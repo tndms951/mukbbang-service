@@ -5,7 +5,7 @@ import React, { useEffect } from 'react';
 import PropTypes from 'prop-types';
 import { createStructuredSelector } from 'reselect';
 import { connect } from 'react-redux';
-
+import { Link } from 'react-router-dom';
 import { errorhandler } from '../../../../../utils/common';
 
 import { HouseDetaile, Grade, ShopImage, Information, OtherBread, BreadShopList } from './breadShop_detail_style';
@@ -16,17 +16,15 @@ import Comment from '../../../../common-component/comment/comment';
 
 import { selectShopBread, selectShopImages, selectShopMenuImages, selectShopHolidays, selectShopAddress, selectShopInfo } from '../../../../redux/breadshop/detail/breadShopDetail.selectors';
 import { setCurrentBreadShopDetail, setShopDetailTrue, setShopDetailFalse } from '../../../../redux/breadshop/detail/breadShopDetail.actions';
-import { selectShopReview } from '../../../../redux/breadshop/review/review.selectors';
-import { setBreadShopReview, setShopReviewWriting, setShopReviewDelete, setShopReviewModify } from '../../../../redux/breadshop/review/review.actions';
 
 // eslint-disable-next-line no-unused-vars
-const ShopDetail = ({ shopDetailBread, shopDetailImages, shopDetailAddress, shopDetailInfo, onShopDetailBread, match, onDetailTrue, onDetailFalse, onDetailReview, onDetailReviewWriting, shopDetailReview, onDetaileReviewModify, onDetailReviewDelete }) => {
+const ShopDetail = ({ shopDetailBread, shopDetailImages, shopDetailAddress, shopDetailInfo, onShopDetailBread, match, onDetailTrue, onDetailFalse }) => {
+  console.log(shopDetailInfo);
   console.log(match);
+  const { breadShopId } = match.params;
   useEffect(() => {
     async function fetchDetailData() {
       try {
-        const { breadShopId } = match.params;
-
         const { status, data: detaileData } = await axios.get(`/bread/shop/${breadShopId}`);
         if (status === 200) {
           onShopDetailBread(detaileData.data);
@@ -36,21 +34,7 @@ const ShopDetail = ({ shopDetailBread, shopDetailImages, shopDetailAddress, shop
       }
     }
 
-    async function fetchDetailReview() {
-      try {
-        const { breadShopId } = match.params;
-        const { status, data: reviewData } = await axios.get(`/review/${breadShopId}`);
-
-        if (status === 200) {
-          onDetailReview(reviewData.list);
-        }
-      } catch (err) {
-        errorhandler(err);
-      }
-    }
-
     fetchDetailData();
-    fetchDetailReview();
 
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
@@ -109,23 +93,24 @@ const ShopDetail = ({ shopDetailBread, shopDetailImages, shopDetailAddress, shop
           <p>{shopDetailInfo ? shopDetailInfo.link : ''}</p>
         </Information>
       </ShopImage>
-
-      <Review breadShopId={shopDetailInfo?.id} ShopDetailList={shopDetailInfo} shopDetailReview={shopDetailReview} onDetailReviewWriting={onDetailReviewWriting} onDetaileReviewModify={onDetaileReviewModify} onDetailReviewDelete={onDetailReviewDelete} />
-
+      <Review match={match.params} />
       <Comment match={match.params} />
-      {/* breadShopId={shopDetailInfo?.id} */}
+
       <OtherBread>
         <h1>빵</h1>
         <div className="all_show">
-          <span>모두보기</span>
+          <Link to="/rank/bread">
+            <span>모두보기</span>
+          </Link>
           <span className="triangle" />
         </div>
       </OtherBread>
-
       <BreadShopList>
         <ul className="list_wrap">
           {shopDetailBread.map((breadShopData) => (
-            <BreadShopLi key={`bread_shop_list${breadShopData.id}`} shopList={breadShopData} shopImage={breadShopData.image} shopSeverLike={breadShopData.like} shopId={breadShopData.id} />
+            // <Link to=""> 빵 디테일 컴포넌트로 이동 해야됨
+            <BreadShopLi key={`bread_shop_list${breadShopData.id}`} shopList={breadShopData} shopImage={breadShopData.image} shopSeverLike={breadShopData.like} shopId={breadShopData.id} breadShopId={breadShopId} />
+            // </Link>
           ))}
         </ul>
       </BreadShopList>
@@ -141,15 +126,7 @@ ShopDetail.propTypes = {
   shopDetailAddress: PropTypes.instanceOf(Object),
   shopDetailInfo: PropTypes.instanceOf(Object),
   onDetailTrue: PropTypes.func.isRequired,
-  onDetailFalse: PropTypes.func.isRequired,
-
-  onDetailReview: PropTypes.instanceOf(Object).isRequired,
-  onDetailReviewWriting: PropTypes.instanceOf(Object).isRequired,
-  shopDetailReview: PropTypes.instanceOf(Array).isRequired,
-  onDetaileReviewModify: PropTypes.instanceOf(Array).isRequired,
-  onDetailReviewDelete: PropTypes.instanceOf(Array).isRequired
-
-  // onRegisterComment: PropTypes.func.isRequired,
+  onDetailFalse: PropTypes.func.isRequired
 };
 
 // 초기값이 없거나 null인 경우 예외처리
@@ -164,18 +141,13 @@ const breadShopStateToProps = createStructuredSelector({
   shopDetailMenuImages: selectShopMenuImages,
   shopDetailHolidays: selectShopHolidays,
   shopDetailAddress: selectShopAddress,
-  shopDetailInfo: selectShopInfo,
-  shopDetailReview: selectShopReview
+  shopDetailInfo: selectShopInfo
 });
 
 const breadShopDetaileDispathch = (dispatch) => ({
   onShopDetailBread: (DetailList) => dispatch(setCurrentBreadShopDetail(DetailList)),
   onDetailTrue: () => dispatch(setShopDetailTrue()),
-  onDetailFalse: () => dispatch(setShopDetailFalse()),
-  onDetailReview: (review) => dispatch(setBreadShopReview(review)),
-  onDetailReviewWriting: (writing) => dispatch(setShopReviewWriting(writing)),
-  onDetaileReviewModify: (modify) => dispatch(setShopReviewModify(modify)),
-  onDetailReviewDelete: (remove) => dispatch(setShopReviewDelete(remove))
+  onDetailFalse: () => dispatch(setShopDetailFalse())
 });
 
 export default connect(breadShopStateToProps, breadShopDetaileDispathch)(ShopDetail);

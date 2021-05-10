@@ -91,13 +91,14 @@ margin-top: 100px;
 & .all_show {
   float: right;
   font-size: 18px;
+  line-height: 48px;
   font-weight: 700;
   color: #5C5C5C;
 
   & span:first-of-type {
-    margin: 10px 0;
     display: inline-block;
     margin-right: 16px;
+    color: #5c5c5c;
   }
   & .triangle {
      display: inline-block;
@@ -110,9 +111,9 @@ margin-top: 100px;
 `;
 
 export const BreadShopList = styled.div`
-  outline: 1px solid red;
   display: block;
   height: 300px;
+
 
   .list_wrap {
     padding-left: 24px;
@@ -132,7 +133,6 @@ export const BreadShopList = styled.div`
     & li {
       float: left;
       margin-right: 40px;
-      // outline: 1px solid red;
       margin-bottom: 26px;
   
      :nth-child(4) {

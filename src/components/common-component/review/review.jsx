@@ -1,23 +1,50 @@
 /* eslint-disable react/button-has-type */
 /* eslint-disable react/no-array-index-key */
 /* eslint-disable react/jsx-props-no-spreading */
-import React, { useState, useRef } from 'react';
+import React, { useState, useRef, useEffect } from 'react';
+import { createStructuredSelector } from 'reselect';
+import { connect } from 'react-redux';
 
 import Slider from 'react-slick';
 import PropTypes from 'prop-types';
+import { selectShopReview } from '../../redux/breadshop/review/review.selectors';
+
+import { setBreadShopReview, setShopReviewWriting, setShopReviewDelete, setShopReviewModify } from '../../redux/breadshop/review/review.actions';
+
 import { ReviewWrapBox, ReviewWrap, ReviewText, Register, RegisterReviewWrap, RegisterReview, ImageMap, ImageWrap, CloseWrap, ReviewButton, ReviewSlid, ReviewBox, BoxButton, BoxLeft, Content, UserImage, ReviewModal } from './review_style';
 import axios from '../../../utils/axios';
 import { errorhandler } from '../../../utils/common';
 
-const Review = ({ breadShopId, shopDetailReview, onDetailReviewWriting, onDetaileReviewModify, onDetailReviewDelete }) => {
-  console.log(onDetailReviewWriting);
+const Review = ({ match, shopDetailReview, onDetailReview, onDetailReviewWriting, onDetaileReviewModify, onDetailReviewDelete }) => {
   console.log(shopDetailReview);
+
+  const { breadShopId } = match;
+
+  useEffect(() => {
+    async function fetchDetailReview() {
+      try {
+        const { status, data: reviewData } = await axios.get(`/review/${breadShopId}`);
+
+        if (status === 200) {
+          onDetailReview(reviewData.list);
+        }
+      } catch (err) {
+        errorhandler(err);
+      }
+    }
+    fetchDetailReview();
+  }, []);
+
   // 리뷰등록
   const [writingReview, setWritingReview] = useState({
     text: ''
   });
 
   const [writingImage, setWritingImage] = useState([]);
+  console.log(writingImage);
+
+  // 모달 이미지(매개변수받아옴)
+  const [modalImage, setModalImage] = useState([]);
 
   const { text } = writingReview;
 
@@ -31,13 +58,16 @@ const Review = ({ breadShopId, shopDetailReview, onDetailReviewWriting, onDetail
     setOpenModal(false);
   };
 
-  // 등록후 이미지 모달
+  // 등록후 이미지클릭 모달
   const [modalOpen, setModalOpen] = useState(false);
   const el = useRef();
 
   // 오픈 모달
-  const opneModal = () => {
+  const opneModal = (reviewImage) => {
+    console.log(reviewImage);
     setModalOpen(true);
+    setModalImage(reviewImage);
+    // setModalImage(modalImage);
   };
 
   // 클로짓 모달
@@ -59,7 +89,6 @@ const Review = ({ breadShopId, shopDetailReview, onDetailReviewWriting, onDetail
       };
 
       const { status, data } = await axios.post(`/review/${breadShopId}`, reviewObject);
-      console.log(data);
       if (status === 201) {
         onDetailReviewWriting(data.data);
         setWritingReview({
@@ -185,23 +214,26 @@ const Review = ({ breadShopId, shopDetailReview, onDetailReviewWriting, onDetail
                   <textarea placeholder="지수빵집에 대한 분위기와 맛은 어떤가요?" onChange={handleChange} value={text} name="text" />
 
                   <ImageMap>
-                    {writingImage.map((imageData, index) => (
-                      <ImageWrap key={`image-${index}`}>
-                        <div>
-                          <img src={imageData.imageUrl} alt="이미지 사진" className="review_image" />
-                          <div className="bread_button_wrap" onClick={() => resetButton(index)} aria-hidden="true">
-                            <CloseWrap>
-                              <div className="image_close_container1">
-                                <div id="image_close_menu">
-                                  <span />
-                                  <span />
+                    {writingImage.map((imageData, index) => {
+                      console.log(imageData);
+                      return (
+                        <ImageWrap key={`image-${index}`}>
+                          <div>
+                            <img src={imageData.imageUrl} alt={`리뷰 사진${index}`} className="review_image" />
+                            <div className="bread_button_wrap" onClick={() => resetButton(index)} aria-hidden="true">
+                              <CloseWrap>
+                                <div className="image_close_container1">
+                                  <div id="image_close_menu">
+                                    <span />
+                                    <span />
+                                  </div>
                                 </div>
-                              </div>
-                            </CloseWrap>
+                              </CloseWrap>
+                            </div>
                           </div>
-                        </div>
-                      </ImageWrap>
-                    ))}
+                        </ImageWrap>
+                      );
+                    })}
                   </ImageMap>
 
                   <input type="file" id="file" onChange={ImagehandleChange} name="reviewImage" multiple />
@@ -226,42 +258,48 @@ const Review = ({ breadShopId, shopDetailReview, onDetailReviewWriting, onDetail
 
       <ReviewSlid>
         <Slider {...settings}>
-          {shopDetailReview.map((review) => (
-            <ReviewBox>
-              <BoxButton>
-                <BoxLeft>
-                  <div className="button_wrap">
-                    <div className="user_wrap">
-                      <img src={review.user.imageUrl} alt="" />
-                      <p>{review.user.name}</p>
-                      <p>{review.createdAt}</p>
+          {shopDetailReview.map((review) => {
+            console.log(review);
+            return (
+              <ReviewBox key={`review-${review.id}`}>
+                <BoxButton>
+                  <BoxLeft>
+                    <div className="button_wrap">
+                      <div className="user_wrap">
+                        <img src={review.user.imageUrl} alt="" />
+                        <p>{review.user.name}</p>
+                        <p>{review.createdAt}</p>
+                      </div>
+                      <div className="_button">
+                        <button type="button" onClick={() => commentModify(review.id)} className="review_button">
+                          수정
+                        </button>
+                        <button type="button" onClick={() => reviewDelete(review.id)} className="review_button">
+                          삭제
+                        </button>
+                      </div>
                     </div>
-                    <div className="_button">
-                      <button type="button" onClick={() => commentModify(review.id)} className="review_button">
-                        수정
-                      </button>
-                      <button type="button" onClick={() => reviewDelete(review.id)} className="review_button">
-                        삭제
-                      </button>
-                    </div>
-                  </div>
-                </BoxLeft>
-              </BoxButton>
+                  </BoxLeft>
+                </BoxButton>
 
-              <Content>
-                <p style={{ whiteSpace: 'pre-line' }}>{review.content}</p>
-                {/* <div dangerouslySetInnerHTML={{ __html: review.content.replace(/(?:\r\n|\r|\n)/g, '<br />') }} /> */}
-              </Content>
+                <Content>
+                  <p style={{ whiteSpace: 'pre-line' }}>{review.content}</p>
+                  {/* <div dangerouslySetInnerHTML={{ __html: review.content.replace(/(?:\r\n|\r|\n)/g, '<br />') }} /> */}
+                </Content>
 
-              {review.images.map((reviewImage) => (
-                <UserImage>
-                  <button type="button" onClick={opneModal}>
-                    <img src={reviewImage} alt="리뷰 사진" />
-                  </button>
-                </UserImage>
-              ))}
-            </ReviewBox>
-          ))}
+                {review.images.map((reviewImage, index) => {
+                  console.log(reviewImage);
+                  return (
+                    <UserImage key={`reviewimage-${review.id}-${index}`}>
+                      <button type="button" onClick={() => opneModal(review.images)}>
+                        <img src={reviewImage} alt={`리뷰 이미지${index}`} />
+                      </button>
+                    </UserImage>
+                  );
+                })}
+              </ReviewBox>
+            );
+          })}
         </Slider>
       </ReviewSlid>
 
@@ -274,7 +312,11 @@ const Review = ({ breadShopId, shopDetailReview, onDetailReviewWriting, onDetail
                 <p className="title">리뷰클릭시 모달</p>
               </div>
               <div className="content">
-                <img src={writingImage} alt="" />
+                <Slider {...settings}>
+                  {modalImage.map((images, index) => (
+                    <img src={images} alt={`리뷰사진${index}`} key={`modalImage-${images}`} className="modal_image" />
+                  ))}
+                </Slider>
               </div>
               <div className="button-wrap">
                 <button onClick={closeModal}> 취소 </button>
@@ -288,11 +330,22 @@ const Review = ({ breadShopId, shopDetailReview, onDetailReviewWriting, onDetail
 };
 
 Review.propTypes = {
-  breadShopId: PropTypes.number.isRequired,
+  match: PropTypes.instanceOf(Object).isRequired,
   shopDetailReview: PropTypes.instanceOf(Array).isRequired,
-  onDetailReviewWriting: PropTypes.func.isRequired,
+  onDetailReview: PropTypes.instanceOf(Object).isRequired,
+  onDetailReviewWriting: PropTypes.instanceOf(Object).isRequired,
   onDetaileReviewModify: PropTypes.func.isRequired,
-  onDetailReviewDelete: PropTypes.instanceOf(Array).isRequired
+  onDetailReviewDelete: PropTypes.func.isRequired
 };
 
-export default Review;
+const shopReviewStateToProps = createStructuredSelector({
+  shopDetailReview: selectShopReview
+});
+
+const shopReviewDispatch = (dispatch) => ({
+  onDetailReview: (review) => dispatch(setBreadShopReview(review)),
+  onDetailReviewWriting: (writing) => dispatch(setShopReviewWriting(writing)),
+  onDetaileReviewModify: (modify) => dispatch(setShopReviewModify(modify)),
+  onDetailReviewDelete: (remove) => dispatch(setShopReviewDelete(remove))
+});
+export default connect(shopReviewStateToProps, shopReviewDispatch)(Review);

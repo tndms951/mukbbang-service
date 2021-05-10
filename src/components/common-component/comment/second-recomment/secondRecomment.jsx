@@ -7,16 +7,17 @@ import { createStructuredSelector } from 'reselect';
 import axios from '../../../../utils/axios';
 import { ReComment, ButtonWrap } from './secondRecomment_style';
 import { selectShopReComment } from '../../../redux/breadshop/comment/breadShopComment.selectors';
-import { setReCommentModify } from '../../../redux/breadshop/comment/breadShopComment.actions';
+import { setReCommentModify, setReCommentDelete } from '../../../redux/breadshop/comment/breadShopComment.actions';
 
-const Recommend = ({ list, reCommendOpen, onReCommentModify, comment }) => {
+// eslint-disable-next-line no-unused-vars
+const Recommend = ({ list, reCommendOpen, onReCommentModify, comment, onReCommentDelete }) => {
   // 대댓글 수정
   const [modifyInput, setModifyInput] = useState(false);
-  const [modifyForm, setModifyForm] = useState(list.content);
-  console.log(modifyForm);
+  const [modifyForm, setModifyForm] = useState('');
 
   const reCommentClick = () => {
     setModifyInput(!modifyInput);
+    setModifyForm(list.content);
   };
 
   // 수정
@@ -24,28 +25,37 @@ const Recommend = ({ list, reCommendOpen, onReCommentModify, comment }) => {
     setModifyForm(e.target.value);
   };
 
-  // 댓글 수정(저장)
-  const reCommentSave = async (commentId) => {
-    console.log(commentId);
+  // 대댓글 수정(저장)
+  const reCommentSave = async (reCommentId) => {
     try {
       const reCommentObject = {
         content: modifyForm
       };
-      const { status } = await axios.put(`/comment/bread/shop/${commentId}`, reCommentObject);
+      const { status } = await axios.put(`/comment/bread/shop/${reCommentId}`, reCommentObject);
       if (status === 201) {
-        onReCommentModify(comment.id, commentId, modifyForm);
+        onReCommentModify(comment.id, reCommentId, modifyForm);
       }
       setModifyInput(false);
     } catch (err) {
       errorhandler(err);
-      console.log(err);
     }
   };
 
   // 취소
   const cancelClick = () => {
-    setModifyInput(list.content);
     setModifyInput(false);
+  };
+
+  // 삭제
+  const reCommentDelete = async () => {
+    try {
+      const { status } = await axios.delete(`/comment/bread/shop/${list.id}`);
+      if (status === 200) {
+        onReCommentDelete(comment.id, list.id);
+      }
+    } catch (err) {
+      errorhandler(err);
+    }
   };
 
   return (
@@ -57,7 +67,6 @@ const Recommend = ({ list, reCommendOpen, onReCommentModify, comment }) => {
               <img src="" alt="" />
               <p>{list.user.name}</p>
               {modifyInput ? <textarea onChange={reCommentHandle} value={modifyForm} /> : <div className="content">{list.content}</div>}
-              <div className="content">{list.content}</div>
               <div className="abc">
                 <div className="current_date">{list.createdAt}</div>
                 <ButtonWrap>
@@ -72,10 +81,12 @@ const Recommend = ({ list, reCommendOpen, onReCommentModify, comment }) => {
                     </>
                   ) : (
                     <>
-                      <button type="button" onClick={() => reCommentClick()}>
+                      <button type="button" onClick={reCommentClick}>
                         수정
                       </button>
-                      <button type="button">삭제</button>
+                      <button type="button" onClick={reCommentDelete}>
+                        삭제
+                      </button>
                     </>
                   )}
                 </ButtonWrap>
@@ -92,7 +103,8 @@ Recommend.propTypes = {
   list: PropTypes.instanceOf(Array).isRequired,
   reCommendOpen: PropTypes.bool.isRequired,
   onReCommentModify: PropTypes.func.isRequired,
-  comment: PropTypes.instanceOf(Object).isRequired
+  comment: PropTypes.instanceOf(Object).isRequired,
+  onReCommentDelete: PropTypes.func.isRequired
 };
 
 const reCommentStateToProps = createStructuredSelector({
@@ -100,7 +112,8 @@ const reCommentStateToProps = createStructuredSelector({
 });
 
 const reCommentDispatch = (dispatch) => ({
-  onReCommentModify: (commentId, reCommentId, modifyForm) => dispatch(setReCommentModify(commentId, reCommentId, modifyForm))
+  onReCommentModify: (commentId, reCommentId, modifyForm) => dispatch(setReCommentModify(commentId, reCommentId, modifyForm)),
+  onReCommentDelete: (commentId, reCommentId) => dispatch(setReCommentDelete(commentId, reCommentId))
 });
 
 export default connect(reCommentStateToProps, reCommentDispatch)(Recommend);

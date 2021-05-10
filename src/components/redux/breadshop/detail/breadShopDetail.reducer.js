@@ -13,10 +13,8 @@ const breadShopDetailReducer = (state = INITAL_STATE, action) => {
   switch (action.type) {
     case breadShopDetailTypes.SET_BREAD_SHOP_DETAIL_LIST: {
       const { detailShop } = action.payload;
-      console.log(detailShop);
+
       const { bread, images, menuImages, holidays, address, ...info } = detailShop;
-      console.log(bread);
-      console.log(menuImages);
       return {
         ...state,
         bread,
@@ -42,7 +40,6 @@ const breadShopDetailReducer = (state = INITAL_STATE, action) => {
         ...state.info
       };
       newInfo.like = false;
-      console.log(newInfo);
       return {
         ...state,
         info: newInfo

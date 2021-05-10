@@ -1,9 +1,10 @@
 import breadShopDetailComment from './breadShopComment.types';
 
-export const setShopDetailComment = (detailComment) => ({
+export const setShopDetailComment = (commentList, pagnation) => ({
   type: breadShopDetailComment.SET_SHOP_DETAIL_COMMENT,
   payload: {
-    detailComment
+    commentList,
+    pagnation
   }
 });
 
@@ -14,27 +15,20 @@ export const setRegisterComment = (registerComment) => ({
   }
 });
 
-export const setCommentModify = (commentModify, commentId) => {
-  console.log(commentModify);
-  console.log(commentId);
-  return {
-    type: breadShopDetailComment.SET_COMMENT_MODIFY,
-    payload: {
-      commentModify,
-      commentId
-    }
-  };
-};
+export const setCommentModify = (commentModify, commentId) => ({
+  type: breadShopDetailComment.SET_COMMENT_MODIFY,
+  payload: {
+    commentModify,
+    commentId
+  }
+});
 
-export const setCommentDelete = (commentDelete) => {
-  console.log(commentDelete);
-  return {
-    type: breadShopDetailComment.SET_COMMNET_DELETE,
-    payload: {
-      commentDelete
-    }
-  };
-};
+export const setCommentDelete = (commentDelete) => ({
+  type: breadShopDetailComment.SET_COMMNET_DELETE,
+  payload: {
+    commentDelete
+  }
+});
 
 // 대댓글
 export const setReCommentRegister = (reCommentRegister, commenstId) => ({
@@ -45,14 +39,19 @@ export const setReCommentRegister = (reCommentRegister, commenstId) => ({
   }
 });
 
-export const setReCommentModify = (commentId, reCommentId, modifyForm) => {
-  console.log(commentId);
-  return {
-    type: breadShopDetailComment.SET_RECOMMENT_MODIFY,
-    payload: {
-      commentId,
-      reCommentId,
-      modifyForm
-    }
-  };
-};
+export const setReCommentModify = (commentId, reCommentId, modifyForm) => ({
+  type: breadShopDetailComment.SET_RECOMMENT_MODIFY,
+  payload: {
+    commentId,
+    reCommentId,
+    modifyForm
+  }
+});
+
+export const setReCommentDelete = (commentId, reCommentId) => ({
+  type: breadShopDetailComment.SET_RECOMMENT_DELETE,
+  payload: {
+    commentId,
+    reCommentId
+  }
+});

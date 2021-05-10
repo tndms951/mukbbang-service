@@ -75,7 +75,7 @@ const Header = ({ currentUser, onLogout }) => {
           </h1>
         </Link>
         <ul>
-          <Link to="/rank/bread-house">
+          <Link to="/rank/bread-house?page=1&limit=12">
             <li>빵집 랭킹</li>
           </Link>
           <Link to="/rank/bread">

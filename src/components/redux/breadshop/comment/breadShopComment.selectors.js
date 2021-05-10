@@ -5,3 +5,6 @@ export const selectShopComment = createSelector([selectDetailComment], (commentS
 
 // 대댓글
 export const selectShopReComment = createSelector([selectDetailComment], (reComment) => reComment.reCommentList);
+
+// 댓글 더보기
+export const selectShopCommentPagnaition = createSelector([selectDetailComment], (more) => more.pagnation);

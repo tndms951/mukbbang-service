@@ -378,15 +378,14 @@ export const ReviewModal = styled.div`
     z-index: 101;
     transform: translate(-50%, -50%);
     width: 50%;
-    height: 430px;
+    // height: 430px;
     overflow: scroll;
     border-radius: 10px;
     background-color: white;
     box-shadow: 0px 3px 6px rgba(0, 0, 0, 0.16);
   }
   & .Modal > * {
-    margin-left: 16px;
-    margin-right: 16px;
+    margin: 0 16px;
   }
   & .Modal > *:first-child {
     margin-top: 16px;
@@ -397,33 +396,33 @@ export const ReviewModal = styled.div`
     color: #333;
   }
   & .Modal .content {
-    margin-top: 16px;
+    margin-top: 30px;
   }
-  & .Modal .content img {
-    padding: 8px;
+  & .Modal .content .modal_image {
+    width: 50%; !important
     font-size: 12pt;
     display: block;
     color: #999;
+    margin: 0 auto;
   }
   & .Modal .button-wrap {
-    margin: 0;
     margin-top: 8px;
     vertical-align: bottom;
+    border: 1px solid #9a9a9a;
   }
   & .Modal .button-wrap button {
     width: 100%;
-    padding: 12px 0;
-    border-radius: 0 0 10px 10px;
-    background-color: #ad7cef;
+    padding: 10px 0;
+    background-color: white;
     font-size: 13pt;
-    color: white;
     border: 0;
     cursor: pointer;
   }
   & .Modal .button-wrap button:hover {
-    background-color: #7f49c8;
+    background-color: #9a9a9a;
+    color: white;
   }
-  & .Modal .button-wrap button:active {
-    background-color: #7e49c8;
+  & .slick-dots {
+    margin-bottom: 40px;
   }
 `;

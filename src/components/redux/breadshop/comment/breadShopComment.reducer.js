@@ -2,28 +2,30 @@
 import breadShopDetailComment from './breadShopComment.types';
 
 const INITAL_STATE = {
-  content: []
+  content: [],
+  pagnation: null
 };
 
 const breadShopCommentReducer = (state = INITAL_STATE, action) => {
   switch (action.type) {
     case breadShopDetailComment.SET_SHOP_DETAIL_COMMENT: {
-      const { detailComment } = action.payload;
-      console.log(detailComment);
+      const { commentList, pagnation } = action.payload;
+      const newList = [...state.content, ...commentList];
+
       return {
         ...state,
-        content: detailComment
+        pagnation,
+        content: newList
       };
     }
+    // 댓글저장
     case breadShopDetailComment.SET_DETAIL_COMMENT_REGISTER: {
       const { registerComment } = action.payload;
-      console.log(registerComment);
       const newRegister = [...state.content];
-      newRegister.unshift(registerComment);
-      console.log(newRegister);
+      const updateComment = newRegister.unshift(registerComment);
       return {
         ...state,
-        content: newRegister
+        content: updateComment
       };
     }
 
@@ -45,7 +47,6 @@ const breadShopCommentReducer = (state = INITAL_STATE, action) => {
 
     case breadShopDetailComment.SET_COMMNET_DELETE: {
       const { commentDelete } = action.payload;
-      console.log(commentDelete);
       const newDelete = [...state.content];
       const updateDelete = newDelete.findIndex((comment) => comment.id === Number(commentDelete));
       newDelete.splice(updateDelete, 1);
@@ -58,52 +59,43 @@ const breadShopCommentReducer = (state = INITAL_STATE, action) => {
     // 대댓글 등록
     case breadShopDetailComment.SET_RECOMMENT_REGISTER: {
       const { reCommentRegister, commenstId } = action.payload;
-      console.log(reCommentRegister);
-      console.log(commenstId);
       const newReComment = state.content.map((comment) => ({ ...comment }));
-      console.log(state.content);
       const updateReComment = newReComment.findIndex((list) => list.id === Number(commenstId));
-      console.log(updateReComment);
       newReComment[updateReComment].comments.unshift(reCommentRegister);
       return {
         ...state,
         content: newReComment
       };
     }
-    // case breadShopDetailComment.SET_RECOMMENT_MODIFY: {
-    //   const { commentId } = action.payload;
-    //   console.log(commentId); // 대댓글id
-    //   const newModify = [...state.content];
-    //   console.log(newModify);
-
-    //   const updateModify
-    //   const updateModify = newModify.findIndex((list) => list.id === Number(commentId));
-    //   console.log(newModify[updateModify]);
-    //   console.log(updateModify);
-    //   const newDate = {
-    //     ...newModify[updateModify],
-    //     content: newModify
-    //   };
-    //   newModify[updateModify].comments.splice(updateModify, 1, newDate);
-    //   console.log(updateModify);
-
-    //   return {
-    //     ...state,
-    //     content: newModify
-    //   };
-    // }
+    // 대댓글 수정
     case breadShopDetailComment.SET_RECOMMENT_MODIFY: {
+      // eslint-disable-next-line no-unused-vars
       const { commentId, reCommentId, modifyForm } = action.payload;
       const newReComment = state.content.map((comment) => ({ ...comment }));
       const findIndexComment = newReComment.findIndex((list) => list.id === Number(commentId));
       const findIndexReComment = newReComment[findIndexComment].comments.findIndex((list) => list.id === Number(reCommentId));
       const newObject = {
-        ...newReComment[findIndexReComment],
+        ...newReComment[findIndexComment].comments[findIndexReComment],
         content: modifyForm
       };
-      newReComment[findIndexComment].comments.splice(findIndexComment, 1, newObject);
+      newReComment[findIndexComment].comments.splice(findIndexReComment, 1, newObject);
       return {
-        ...state
+        ...state,
+        content: newReComment
+      };
+    }
+
+    // 대댓글 삭제
+    case breadShopDetailComment.SET_RECOMMENT_DELETE: {
+      const { commentId, reCommentId } = action.payload;
+      const newReComment = state.content.map((comment) => ({ ...comment }));
+      const findParentsIndex = newReComment.findIndex((list) => list.id === Number(commentId));
+      const findChildIndex = newReComment[findParentsIndex].comments.findIndex((list) => list.id === Number(reCommentId));
+      newReComment[findParentsIndex].comments.splice(findChildIndex, 1);
+
+      return {
+        ...state,
+        content: newReComment
       };
     }
     default:
