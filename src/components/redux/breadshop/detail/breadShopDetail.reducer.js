@@ -11,6 +11,7 @@ const INITAL_STATE = {
 
 const breadShopDetailReducer = (state = INITAL_STATE, action) => {
   switch (action.type) {
+    // 디테일 list
     case breadShopDetailTypes.SET_BREAD_SHOP_DETAIL_LIST: {
       const { detailShop } = action.payload;
 
@@ -26,6 +27,7 @@ const breadShopDetailReducer = (state = INITAL_STATE, action) => {
       };
     }
 
+    // 디테일 하트 true
     case breadShopDetailTypes.SET_SHOP_DETAIL_TRUE: {
       const newInfo = {
         ...state.info
@@ -36,6 +38,7 @@ const breadShopDetailReducer = (state = INITAL_STATE, action) => {
         info: newInfo
       };
     }
+    // 디테일 하트 false
     case breadShopDetailTypes.SET_SHOP_DETAIL_FALSE: {
       const newInfo = {
         ...state.info

@@ -7,6 +7,7 @@ const INITAL_STATE = {
 
 const breadShopCommentReducer = (state = INITAL_STATE, action) => {
   switch (action.type) {
+    // 댓글 list
     case breadShopDetailComment.SET_SHOP_DETAIL_COMMENT: {
       const { commentList, pagnation } = action.payload;
 
@@ -16,7 +17,7 @@ const breadShopCommentReducer = (state = INITAL_STATE, action) => {
         content: commentList
       };
     }
-    // 댓글 더보기
+    // 댓글 pagination
     case breadShopDetailComment.SET_SHOP_DETAIL_COMMENT_MORE: {
       const { commentList, pagnation } = action.payload;
       const newList = [...state.content, ...commentList];
@@ -53,7 +54,7 @@ const breadShopCommentReducer = (state = INITAL_STATE, action) => {
         content: newModify
       };
     }
-
+    // 댓글삭제
     case breadShopDetailComment.SET_COMMNET_DELETE: {
       const { commentDelete } = action.payload;
       const newDelete = [...state.content];

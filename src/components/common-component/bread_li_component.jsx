@@ -5,7 +5,6 @@ import axios from '../../utils/axios';
 import { errorhandler } from '../../utils/common';
 
 const BreadLi = ({ dataList, likeTrue, likeFalse, breadId, breadLike }) => {
-  console.log(breadLike);
   const changeBreadHeart = async () => {
     try {
       if (breadLike === true) {
