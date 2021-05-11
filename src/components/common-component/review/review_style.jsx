@@ -45,7 +45,7 @@ export const Register = styled.div`
 
 // 리뷰 등록시 모달
 export const RegisterReviewWrap = styled.div`
-  & .aaa {
+  & .review_modal_wrap {
     position: fixed;
     top: 0;
     left: 0;
@@ -55,7 +55,7 @@ export const RegisterReviewWrap = styled.div`
     background-color: rgba(0, 0, 0, 0.5);
   }
 
-  & .bbb {
+  & .review_modal {
     position: fixed;
     top: 50%;
     left: 50%;
@@ -70,27 +70,27 @@ export const RegisterReviewWrap = styled.div`
     box-shadow: 0px 3px 6px rgba(0, 0, 0, 0.16);
   }
 
-  & .bbb > * {
+  & .review_modal > * {
     margin-left: 16px;
     margin-right: 16px;
   }
 
-  & .bbb > *:first-child {
+  & .review_modal > *:first-child {
     margin-top: 16px;
   }
 
-  & .bbb .title {
+  & .review_modal .title {
     font-size: 16pt;
     font-weight: bold;
     color: #fb7819;
     fontsize: 28px;
   }
-  & .bbb .title_text {
+  & .review_modal .title_text {
     color: #383838;
     font-size: 18px;
   }
 
-  & .bbb .ccc {
+  & .review_modal .review_form_modal {
     margin-top: 16px;
   }
 `;
@@ -227,6 +227,12 @@ export const ReviewButton = styled.div`
 `;
 
 export const ReviewSlid = styled.div`
+  .background_wrap {
+    background: #f8f8f8;
+    height: 300px;
+    text-align: center;
+  }
+
   .slick-prev {
     width: 32px;
     height: 32px;
@@ -271,10 +277,6 @@ export const ReviewBox = styled.div`
   &.slick-arrow .slick-prev {
     outline: 1px solid red;
   }
-
-  & .review_button {
-    display: inline-block;
-  }
 `;
 
 export const BoxButton = styled.div`
@@ -303,24 +305,6 @@ export const BoxLeft = styled.div`
   & .user_wrap {
     float: left;
     width: 70%;
-  }
-
-  & ._button {
-    display: inline-block;
-    // float: right;
-  }
-
-  & .review_button {
-    border: 1px solid #9a9a9a;
-
-    width: 100px;
-    background: white;
-    padding: 8px;
-    cursor: pointer;
-    font-size: 15px;
-    font-weight: 400;
-    margin-top: 10px;
-    margin-right: 7px;
   }
 
   & p:nth-child(2) {
@@ -368,7 +352,7 @@ export const ReviewModal = styled.div`
     left: 0;
     bottom: 0;
     right: 0;
-    background-color: rgba(0, 0, 0, 0.16);
+    background-color: rgba(0, 0, 0, 0.5);
   }
   & .Modal {
     position: fixed;
@@ -394,12 +378,15 @@ export const ReviewModal = styled.div`
     font-size: 16pt;
     font-weight: bold;
     color: #333;
+    margin-bottom: 10px;
   }
   & .Modal .content {
     margin-top: 30px;
+    width: 80%;
+    margin: 0 auto;
   }
   & .Modal .content .modal_image {
-    width: 50%; !important
+    width: 100% !important;
     font-size: 12pt;
     display: block;
     color: #999;
@@ -423,6 +410,6 @@ export const ReviewModal = styled.div`
     color: white;
   }
   & .slick-dots {
-    margin-bottom: 40px;
+    margin-bottom: 25px;
   }
 `;

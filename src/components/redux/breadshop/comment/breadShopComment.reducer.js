@@ -1,4 +1,3 @@
-// @ts-nocheck
 import breadShopDetailComment from './breadShopComment.types';
 
 const INITAL_STATE = {
@@ -9,6 +8,16 @@ const INITAL_STATE = {
 const breadShopCommentReducer = (state = INITAL_STATE, action) => {
   switch (action.type) {
     case breadShopDetailComment.SET_SHOP_DETAIL_COMMENT: {
+      const { commentList, pagnation } = action.payload;
+
+      return {
+        ...state,
+        pagnation,
+        content: commentList
+      };
+    }
+    // 댓글 더보기
+    case breadShopDetailComment.SET_SHOP_DETAIL_COMMENT_MORE: {
       const { commentList, pagnation } = action.payload;
       const newList = [...state.content, ...commentList];
 
@@ -22,10 +31,10 @@ const breadShopCommentReducer = (state = INITAL_STATE, action) => {
     case breadShopDetailComment.SET_DETAIL_COMMENT_REGISTER: {
       const { registerComment } = action.payload;
       const newRegister = [...state.content];
-      const updateComment = newRegister.unshift(registerComment);
+      newRegister.unshift(registerComment);
       return {
         ...state,
-        content: updateComment
+        content: newRegister
       };
     }
 
@@ -69,7 +78,6 @@ const breadShopCommentReducer = (state = INITAL_STATE, action) => {
     }
     // 대댓글 수정
     case breadShopDetailComment.SET_RECOMMENT_MODIFY: {
-      // eslint-disable-next-line no-unused-vars
       const { commentId, reCommentId, modifyForm } = action.payload;
       const newReComment = state.content.map((comment) => ({ ...comment }));
       const findIndexComment = newReComment.findIndex((list) => list.id === Number(commentId));

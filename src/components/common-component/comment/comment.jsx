@@ -6,17 +6,15 @@ import { createStructuredSelector } from 'reselect';
 import { connect } from 'react-redux';
 
 import { CommentWrap, CommentBox, MoreButton } from './comment_style';
-import RegisterComment from './first-commend/firstCommend';
+import RegisterComment from './first-commend/first_commend';
 import axios from '../../../utils/axios';
 import { errorhandler } from '../../../utils/common';
-
-import { setShopDetailComment, setRegisterComment, setCommentModify, setCommentDelete } from '../../redux/breadshop/comment/breadShopComment.actions';
+import { setShopDetailComment, setShopDetailCommentMore, setRegisterComment, setCommentModify, setCommentDelete } from '../../redux/breadshop/comment/breadShopComment.actions';
 import { selectShopComment, selectShopCommentPagnaition } from '../../redux/breadshop/comment/breadShopComment.selectors';
 
-const limit = 1;
+const limit = 20;
 
-const Comment = ({ match, onDetailComment, onRegisterComment, onCommentModify, onCommentDelete, shopDetailComment, shopCommentPagnaition }) => {
-  console.log(shopDetailComment);
+const Comment = ({ match, onDetailComment, onDetailCommentMore, onRegisterComment, onCommentModify, onCommentDelete, shopDetailComment, shopCommentPagnaition }) => {
   // 댓글등록
   const [comment, setComment] = useState('');
   const { breadShopId } = match;
@@ -51,14 +49,13 @@ const Comment = ({ match, onDetailComment, onRegisterComment, onCommentModify, o
         content: comment
       };
       const { status, data } = await axios.post(`/comment/bread/shop/${breadShopId}`, commentObject);
-      console.log(data);
+
       if (status === 201) {
         onRegisterComment(data.data);
         setComment('');
       }
     } catch (err) {
       errorhandler(err);
-      console.log(err);
     }
   };
 
@@ -66,9 +63,9 @@ const Comment = ({ match, onDetailComment, onRegisterComment, onCommentModify, o
   const moreButtonClick = async () => {
     try {
       const { status, data } = await axios.get(`/comment/bread/shop/${breadShopId}?page=${page + 1}&limit=${limit}`);
-      console.log(data);
+
       if (status === 200) {
-        onDetailComment(data.list, data.pagination);
+        onDetailCommentMore(data.list, data.pagination);
         setPage(page + 1);
       }
     } catch (err) {
@@ -79,7 +76,7 @@ const Comment = ({ match, onDetailComment, onRegisterComment, onCommentModify, o
   return (
     <CommentWrap>
       <CommentBox>
-        <h2>현재 10개의 댓글</h2>
+        <h2>현재 {shopCommentPagnaition?.totalCount || '0'}개의 댓글</h2>
         <form onSubmit={registerSubmit}>
           <textarea placeholder="댓글을 입력해 주세요." onChange={handleComment} value={comment} name="comment" />
           <button type="submit" className="registerButton">
@@ -111,8 +108,9 @@ Comment.defaultProps = {
 Comment.propTypes = {
   match: PropTypes.instanceOf(Object).isRequired,
   shopDetailComment: PropTypes.instanceOf(Array).isRequired,
-  onRegisterComment: PropTypes.instanceOf(Object).isRequired,
-  onDetailComment: PropTypes.instanceOf(Object).isRequired,
+  onRegisterComment: PropTypes.func.isRequired,
+  onDetailComment: PropTypes.func.isRequired,
+  onDetailCommentMore: PropTypes.func.isRequired,
   onCommentModify: PropTypes.func.isRequired,
   onCommentDelete: PropTypes.func.isRequired,
   shopCommentPagnaition: PropTypes.instanceOf(Object)
@@ -125,6 +123,7 @@ const detailCommentStateToProps = createStructuredSelector({
 
 const detailCommentDispatch = (dispatch) => ({
   onDetailComment: (comment, pagnation) => dispatch(setShopDetailComment(comment, pagnation)),
+  onDetailCommentMore: (comment, pagnation) => dispatch(setShopDetailCommentMore(comment, pagnation)),
   onRegisterComment: (register) => dispatch(setRegisterComment(register)),
   onCommentModify: (modify, commentId) => dispatch(setCommentModify(modify, commentId)),
   onCommentDelete: (commentDelete) => dispatch(setCommentDelete(commentDelete))

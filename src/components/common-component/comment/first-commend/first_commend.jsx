@@ -2,15 +2,16 @@ import React, { useState } from 'react';
 import PropTypes from 'prop-types';
 import { createStructuredSelector } from 'reselect';
 import { connect } from 'react-redux';
+import moment from 'moment';
 
-import { AuthorComment, ReCommentForm } from './firstCommend_style';
+import { AuthorComment, ReCommentForm } from './first_commend_style';
 import axios from '../../../../utils/axios';
 import { errorhandler } from '../../../../utils/common';
-import Recommend from '../second-recomment/secondRecomment';
+import Recommend from '../second-recomment/second_recomment';
 import { setReCommentRegister } from '../../../redux/breadshop/comment/breadShopComment.actions';
-import { selectShopReComment } from '../../../redux/breadshop/comment/breadShopComment.selectors';
+import { selectCurrentUser } from '../../../redux/user/user.selectors';
 
-const RegisterComment = ({ onCommentModify, onCommentDelete, onReCommentRegister, comment, breadShopId }) => {
+const RegisterComment = ({ onCommentModify, onCommentDelete, onReCommentRegister, comment, breadShopId, userLoginInfo }) => {
   // 댓글수정 form
   const [editValue, setEditValue] = useState('');
   // 인풋창 open close
@@ -92,29 +93,34 @@ const RegisterComment = ({ onCommentModify, onCommentDelete, onReCommentRegister
 
   return (
     <AuthorComment>
-      <img src="" alt="" />
+      <img src={comment.user.imageUrl} alt={`${comment.user.name}의 이미지`} />
       <p>{comment.user.name}</p>
 
       {inputOpen ? <textarea onChange={hanldeModifyChange} className="modify_Input" value={editValue} name="editValue" /> : <span>{comment.content}</span>}
 
       <div className="date_wrap">
-        <span>{comment.createdAt}</span>
+        <span>{moment(comment.createdAt).format('YYYY-MM-DD HH:mm')}</span>
+        {userLoginInfo ? (
+          <>
+            {userLoginInfo.id === comment.user.id ? (
+              <div className="button_wrap">
+                <button type="button" className="button" onClick={() => commentModify(comment.id)} aria-hidden="true">
+                  {inputOpen ? '저장' : '수정'}
+                </button>
 
-        <div className="button_wrap">
-          <button type="button" className="button" onClick={() => commentModify(comment.id)} aria-hidden="true">
-            {inputOpen ? '저장' : '수정'}
-          </button>
-
-          {inputOpen ? (
-            <button type="button" className="button" onClick={commentCancel} aria-hidden="true">
-              취소
-            </button>
-          ) : (
-            <button type="button" className="button" onClick={() => commentDelete(comment.id)} aria-hidden="true">
-              삭제
-            </button>
-          )}
-        </div>
+                {inputOpen ? (
+                  <button type="button" className="button" onClick={commentCancel} aria-hidden="true">
+                    취소
+                  </button>
+                ) : (
+                  <button type="button" className="button" onClick={() => commentDelete(comment.id)} aria-hidden="true">
+                    삭제
+                  </button>
+                )}
+              </div>
+            ) : null}
+          </>
+        ) : null}
       </div>
 
       <ReCommentForm>
@@ -150,11 +156,12 @@ RegisterComment.propTypes = {
   onCommentModify: PropTypes.func.isRequired,
   onCommentDelete: PropTypes.func.isRequired,
   comment: PropTypes.instanceOf(Object).isRequired,
-  onReCommentRegister: PropTypes.instanceOf(Object).isRequired
+  onReCommentRegister: PropTypes.func.isRequired,
+  userLoginInfo: PropTypes.instanceOf(Object).isRequired
 };
 
 const reCommentStateToProps = createStructuredSelector({
-  shopDetailReComment: selectShopReComment
+  userLoginInfo: selectCurrentUser
 });
 
 const reCommentDispatch = (dispatch) => ({

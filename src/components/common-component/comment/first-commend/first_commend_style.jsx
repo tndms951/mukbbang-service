@@ -10,7 +10,6 @@ export const AuthorComment = styled.div`
   }
 
   & img {
-    background: red;
     display: inline-block;
     width: 48px;
     height: 48px;

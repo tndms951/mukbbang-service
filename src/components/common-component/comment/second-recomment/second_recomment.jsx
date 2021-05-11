@@ -1,16 +1,16 @@
 import React, { useState } from 'react';
 import PropTypes from 'prop-types';
-
-import { errorhandler } from 'utils/common';
 import { connect } from 'react-redux';
 import { createStructuredSelector } from 'reselect';
-import axios from '../../../../utils/axios';
-import { ReComment, ButtonWrap } from './secondRecomment_style';
-import { selectShopReComment } from '../../../redux/breadshop/comment/breadShopComment.selectors';
-import { setReCommentModify, setReCommentDelete } from '../../../redux/breadshop/comment/breadShopComment.actions';
+import moment from 'moment';
 
-// eslint-disable-next-line no-unused-vars
-const Recommend = ({ list, reCommendOpen, onReCommentModify, comment, onReCommentDelete }) => {
+import { errorhandler } from '../../../../utils/common';
+import axios from '../../../../utils/axios';
+import { ReComment, ButtonWrap } from './second_recomment_style';
+import { setReCommentModify, setReCommentDelete } from '../../../redux/breadshop/comment/breadShopComment.actions';
+import { selectCurrentUser } from '../../../redux/user/user.selectors';
+
+const Recommend = ({ list, reCommendOpen, onReCommentModify, comment, onReCommentDelete, userLoginInfo }) => {
   // 대댓글 수정
   const [modifyInput, setModifyInput] = useState(false);
   const [modifyForm, setModifyForm] = useState('');
@@ -61,54 +61,57 @@ const Recommend = ({ list, reCommendOpen, onReCommentModify, comment, onReCommen
   return (
     <ReComment>
       {reCommendOpen ? (
-        <>
-          <div className="list_all_wrap">
-            <div className="list_wrap" key={`reComment-${list.id}`}>
-              <img src="" alt="" />
-              <p>{list.user.name}</p>
-              {modifyInput ? <textarea onChange={reCommentHandle} value={modifyForm} /> : <div className="content">{list.content}</div>}
-              <div className="abc">
-                <div className="current_date">{list.createdAt}</div>
-                <ButtonWrap>
-                  {modifyInput ? (
-                    <>
-                      <button type="button" onClick={() => reCommentSave(list.id)}>
-                        저장
-                      </button>
-                      <button type="button" onClick={cancelClick}>
-                        취소
-                      </button>
-                    </>
-                  ) : (
-                    <>
-                      <button type="button" onClick={reCommentClick}>
-                        수정
-                      </button>
-                      <button type="button" onClick={reCommentDelete}>
-                        삭제
-                      </button>
-                    </>
-                  )}
-                </ButtonWrap>
-              </div>
+        <div className="list_all_wrap">
+          <div className="list_wrap" key={`reComment-${list.id}`}>
+            <img src={list.user.imageUrl} alt={`${list.user.name}의 이미지`} />
+            <p>{list.user.name}</p>
+            {modifyInput ? <textarea onChange={reCommentHandle} value={modifyForm} /> : <div className="content">{list.content}</div>}
+            <div className="button_">
+              <div className="current_date">{moment(list.createdAt).format('YYYY-MM-DD HH:mm')}</div>
+              <ButtonWrap>
+                {userLoginInfo.id === list.user.id ? (
+                  <>
+                    {modifyInput ? (
+                      <>
+                        <button type="button" onClick={() => reCommentSave(list.id)}>
+                          저장
+                        </button>
+                        <button type="button" onClick={cancelClick}>
+                          취소
+                        </button>
+                      </>
+                    ) : (
+                      <>
+                        <button type="button" onClick={reCommentClick}>
+                          수정
+                        </button>
+                        <button type="button" onClick={reCommentDelete}>
+                          삭제
+                        </button>
+                      </>
+                    )}
+                  </>
+                ) : null}
+              </ButtonWrap>
             </div>
           </div>
-        </>
+        </div>
       ) : null}
     </ReComment>
   );
 };
 
 Recommend.propTypes = {
-  list: PropTypes.instanceOf(Array).isRequired,
+  list: PropTypes.instanceOf(Object).isRequired,
   reCommendOpen: PropTypes.bool.isRequired,
   onReCommentModify: PropTypes.func.isRequired,
   comment: PropTypes.instanceOf(Object).isRequired,
-  onReCommentDelete: PropTypes.func.isRequired
+  onReCommentDelete: PropTypes.func.isRequired,
+  userLoginInfo: PropTypes.instanceOf(Object).isRequired
 };
 
 const reCommentStateToProps = createStructuredSelector({
-  shopDetailModify: selectShopReComment
+  userLoginInfo: selectCurrentUser
 });
 
 const reCommentDispatch = (dispatch) => ({

@@ -4,10 +4,6 @@ export const HouseDetaile = styled.div`
   margin: 0 auto;
   margin-top: 150px;
   width: 1024px;
-
-  // .swal2-container .swal2-center {
-  //   z-index: 10000; !important
-  // }
 `;
 
 export const Grade = styled.div`
@@ -45,6 +41,10 @@ export const ShopImage = styled.div`
     height: 248px;
     margin-bottom: 24px;
   }
+
+  & .slick-slider {
+    margin-bottom: 65px;
+  }
 `;
 
 export const Information = styled.div`
@@ -66,6 +66,11 @@ export const Information = styled.div`
     font-weight: 400;
     float: left;
     width: 380px;
+
+    & a {
+      text-decoration: none;
+      color: #000000;
+    }
   }
 `;
 

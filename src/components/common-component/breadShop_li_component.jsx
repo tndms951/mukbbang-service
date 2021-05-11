@@ -33,7 +33,6 @@ const BreadShopLi = ({ shopList, shopImage, shopSeverLike, likeTrue, likeFalse, 
           className="heart_image"
           aria-hidden="true"
           onClick={changeShopHeart}
-          // active="true"
         />
       )}
       <dl>
@@ -46,12 +45,19 @@ const BreadShopLi = ({ shopList, shopImage, shopSeverLike, likeTrue, likeFalse, 
 
 BreadShopLi.propTypes = {
   shopList: PropTypes.instanceOf(Object).isRequired,
-  shopSeverLike: PropTypes.bool.isRequired,
-  likeTrue: PropTypes.func.isRequired,
-  likeFalse: PropTypes.func.isRequired,
+  shopSeverLike: PropTypes.bool,
+  likeTrue: PropTypes.func,
+  likeFalse: PropTypes.func,
   shopId: PropTypes.number.isRequired,
   shopImage: PropTypes.string.isRequired,
-  breadShopId: PropTypes.number.isRequired
+  breadShopId: PropTypes.string
+};
+
+BreadShopLi.defaultProps = {
+  shopSeverLike: undefined,
+  likeTrue: undefined,
+  likeFalse: undefined,
+  breadShopId: undefined
 };
 
 export default BreadShopLi;

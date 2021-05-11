@@ -8,6 +8,14 @@ export const setShopDetailComment = (commentList, pagnation) => ({
   }
 });
 
+export const setShopDetailCommentMore = (commentList, pagnation) => ({
+  type: breadShopDetailComment.SET_SHOP_DETAIL_COMMENT_MORE,
+  payload: {
+    commentList,
+    pagnation
+  }
+});
+
 export const setRegisterComment = (registerComment) => ({
   type: breadShopDetailComment.SET_DETAIL_COMMENT_REGISTER,
   payload: {

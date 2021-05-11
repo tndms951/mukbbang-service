@@ -1,26 +1,20 @@
-/* eslint-disable react/no-array-index-key */
-// @ts-nocheck
-/* eslint-disable react/jsx-props-no-spreading */
 import React, { useEffect } from 'react';
 import PropTypes from 'prop-types';
 import { createStructuredSelector } from 'reselect';
 import { connect } from 'react-redux';
 import { Link } from 'react-router-dom';
-import { errorhandler } from '../../../../../utils/common';
+import Slider from 'react-slick';
 
+import { errorhandler } from '../../../../../utils/common';
 import { HouseDetaile, Grade, ShopImage, Information, OtherBread, BreadShopList } from './breadShop_detail_style';
 import axios from '../../../../../utils/axios';
-import BreadShopLi from '../../../../common-component/breadShop_li_component';
+import BreadLi from '../../../../common-component/bread_li_component';
 import Review from '../../../../common-component/review/review';
 import Comment from '../../../../common-component/comment/comment';
-
 import { selectShopBread, selectShopImages, selectShopMenuImages, selectShopHolidays, selectShopAddress, selectShopInfo } from '../../../../redux/breadshop/detail/breadShopDetail.selectors';
 import { setCurrentBreadShopDetail, setShopDetailTrue, setShopDetailFalse } from '../../../../redux/breadshop/detail/breadShopDetail.actions';
 
-// eslint-disable-next-line no-unused-vars
 const ShopDetail = ({ shopDetailBread, shopDetailImages, shopDetailAddress, shopDetailInfo, onShopDetailBread, match, onDetailTrue, onDetailFalse }) => {
-  console.log(shopDetailInfo);
-  console.log(match);
   const { breadShopId } = match.params;
   useEffect(() => {
     async function fetchDetailData() {
@@ -35,8 +29,6 @@ const ShopDetail = ({ shopDetailBread, shopDetailImages, shopDetailAddress, shop
     }
 
     fetchDetailData();
-
-    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
   const onDetailHeart = async () => {
@@ -57,10 +49,19 @@ const ShopDetail = ({ shopDetailBread, shopDetailImages, shopDetailAddress, shop
     }
   };
 
+  const settings = {
+    dots: true,
+    infinite: true,
+    autoplay: true,
+    speed: 500,
+    slidesToShow: 1,
+    slidesToScroll: 1
+  };
+
   return (
     <HouseDetaile>
       <Grade>
-        <h1>빵집 이름</h1>
+        <h1>{shopDetailInfo?.title}</h1>
 
         <img
           src={shopDetailInfo?.like ? 'https://s3.ap-northeast-2.amazonaws.com/image.mercuryeunoia.com/images/web/jisu/+common_icon/heart.png' : 'https://s3.ap-northeast-2.amazonaws.com/image.mercuryeunoia.com/images/web/jisu/+common_icon/spaceheart.png'}
@@ -70,14 +71,20 @@ const ShopDetail = ({ shopDetailBread, shopDetailImages, shopDetailAddress, shop
         />
       </Grade>
       <ShopImage>
-        <img src={shopDetailImages} alt="" />
+        {/* eslint-disable-next-line react/jsx-props-no-spreading */}
+        <Slider {...settings}>
+          {shopDetailImages.map((images, index) => (
+            // eslint-disable-next-line react/no-array-index-key
+            <img src={images} alt={`빵집사진-${index}`} key={`bread-image-${index}`} />
+          ))}
+        </Slider>
         <Information>
           <div>주소</div>
-          <p>{shopDetailAddress ? shopDetailAddress.address : ''}</p>
+          <p>{shopDetailAddress?.address || ''}</p>
         </Information>
         <Information>
           <div>전화번호</div>
-          <p>{shopDetailInfo ? shopDetailInfo.storeNumber : ''}</p>
+          <p>{shopDetailInfo?.storeNumber || ''}</p>
         </Information>
         <Information>
           <div>주차</div>
@@ -86,11 +93,15 @@ const ShopDetail = ({ shopDetailBread, shopDetailImages, shopDetailAddress, shop
         </Information>
         <Information>
           <div>영업시간</div>
-          <p>{shopDetailInfo ? shopDetailInfo.openTime : ''}</p>
+          <p>{shopDetailInfo?.openTime || ''}</p>
         </Information>
         <Information>
           <div>홈페이지</div>
-          <p>{shopDetailInfo ? shopDetailInfo.link : ''}</p>
+          <p>
+            <a href={shopDetailInfo?.link} target="_blank" rel="noreferrer">
+              {shopDetailInfo?.link || ''}
+            </a>
+          </p>
         </Information>
       </ShopImage>
       <Review match={match.params} />
@@ -109,7 +120,7 @@ const ShopDetail = ({ shopDetailBread, shopDetailImages, shopDetailAddress, shop
         <ul className="list_wrap">
           {shopDetailBread.map((breadShopData) => (
             // <Link to=""> 빵 디테일 컴포넌트로 이동 해야됨
-            <BreadShopLi key={`bread_shop_list${breadShopData.id}`} shopList={breadShopData} shopImage={breadShopData.image} shopSeverLike={breadShopData.like} shopId={breadShopData.id} breadShopId={breadShopId} />
+            <BreadLi key={`bread_shop_list${breadShopData.id}`} dataList={breadShopData} breadLike={breadShopData.like} />
             // </Link>
           ))}
         </ul>

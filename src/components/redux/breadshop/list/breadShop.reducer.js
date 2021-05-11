@@ -10,6 +10,14 @@ const breadShopReducer = (state = INITAL_STATE, action) => {
   switch (action.type) {
     case breadShopTypes.SET_BREAD_SHOP_LIST: {
       const { breadShop } = action.payload;
+
+      return {
+        ...state,
+        breadShopList: breadShop
+      };
+    }
+    case breadShopTypes.SET_BREAD_SHOP_LIST_MORE: {
+      const { breadShop } = action.payload;
       const nreBreadShopList = [...state.breadShopList, ...breadShop];
       return {
         ...state,

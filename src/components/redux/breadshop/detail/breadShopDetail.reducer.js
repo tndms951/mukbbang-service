@@ -25,6 +25,7 @@ const breadShopDetailReducer = (state = INITAL_STATE, action) => {
         info
       };
     }
+
     case breadShopDetailTypes.SET_SHOP_DETAIL_TRUE: {
       const newInfo = {
         ...state.info

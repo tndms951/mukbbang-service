@@ -33,10 +33,10 @@ export const ReComment = styled.div`
       width: 70%;
     }
 
-    & .abc {
+    & .button_ {
       margin-left: 55px;
       margin-top: 10px;
-      width: 47%;
+      width: 35%;
 
       &::after {
         clear: both;
