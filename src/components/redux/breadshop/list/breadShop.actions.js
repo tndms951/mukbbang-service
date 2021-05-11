@@ -7,6 +7,13 @@ export const setCurrentBreadShop = (breadShop) => ({
   }
 });
 
+export const setCurrentBreadShopMore = (breadShop) => ({
+  type: breadShopTypes.SET_BREAD_SHOP_LIST_MORE,
+  payload: {
+    breadShop
+  }
+});
+
 export const setShopTrueData = (trueBreadShop) => ({
   type: breadShopTypes.HEART_LIKE_TRUE,
   payload: {

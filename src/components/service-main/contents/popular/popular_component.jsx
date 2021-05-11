@@ -35,7 +35,7 @@ const PopularBread = ({ breadList, onBreadList }) => {
       <BreadList>
         <ul className="list_wrap">
           {breadList.map((breadData) => (
-            <BreadLi key={`{bread-list${breadData.id}}`} data={breadData} />
+            <BreadLi key={`bread-list${breadData.id}`} data={breadData} />
           ))}
         </ul>
       </BreadList>

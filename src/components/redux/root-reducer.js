@@ -1,7 +1,7 @@
 import { combineReducers } from 'redux';
 
 import userReducer from './user/user.reducer';
-import breadShopReducer from './breadshoplist/breadShop.reducer';
+import breadShopReducer from './breadshop/bread-shop-reducer';
 import breadReducer from './breadlist/bread.reducer';
 import eventReducer from './main/main.reducer';
 

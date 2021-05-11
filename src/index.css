@@ -1,3 +1,7 @@
 * { font-family: 'Spoqa Han Sans Neo', 'sans-serif' !important; }
 
 @import url(https://spoqa.github.io/spoqa-han-sans/css/SpoqaHanSansNeo.css);
+
+.swal2-container.swal2-center {
+  z-index: 3000;
+}

@@ -5,7 +5,8 @@ import PropTypes from 'prop-types';
 
 import Signin from './components/sign-in/signin_content';
 import Signup from './components/sign-up/signup_content';
-import HouseRangking from './components/service-main/contents/breadShop-rangking/breadShop_rangking';
+import BreadHouseRouter from './components/service-main/contents/breadShop-rangking/breadShop_router';
+
 import populaBread from './components/service-main/contents/popular/popular_component';
 import MainHome from './components/service-main/contents/main/mainhome_content';
 import PickBread from './components/service-main/contents/youtube-pick/youtube_bread';
@@ -43,7 +44,7 @@ function App({ onUserData }) {
         <Switch>
           <Route exact path="/signin" component={Signin} />
           <Route exact path="/signup" component={Signup} />
-          <Route path="/rank/bread-house" component={HouseRangking} />
+          <Route path="/rank/bread-house" component={BreadHouseRouter} />
           <Route path="/rank/bread" component={populaBread} />
           <Route path="/youtube-bread" component={PickBread} />
           <Route path="/" component={MainHome} />

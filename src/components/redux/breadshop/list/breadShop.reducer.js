@@ -16,6 +16,14 @@ const breadShopReducer = (state = INITAL_STATE, action) => {
         breadShopList: breadShop
       };
     }
+    case breadShopTypes.SET_BREAD_SHOP_LIST_MORE: {
+      const { breadShop } = action.payload;
+      const nreBreadShopList = [...state.breadShopList, ...breadShop];
+      return {
+        ...state,
+        breadShopList: nreBreadShopList
+      };
+    }
 
     case breadShopTypes.HEART_LIKE_TRUE: {
       const { trueBreadShop } = action.payload;
