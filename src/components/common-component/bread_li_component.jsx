@@ -32,22 +32,22 @@ const BreadLi = ({ likeTrue, likeFalse, breadList }) => {
           <img src={breadList.image} alt={`${breadList.title}의 이미지`} />
         </span>
 
-        {breadList.like !== undefined ? (
-          <span className="heart_wrap">
-            <img
-              src={breadList.like ? 'https://s3.ap-northeast-2.amazonaws.com/image.mercuryeunoia.com/images/web/jisu/+common_icon/heart.png' : 'https://s3.ap-northeast-2.amazonaws.com/image.mercuryeunoia.com/images/web/jisu/+common_icon/spaceheart.png'}
-              alt="하트 이미지"
-              className="heart_image"
-              aria-hidden="true"
-              onClick={changeBreadHeart}
-            />
-          </span>
-        ) : null}
-
         <dl>
           <dd>{breadList.title}</dd>
         </dl>
       </Link>
+
+      {breadList.like !== undefined ? (
+        <span className="heart_wrap">
+          <img
+            src={breadList.like ? 'https://s3.ap-northeast-2.amazonaws.com/image.mercuryeunoia.com/images/web/jisu/+common_icon/heart.png' : 'https://s3.ap-northeast-2.amazonaws.com/image.mercuryeunoia.com/images/web/jisu/+common_icon/spaceheart.png'}
+            alt="하트 이미지"
+            className="heart_image"
+            aria-hidden="true"
+            onClick={changeBreadHeart}
+          />
+        </span>
+      ) : null}
     </BreadliWrap>
   );
 };
