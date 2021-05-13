@@ -215,6 +215,7 @@ const HouseRangking = ({ breadShopList, onBreadShopList, onBreadShopTrue, onBrea
       sweetAlert('위치정보를 받아오지 못했습니다.');
     }
   };
+
   const fetchMoreData = async () => {
     console.log('스크롤');
     try {

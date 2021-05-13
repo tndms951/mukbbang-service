@@ -126,7 +126,7 @@ const MainHome = ({
         <BreadShopList>
           <ul className="list_wrap">
             {breadList.map((list) => (
-              <BreadLi key={`bread_li_list-${list.id}`} dataList={list} likeTrue={onBreadHeartTrue} likeFalse={onBreadHeartFalse} breadId={list.id} breadLike={list.like} />
+              <BreadLi key={`bread_li_list-${list.id}`} likeTrue={onBreadHeartTrue} likeFalse={onBreadHeartFalse} breadList={list} />
             ))}
           </ul>
         </BreadShopList>
