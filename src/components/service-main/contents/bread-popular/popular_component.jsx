@@ -1,8 +1,9 @@
-import React, { useEffect } from 'react';
+import React, { useEffect, useState } from 'react';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 import { createStructuredSelector } from 'reselect';
-import { Link } from 'react-router-dom';
+import InfiniteScroll from 'react-infinite-scroll-component';
+import qs from 'qs';
 
 import BreadLi from '../../../common-component/bread_li_component';
 import { selectBreadList } from '../../../redux/breadlist/bread.selectors';
@@ -19,7 +20,9 @@ import { PopularBreadWrap, PopularWrap, BreadList } from './popular_style';
  * @desc [bread컴포넌트]
  */
 
-const PopularBread = ({ breadList, onBreadList, onBreadHeartTrue, onBreadHeartFalse }) => {
+const PopularBread = ({ breadList, onBreadList, onBreadHeartTrue, onBreadHeartFalse, location }) => {
+  // 스크롤시
+  const [page, setPage] = useState(1);
   useEffect(() => {
     async function fetchbreadData() {
       try {
@@ -35,21 +38,46 @@ const PopularBread = ({ breadList, onBreadList, onBreadHeartTrue, onBreadHeartFa
     fetchbreadData();
   }, []);
 
+  // 스크롤(pagination)
+  const fetMoreData = async () => {
+    try {
+      const query = qs.parse(location.search, {
+        ignoreQueryPrefix: true
+      });
+      const queryObject = { ...query };
+      console.log(queryObject);
+      queryObject.page = String(page + 1);
+      queryObject.limit = String(12);
+      const queryData = qs.stringify(queryObject);
+      const { data, status } = await axios.get(`/bread?${queryData}`);
+      console.log(data);
+      if (status === 200) {
+        onBreadList(data.list);
+        setPage(page + 1);
+      }
+    } catch (err) {
+      errorhandler(err);
+    }
+  };
+
   return (
     <PopularBreadWrap>
-      <PopularWrap>
-        <h1>요즘 인기있는 빵</h1>
-      </PopularWrap>
+      <>
+        <PopularWrap>
+          <h1>요즘 인기있는 빵</h1>
+        </PopularWrap>
 
-      <BreadList>
-        <ul className="list_wrap">
-          {breadList.map((list) => (
-            <Link to={`/rank/bread/detail/${list.id}`} key={`bread-list${list.id}`}>
-              <BreadLi breadList={list} likeTrue={onBreadHeartTrue} likeFalse={onBreadHeartFalse} />
-            </Link>
-          ))}
-        </ul>
-      </BreadList>
+        <BreadList>
+          {/* @ts-ignore */}
+          <InfiniteScroll dataLength={breadList.length} next={fetMoreData} hasMore scrollThreshold="50px">
+            <ul className="list_wrap">
+              {breadList.map((list) => (
+                <BreadLi breadList={list} likeTrue={onBreadHeartTrue} likeFalse={onBreadHeartFalse} />
+              ))}
+            </ul>
+          </InfiniteScroll>
+        </BreadList>
+      </>
     </PopularBreadWrap>
   );
 };
@@ -58,7 +86,8 @@ PopularBread.propTypes = {
   breadList: PropTypes.instanceOf(Array).isRequired,
   onBreadList: PropTypes.func.isRequired,
   onBreadHeartTrue: PropTypes.func.isRequired,
-  onBreadHeartFalse: PropTypes.func.isRequired
+  onBreadHeartFalse: PropTypes.func.isRequired,
+  location: PropTypes.instanceOf(Object).isRequired
 };
 
 const breadStateToProps = createStructuredSelector({

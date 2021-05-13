@@ -3,7 +3,6 @@ import styled from 'styled-components';
 export const PopularBreadWrap = styled.div`
   margin: 180px auto;
   width: 1024px;
-  outline: 1px solid orange;
 `;
 
 export const PopularWrap = styled.div`
@@ -18,10 +17,16 @@ export const BreadList = styled.div`
     box-sizing: border-box;
     padding: 0px 24px;
     margin-bottom: 26px;
-    background: yellow;
+
+    &::after {
+      clear: both;
+      content: '';
+      display: block;
+    }
 
     & a {
       display: block;
+      text-decoration: none;
     }
 
     &::after {

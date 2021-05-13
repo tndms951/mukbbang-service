@@ -1,13 +1,12 @@
 import React from 'react';
 import PropTypes from 'prop-types';
+import { Link } from 'react-router-dom';
 
 import axios from '../../utils/axios';
 import { errorhandler } from '../../utils/common';
 import { BreadliWrap } from './bread_li_style';
 
 const BreadLi = ({ likeTrue, likeFalse, breadList }) => {
-  console.log(breadList);
-
   const changeBreadHeart = async () => {
     try {
       if (breadList.like === true) {
@@ -28,7 +27,7 @@ const BreadLi = ({ likeTrue, likeFalse, breadList }) => {
 
   return (
     <BreadliWrap>
-      <li className="bread_li_wrap">
+      <Link to={`/rank/bread/detail/${breadList.id}`} key={`bread-list${breadList.id}`}>
         <span className="bread_image_wrap">
           <img src={breadList.image} alt={`${breadList.title}의 이미지`} />
         </span>
@@ -48,7 +47,7 @@ const BreadLi = ({ likeTrue, likeFalse, breadList }) => {
         <dl>
           <dd>{breadList.title}</dd>
         </dl>
-      </li>
+      </Link>
     </BreadliWrap>
   );
 };
