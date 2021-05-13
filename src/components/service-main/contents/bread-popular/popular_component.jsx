@@ -45,12 +45,12 @@ const PopularBread = ({ breadList, onBreadList, onBreadHeartTrue, onBreadHeartFa
         ignoreQueryPrefix: true
       });
       const queryObject = { ...query };
-      console.log(queryObject);
+
       queryObject.page = String(page + 1);
       queryObject.limit = String(12);
       const queryData = qs.stringify(queryObject);
       const { data, status } = await axios.get(`/bread?${queryData}`);
-      console.log(data);
+
       if (status === 200) {
         onBreadList(data.list);
         setPage(page + 1);
