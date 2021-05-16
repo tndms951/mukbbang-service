@@ -12,22 +12,34 @@ import { errorhandler } from '../../../utils/common';
 import { setShopDetailComment, setShopDetailCommentMore, setRegisterComment, setCommentModify, setCommentDelete } from '../../redux/breadshop/comment/breadShopComment.actions';
 import { selectShopComment, selectShopCommentPagnaition } from '../../redux/breadshop/comment/breadShopComment.selectors';
 
+import { selectCurrentUser } from '../../redux/user/user.selectors';
+
 const limit = 20;
 
-const Comment = ({ match, onDetailComment, onDetailCommentMore, onRegisterComment, onCommentModify, onCommentDelete, shopDetailComment, shopCommentPagnaition }) => {
+const Comment = ({ match, onDetailComment, onDetailCommentMore, onRegisterComment, onCommentModify, onCommentDelete, shopDetailComment, shopCommentPagnaition, breadHouseType, breadType, currentUser, history, location }) => {
+  console.log(history);
+  console.log(location);
   // 댓글등록
   const [comment, setComment] = useState('');
   const { breadShopId } = match;
-
+  const { breadId } = match;
   const [page, setPage] = useState(1);
 
   useEffect(() => {
     async function fetchDetailComment() {
       try {
-        const { status, data } = await axios.get(`/comment/bread/shop/${breadShopId}?page=${page}&limit=${limit}`);
+        if (breadHouseType === 'breadHouseType') {
+          const { status, data } = await axios.get(`/comment/bread/shop/${breadShopId}?page=${page}&limit=${limit}`);
 
-        if (status === 200) {
-          onDetailComment(data.list, data.pagination);
+          if (status === 200) {
+            onDetailComment(data.list, data.pagination);
+          }
+        } else if (breadType === 'breadType') {
+          const { data, status } = await axios.get(`/bread/${breadId}`);
+          console.log(data);
+          if (status === 200) {
+            console.log('aaaa');
+          }
         }
       } catch (err) {
         errorhandler(err);
@@ -73,12 +85,21 @@ const Comment = ({ match, onDetailComment, onDetailCommentMore, onRegisterCommen
     }
   };
 
+  // 비로그인시 comment 클릭시 로그인페이지 이동
+  const loginClick = () => {
+    console.log('qwe');
+    if (!currentUser) {
+      const comeAddress = encodeURIComponent(location.pathname + location.search);
+      history.push(`/signin?moveAddress=${comeAddress}`);
+    }
+  };
+
   return (
     <CommentWrap>
       <CommentBox>
         <h2>현재 {shopCommentPagnaition?.totalCount || '0'}개의 댓글</h2>
         <form onSubmit={registerSubmit}>
-          <textarea placeholder="댓글을 입력해 주세요." onChange={handleComment} value={comment} name="comment" />
+          <textarea placeholder={currentUser ? '댓글을 입력해 주세요.' : '로그인이 필요한 서비스입니다.'} onChange={handleComment} onClick={loginClick} readOnly={!currentUser} value={comment} name="comment" />
           <button type="submit" className="registerButton">
             등록하기
           </button>
@@ -102,7 +123,9 @@ const Comment = ({ match, onDetailComment, onDetailCommentMore, onRegisterCommen
 };
 
 Comment.defaultProps = {
-  shopCommentPagnaition: null
+  shopCommentPagnaition: null,
+  breadHouseType: undefined,
+  currentUser: null
 };
 
 Comment.propTypes = {
@@ -113,12 +136,18 @@ Comment.propTypes = {
   onDetailCommentMore: PropTypes.func.isRequired,
   onCommentModify: PropTypes.func.isRequired,
   onCommentDelete: PropTypes.func.isRequired,
-  shopCommentPagnaition: PropTypes.instanceOf(Object)
+  shopCommentPagnaition: PropTypes.instanceOf(Object),
+  breadHouseType: PropTypes.string,
+  breadType: PropTypes.string.isRequired,
+  currentUser: PropTypes.instanceOf(Object),
+  history: PropTypes.instanceOf(Object).isRequired,
+  location: PropTypes.instanceOf(Object).isRequired
 };
 
 const detailCommentStateToProps = createStructuredSelector({
   shopDetailComment: selectShopComment,
-  shopCommentPagnaition: selectShopCommentPagnaition
+  shopCommentPagnaition: selectShopCommentPagnaition,
+  currentUser: selectCurrentUser
 });
 
 const detailCommentDispatch = (dispatch) => ({

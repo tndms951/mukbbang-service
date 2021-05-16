@@ -14,7 +14,7 @@ import Comment from '../../../../common-component/comment/comment';
 import { selectShopBread, selectShopImages, selectShopMenuImages, selectShopHolidays, selectShopAddress, selectShopInfo } from '../../../../redux/breadshop/detail/breadShopDetail.selectors';
 import { setCurrentBreadShopDetail, setShopDetailTrue, setShopDetailFalse } from '../../../../redux/breadshop/detail/breadShopDetail.actions';
 
-const ShopDetail = ({ shopDetailBread, shopDetailImages, shopDetailAddress, shopDetailInfo, onShopDetailBread, match, onDetailTrue, onDetailFalse }) => {
+const ShopDetail = ({ shopDetailBread, shopDetailImages, shopDetailAddress, shopDetailInfo, onShopDetailBread, match, onDetailTrue, onDetailFalse, history, location }) => {
   const { breadShopId } = match.params;
   useEffect(() => {
     async function fetchDetailData() {
@@ -105,7 +105,7 @@ const ShopDetail = ({ shopDetailBread, shopDetailImages, shopDetailAddress, shop
         </Information>
       </ShopImage>
       <Review match={match.params} />
-      <Comment match={match.params} />
+      <Comment match={match.params} breadHouseType="breadHouseType" history={history} location={location} />
 
       <OtherBread>
         <h1>빵</h1>
@@ -120,7 +120,7 @@ const ShopDetail = ({ shopDetailBread, shopDetailImages, shopDetailAddress, shop
         <ul className="list_wrap">
           {shopDetailBread.map((breadShopData) => (
             // <Link to=""> 빵 디테일 컴포넌트로 이동 해야됨
-            <BreadLi key={`bread_shop_list${breadShopData.id}`} dataList={breadShopData} breadLike={breadShopData.like} />
+            <BreadLi key={`bread_shop_list${breadShopData.id}`} breadList={breadShopData} />
             // </Link>
           ))}
         </ul>
@@ -137,7 +137,9 @@ ShopDetail.propTypes = {
   shopDetailAddress: PropTypes.instanceOf(Object),
   shopDetailInfo: PropTypes.instanceOf(Object),
   onDetailTrue: PropTypes.func.isRequired,
-  onDetailFalse: PropTypes.func.isRequired
+  onDetailFalse: PropTypes.func.isRequired,
+  history: PropTypes.instanceOf(Object).isRequired,
+  location: PropTypes.instanceOf(Object).isRequired
 };
 
 // 초기값이 없거나 null인 경우 예외처리

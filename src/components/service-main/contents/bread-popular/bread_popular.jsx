@@ -6,11 +6,11 @@ import InfiniteScroll from 'react-infinite-scroll-component';
 import qs from 'qs';
 
 import BreadLi from '../../../common-component/bread_li_component';
-import { selectBreadList } from '../../../redux/breadlist/bread.selectors';
-import { setBreadRankingList, setBreadListMore, setHeartTrueData, setHeartFalseData } from '../../../redux/breadlist/bread.actions';
+import { selectBreadList } from '../../../redux/bread/list/bread.selectors';
+import { setBreadRankingList, setBreadListMore, setHeartTrueData, setHeartFalseData } from '../../../redux/bread/list/bread.actions';
 import axios from '../../../../utils/axios';
 import { errorhandler } from '../../../../utils/common';
-import { PopularBreadWrap, PopularWrap, BreadList } from './popular_style';
+import { PopularBreadWrap, PopularWrap, BreadList } from './bread_popular_style';
 
 /**
  * @author 송지수

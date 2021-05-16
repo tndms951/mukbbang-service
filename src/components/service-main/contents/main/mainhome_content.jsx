@@ -12,8 +12,8 @@ import BreadShopLi from '../../../common-component/breadShop_li_component';
 import { selectShopList } from '../../../redux/breadshop/list/breadShop.selectors';
 import { setCurrentBreadShop, setShopTrueData, setShopFalseData } from '../../../redux/breadshop/list/breadShop.actions';
 
-import { selectBreadList } from '../../../redux/breadlist/bread.selectors';
-import { setBreadRankingList, setHeartTrueData, setHeartFalseData } from '../../../redux/breadlist/bread.actions';
+import { selectBreadList } from '../../../redux/bread/list/bread.selectors';
+import { setBreadRankingList, setHeartTrueData, setHeartFalseData } from '../../../redux/bread/list/bread.actions';
 
 import { selectEventSwiper } from '../../../redux/main/main.selectors';
 import { setEventSwiper } from '../../../redux/main/main.actions';

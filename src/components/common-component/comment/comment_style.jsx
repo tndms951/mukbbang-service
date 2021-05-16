@@ -27,6 +27,10 @@ export const CommentBox = styled.div`
     resize: none;
   }
 
+  & textarea[readonly] {
+    cursor: pointer;
+  }
+
   & .registerButton {
     border: 1px solid #9a9a9a;
     float: right;

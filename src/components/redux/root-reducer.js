@@ -2,7 +2,7 @@ import { combineReducers } from 'redux';
 
 import userReducer from './user/user.reducer';
 import breadShopReducer from './breadshop/bread-shop-reducer';
-import breadReducer from './breadlist/bread.reducer';
+import breadReducer from './bread/list/bread.reducer';
 import eventReducer from './main/main.reducer';
 
 const rootReducer = combineReducers({

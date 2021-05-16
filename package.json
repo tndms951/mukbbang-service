@@ -36,6 +36,7 @@
     "sweetalert2": "^10.15.2",
     "sweetalert2-react-content": "^3.3.0",
     "swiper": "^6.5.0",
+    "use-react-router": "^1.0.7",
     "web-vitals": "^1.1.0"
   },
   "devDependencies": {
