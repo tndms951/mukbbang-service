@@ -158,10 +158,7 @@ const breadShopStateToProps = createStructuredSelector({
 });
 
 const breadShopDetaileDispathch = (dispatch) => ({
-  onShopDetailBread: (DetailList) => {
-    console.log(DetailList);
-    return dispatch(setCurrentBreadShopDetail(DetailList));
-  },
+  onShopDetailBread: (DetailList) => dispatch(setCurrentBreadShopDetail(DetailList)),
   onDetailTrue: () => dispatch(setShopDetailTrue()),
   onDetailFalse: () => dispatch(setShopDetailFalse())
 });

@@ -57,5 +57,6 @@ export const MoreButton = styled.div`
     padding: 10px;
     font-size: 14px;
     font-weight: 500;
+    width: 100%;
   }
 `;

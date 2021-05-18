@@ -61,6 +61,7 @@ export const Information = styled.div`
     width: 213px;
     float: left;
   }
+
   p {
     display: inline;
     font-weight: 400;
@@ -127,14 +128,12 @@ export const BreadShopList = styled.div`
     width: 100%;
     box-sizing: border-box;
     
-   
     &::after {
       clear: both;
       content: '';
       display: block; 
     }
-  
-  
+
     & li {
       float: left;
       margin-right: 40px;

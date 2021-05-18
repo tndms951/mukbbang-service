@@ -5,9 +5,9 @@ export const BreadDtail = styled.div`
   margin: 0 auto;
 
   & .title_wrap {
-    margin-top: 150px;
+    margin-top: 176px;
     margin-bottom: 24px;
-    margin-left: 190px;
+    padding-left: 192.5px;
 
     &::after {
       clear: both;
@@ -41,12 +41,18 @@ export const BreadDtail = styled.div`
   & .image_wrap {
     width: 640px;
     height: 248px;
-    margin: 0 auto;
+    padding: 0px 192.5px;
+    display: block;
+    box-sizing: border-box;
 
     & img {
-      display: block;
       width: 100%;
       height: 100%;
+      display: block;
+    }
+
+    & .slick-slider {
+      margin-bottom: 65px;
     }
   }
 

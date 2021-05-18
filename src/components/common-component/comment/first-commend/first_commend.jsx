@@ -12,10 +12,6 @@ import { setReCommentRegister } from '../../../redux/comment/bread_breadShopComm
 import { selectCurrentUser } from '../../../redux/user/user.selectors';
 
 const RegisterComment = ({ onCommentModify, onCommentDelete, onReCommentRegister, comment, breadShopId, userLoginInfo, type, breadId }) => {
-  console.log(breadShopId);
-  console.log(type);
-  console.log(breadId);
-
   // 댓글수정 form
   const [editValue, setEditValue] = useState('');
   // 인풋창 open close

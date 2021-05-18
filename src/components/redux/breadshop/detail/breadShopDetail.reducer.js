@@ -14,7 +14,6 @@ const breadShopDetailReducer = (state = INITAL_STATE, action) => {
     // 디테일 list
     case breadShopDetailTypes.SET_BREAD_SHOP_DETAIL_LIST: {
       const { detailShop } = action.payload;
-
       const { bread, images, menuImages, holidays, address, ...info } = detailShop;
       return {
         ...state,

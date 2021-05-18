@@ -17,7 +17,6 @@ import { selectCurrentUser } from '../../redux/user/user.selectors';
 const limit = 20;
 
 const Comment = ({ match, onDetailComment, onDetailCommentMore, onRegisterComment, onCommentModify, onCommentDelete, shopDetailComment, shopCommentPagnaition, type, currentUser, history, location }) => {
-  console.log(shopDetailComment);
   // 댓글등록
   const [comment, setComment] = useState('');
   const { breadShopId } = match;
@@ -35,7 +34,7 @@ const Comment = ({ match, onDetailComment, onDetailCommentMore, onRegisterCommen
           }
         } else if (type === 'breadType') {
           const { data, status } = await axios.get(`/comment/bread/${breadId}`);
-          console.log(data);
+
           if (status === 200) {
             onDetailComment(data.list, data.pagination);
           }

@@ -10,7 +10,6 @@ import { setCurrentUser } from '../redux/user/user.actions';
 import Social from '../common-component/social';
 
 function Signup({ onUserSet, history, location }) {
-  console.log(location);
   // 기능코드
   const [LoginValue, setLoginValue] = useState({
     email: '',
@@ -52,7 +51,6 @@ function Signup({ onUserSet, history, location }) {
             const query = qs.parse(location.search, {
               ignoreQueryPrefix: true
             });
-            console.log(query);
             history.push(query?.moveAddress || '/');
           }
         }

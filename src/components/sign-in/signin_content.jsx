@@ -13,8 +13,6 @@ import { SigninAllWrap, InputEmail, InputPassword, LoginButton, SigninLine } fro
 import Social from '../common-component/social';
 
 function Signin({ onUserSet, history, location }) {
-  console.log(location);
-  console.log(location);
   const [LoginValue, setLoginValue] = useState({
     email: '',
     password: ''
@@ -28,7 +26,6 @@ function Signin({ onUserSet, history, location }) {
       history.replace('/');
     }
   }, []);
-  console.log(location.search);
 
   const handleSubmit = async (e) => {
     e.preventDefault();
@@ -59,7 +56,6 @@ function Signin({ onUserSet, history, location }) {
             const query = qs.parse(location.search, {
               ignoreQueryPrefix: true
             });
-            console.log(query);
             history.push(query?.moveAddress || '/');
           }
         }

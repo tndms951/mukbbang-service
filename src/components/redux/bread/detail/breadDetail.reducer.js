@@ -1,7 +1,7 @@
 import breadDetailTypes from './breadDetail.types';
 
 const INITAL_STATE = {
-  images: [],
+  image: [],
   info: null
 };
 
@@ -10,11 +10,10 @@ const breadDetailReducer = (state = INITAL_STATE, action) => {
     // 디테일 list
     case breadDetailTypes.SET_BREAD_DETAIL_LIST: {
       const { detailBread } = action.payload;
-      const { images, ...info } = detailBread;
-
+      const { image, ...info } = detailBread;
       return {
         ...state,
-        images,
+        image,
         info
       };
     }
@@ -24,7 +23,18 @@ const breadDetailReducer = (state = INITAL_STATE, action) => {
       const newInfo = {
         ...state.info
       };
-      console.log(newInfo);
+      newInfo.like = true;
+      return {
+        ...state,
+        info: newInfo
+      };
+    }
+    // 디테일 하트 false
+    case breadDetailTypes.SET_BREAD_DETAIL_FALSE: {
+      const newInfo = {
+        ...state.info
+      };
+      newInfo.like = false;
       return {
         ...state,
         info: newInfo
