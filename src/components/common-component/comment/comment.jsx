@@ -9,16 +9,15 @@ import { CommentWrap, CommentBox, MoreButton } from './comment_style';
 import RegisterComment from './first-commend/first_commend';
 import axios from '../../../utils/axios';
 import { errorhandler } from '../../../utils/common';
-import { setShopDetailComment, setShopDetailCommentMore, setRegisterComment, setCommentModify, setCommentDelete } from '../../redux/breadshop/comment/breadShopComment.actions';
-import { selectShopComment, selectShopCommentPagnaition } from '../../redux/breadshop/comment/breadShopComment.selectors';
+import { setShopDetailComment, setShopDetailCommentMore, setRegisterComment, setCommentModify, setCommentDelete } from '../../redux/comment/bread_breadShopComment.actions';
+import { selectShopComment, selectShopCommentPagnaition } from '../../redux/comment/bread_breadShopComment.selectors';
 
 import { selectCurrentUser } from '../../redux/user/user.selectors';
 
 const limit = 20;
 
-const Comment = ({ match, onDetailComment, onDetailCommentMore, onRegisterComment, onCommentModify, onCommentDelete, shopDetailComment, shopCommentPagnaition, breadHouseType, breadType, currentUser, history, location }) => {
-  console.log(history);
-  console.log(location);
+const Comment = ({ match, onDetailComment, onDetailCommentMore, onRegisterComment, onCommentModify, onCommentDelete, shopDetailComment, shopCommentPagnaition, type, currentUser, history, location }) => {
+  console.log(shopDetailComment);
   // 댓글등록
   const [comment, setComment] = useState('');
   const { breadShopId } = match;
@@ -28,17 +27,17 @@ const Comment = ({ match, onDetailComment, onDetailCommentMore, onRegisterCommen
   useEffect(() => {
     async function fetchDetailComment() {
       try {
-        if (breadHouseType === 'breadHouseType') {
+        if (type === 'breadHouseType') {
           const { status, data } = await axios.get(`/comment/bread/shop/${breadShopId}?page=${page}&limit=${limit}`);
 
           if (status === 200) {
             onDetailComment(data.list, data.pagination);
           }
-        } else if (breadType === 'breadType') {
-          const { data, status } = await axios.get(`/bread/${breadId}`);
+        } else if (type === 'breadType') {
+          const { data, status } = await axios.get(`/comment/bread/${breadId}`);
           console.log(data);
           if (status === 200) {
-            console.log('aaaa');
+            onDetailComment(data.list, data.pagination);
           }
         }
       } catch (err) {
@@ -57,14 +56,26 @@ const Comment = ({ match, onDetailComment, onDetailCommentMore, onRegisterCommen
   const registerSubmit = async (e) => {
     e.preventDefault();
     try {
-      const commentObject = {
-        content: comment
-      };
-      const { status, data } = await axios.post(`/comment/bread/shop/${breadShopId}`, commentObject);
+      if (type === 'breadHouseType') {
+        const commentObject = {
+          content: comment
+        };
+        const { status, data } = await axios.post(`/comment/bread/shop/${breadShopId}`, commentObject);
 
-      if (status === 201) {
-        onRegisterComment(data.data);
-        setComment('');
+        if (status === 201) {
+          onRegisterComment(data.data);
+          setComment('');
+        }
+      } else if (type === 'breadType') {
+        const commentObject = {
+          content: comment
+        };
+        const { status, data } = await axios.post(`/comment/bread/${breadId}`, commentObject);
+
+        if (status === 201) {
+          onRegisterComment(data.data);
+          setComment('');
+        }
       }
     } catch (err) {
       errorhandler(err);
@@ -74,11 +85,19 @@ const Comment = ({ match, onDetailComment, onDetailCommentMore, onRegisterCommen
   // 더보기 버튼
   const moreButtonClick = async () => {
     try {
-      const { status, data } = await axios.get(`/comment/bread/shop/${breadShopId}?page=${page + 1}&limit=${limit}`);
+      if (type === 'breadHouseType') {
+        const { status, data } = await axios.get(`/comment/bread/shop/${breadShopId}?page=${page + 1}&limit=${limit}`);
 
-      if (status === 200) {
-        onDetailCommentMore(data.list, data.pagination);
-        setPage(page + 1);
+        if (status === 200) {
+          onDetailCommentMore(data.list, data.pagination);
+          setPage(page + 1);
+        }
+      } else if (type === 'breadType') {
+        const { status, data } = await axios.get(`/comment/bread/${breadId}?page=${page + 1}&limit=${limit}`);
+        if (status === 200) {
+          onDetailCommentMore(data.list, data.pagination);
+          setPage(page + 1);
+        }
       }
     } catch (err) {
       errorhandler(err);
@@ -87,7 +106,6 @@ const Comment = ({ match, onDetailComment, onDetailCommentMore, onRegisterCommen
 
   // 비로그인시 comment 클릭시 로그인페이지 이동
   const loginClick = () => {
-    console.log('qwe');
     if (!currentUser) {
       const comeAddress = encodeURIComponent(location.pathname + location.search);
       history.push(`/signin?moveAddress=${comeAddress}`);
@@ -107,7 +125,7 @@ const Comment = ({ match, onDetailComment, onDetailCommentMore, onRegisterCommen
       </CommentBox>
 
       {shopDetailComment.map((comment) => (
-        <RegisterComment key={`comment-${comment.id}`} comment={comment} onCommentModify={onCommentModify} onCommentDelete={onCommentDelete} breadShopId={breadShopId} />
+        <RegisterComment key={`comment-${comment.id}`} comment={comment} onCommentModify={onCommentModify} onCommentDelete={onCommentDelete} breadShopId={breadShopId} type={type} breadId={breadId} />
       ))}
       {shopCommentPagnaition ? (
         shopCommentPagnaition.currentPage !== shopCommentPagnaition.totalPage ? (
@@ -124,8 +142,10 @@ const Comment = ({ match, onDetailComment, onDetailCommentMore, onRegisterCommen
 
 Comment.defaultProps = {
   shopCommentPagnaition: null,
-  breadHouseType: undefined,
-  currentUser: null
+  type: undefined,
+  currentUser: null,
+  history: undefined,
+  location: undefined
 };
 
 Comment.propTypes = {
@@ -137,11 +157,10 @@ Comment.propTypes = {
   onCommentModify: PropTypes.func.isRequired,
   onCommentDelete: PropTypes.func.isRequired,
   shopCommentPagnaition: PropTypes.instanceOf(Object),
-  breadHouseType: PropTypes.string,
-  breadType: PropTypes.string.isRequired,
+  type: PropTypes.string,
   currentUser: PropTypes.instanceOf(Object),
-  history: PropTypes.instanceOf(Object).isRequired,
-  location: PropTypes.instanceOf(Object).isRequired
+  history: PropTypes.instanceOf(Object),
+  location: PropTypes.instanceOf(Object)
 };
 
 const detailCommentStateToProps = createStructuredSelector({

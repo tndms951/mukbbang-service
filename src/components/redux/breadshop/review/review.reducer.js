@@ -27,7 +27,9 @@ const shopReviewReducer = (state = INITAL_STATE, action) => {
       const { reviewDelete } = action.payload;
       const newDelete = [...state.shopReview];
       const updateDelete = newDelete.findIndex((review) => review.id === Number(reviewDelete));
-      newDelete.splice(updateDelete, 1);
+      if (updateDelete !== -1) {
+        newDelete.splice(updateDelete, 1);
+      }
       return {
         ...state,
         shopReview: newDelete
@@ -37,7 +39,9 @@ const shopReviewReducer = (state = INITAL_STATE, action) => {
       const { reviewModify } = action.payload;
       const newModify = [...state.shopReview];
       const updateModify = newModify.findIndex((modify) => modify.id === Number(reviewModify));
-      newModify.splice(updateModify, reviewModify);
+      if (updateModify !== -1) {
+        newModify.splice(updateModify, reviewModify);
+      }
       return {
         ...state,
         shopReview: newModify

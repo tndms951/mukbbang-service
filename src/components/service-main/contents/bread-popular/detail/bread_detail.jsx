@@ -1,31 +1,80 @@
-import React from 'react';
+import React, { useEffect } from 'react';
 import PropTypes from 'prop-types';
+import { createStructuredSelector } from 'reselect';
+import { connect } from 'react-redux';
 
+import { errorhandler } from 'utils/common';
 import { BreadDtail } from './bread_detail_style';
 import Comment from '../../../../common-component/comment/comment';
+import { setCurrentBreadList } from '../../../../redux/bread/detail/breadDetail.actions';
+import { selectBreadInfo, selectBreadImages } from '../../../../redux/bread/detail/breadDetail.selectors';
 
-const BreadDetail = ({ match }) => {
-  console.log('aaaa');
+import axios from '../../../../../utils/axios';
+
+const BreadDetail = ({ match, breadDetailInfo, onBreadDetail, breadDetailImages }) => {
+  console.log(breadDetailInfo);
+  console.log(breadDetailImages);
   const { breadId } = match.params;
-  console.log(breadId);
+
+  useEffect(() => {
+    async function fetchBreadDetail() {
+      try {
+        const { data, status } = await axios.get(`bread/${breadId}`);
+        console.log(data);
+        if (status === 200) {
+          onBreadDetail(data.data);
+        }
+      } catch (err) {
+        errorhandler(err);
+      }
+    }
+    fetchBreadDetail();
+  }, []);
+
+  const onDetailHeart = () => {
+    console.log('aaaaa');
+  };
   return (
     <BreadDtail>
       <div className="title_wrap">
-        <span className="detail_text">빵 상세</span>
+        <span className="detail_text">{breadDetailInfo?.title}</span>
+        <div className="heartImage">
+          <img
+            src={breadDetailInfo?.like ? 'https://s3.ap-northeast-2.amazonaws.com/image.mercuryeunoia.com/images/web/jisu/+common_icon/heart.png' : 'https://s3.ap-northeast-2.amazonaws.com/image.mercuryeunoia.com/images/web/jisu/+common_icon/spaceheart.png'}
+            alt="빈하트 이미지"
+            onClick={onDetailHeart}
+            aria-hidden="true"
+          />
+        </div>
       </div>
       <div className="image_wrap">
-        <img src="//w.namu.la/s/2772140099705c9fd0e64f3ca13df1a5cb6a98f103532679e38617a809f459cd02ff0aa8001c88fd13adc651c642c33e22f340d7a39350b8b7a69b5b377c87b5c0fa03dd582ae0073e43f3c1f99a2aa55aae5ab687722c590ed13def08df90ed6832ea0178ec894fd7f357e05960ba81" alt="" />
+        <img src={breadDetailInfo?.image} alt="" />
       </div>
 
-      <span className="detail_bread_name">Name</span>
-      <p>설명</p>
-      <Comment match={match.params} breadType="breadType" />
+      <span className="detail_bread_name">{breadDetailInfo ? breadDetailInfo.title : ''}</span>
+      <p className="content_text">{breadDetailInfo?.content}</p>
+      <Comment match={match.params} type="breadType" />
     </BreadDtail>
   );
 };
-
-BreadDetail.propTypes = {
-  match: PropTypes.instanceOf(Object).isRequired
+BreadDetail.defaultProps = {
+  breadDetailInfo: null,
+  breadDetailImages: null
 };
 
-export default BreadDetail;
+BreadDetail.propTypes = {
+  match: PropTypes.instanceOf(Object).isRequired,
+  breadDetailInfo: PropTypes.instanceOf(Object),
+  onBreadDetail: PropTypes.func.isRequired,
+  breadDetailImages: PropTypes.instanceOf(Array)
+};
+
+const breadStateToProps = createStructuredSelector({
+  breadDetailInfo: selectBreadInfo,
+  breadDetailImages: selectBreadImages
+});
+const breadDetaileDispathch = (dispatch) => ({
+  onBreadDetail: (breadDetailList) => dispatch(setCurrentBreadList(breadDetailList))
+});
+
+export default connect(breadStateToProps, breadDetaileDispathch)(BreadDetail);

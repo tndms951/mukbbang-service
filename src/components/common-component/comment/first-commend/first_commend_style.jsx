@@ -11,18 +11,19 @@ export const AuthorComment = styled.div`
 
   & img {
     display: inline-block;
-    width: 48px;
-    height: 48px;
+    width: 48px !important;
+    height: 48px !important;
     line-height: 24px;
     border-radius: 50%;
     margin-right: 8px;
-    float: left;
+    float: left !important;
   }
 
   & p {
     display: inline-block;
     font-weight: 700;
     margin-top: 10px;
+    width: 30% !important;
   }
 
   & .modify_Input {

@@ -105,7 +105,7 @@ const ShopDetail = ({ shopDetailBread, shopDetailImages, shopDetailAddress, shop
         </Information>
       </ShopImage>
       <Review match={match.params} />
-      <Comment match={match.params} breadHouseType="breadHouseType" history={history} location={location} />
+      <Comment match={match.params} type="breadHouseType" history={history} location={location} />
 
       <OtherBread>
         <h1>빵</h1>
@@ -158,7 +158,10 @@ const breadShopStateToProps = createStructuredSelector({
 });
 
 const breadShopDetaileDispathch = (dispatch) => ({
-  onShopDetailBread: (DetailList) => dispatch(setCurrentBreadShopDetail(DetailList)),
+  onShopDetailBread: (DetailList) => {
+    console.log(DetailList);
+    return dispatch(setCurrentBreadShopDetail(DetailList));
+  },
   onDetailTrue: () => dispatch(setShopDetailTrue()),
   onDetailFalse: () => dispatch(setShopDetailFalse())
 });
