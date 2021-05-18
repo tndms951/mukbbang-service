@@ -1,4 +1,4 @@
-import breadShopDetailComment from './breadShopComment.types';
+import breadShopDetailComment from './bread_breadShopComment.types';
 
 const INITAL_STATE = {
   content: [],
@@ -33,9 +33,15 @@ const breadShopCommentReducer = (state = INITAL_STATE, action) => {
       const { registerComment } = action.payload;
       const newRegister = [...state.content];
       newRegister.unshift(registerComment);
+      const updatePagination = {
+        ...state.pagnation
+      };
+      updatePagination.totalCount += 1;
+
       return {
         ...state,
-        content: newRegister
+        content: newRegister,
+        pagnation: updatePagination
       };
     }
 
@@ -44,11 +50,14 @@ const breadShopCommentReducer = (state = INITAL_STATE, action) => {
       const { commentModify, commentId } = action.payload;
       const newModify = [...state.content];
       const updateModify = newModify.findIndex((modify) => modify.id === Number(commentId));
-      const updateComment = {
-        ...newModify[updateModify],
-        content: commentModify
-      };
-      newModify.splice(updateModify, 1, updateComment);
+      if (updateModify !== -1) {
+        const updateComment = {
+          ...newModify[updateModify],
+          content: commentModify
+        };
+        newModify.splice(updateModify, 1, updateComment);
+      }
+
       return {
         ...state,
         content: newModify
@@ -59,10 +68,18 @@ const breadShopCommentReducer = (state = INITAL_STATE, action) => {
       const { commentDelete } = action.payload;
       const newDelete = [...state.content];
       const updateDelete = newDelete.findIndex((comment) => comment.id === Number(commentDelete));
-      newDelete.splice(updateDelete, 1);
+      const updatePagination = {
+        ...state.pagnation
+      };
+      if (updateDelete !== -1) {
+        newDelete.splice(updateDelete, 1);
+        updatePagination.totalCount -= 1;
+      }
+
       return {
         ...state,
-        content: newDelete
+        content: newDelete,
+        pagnation: updatePagination
       };
     }
 
@@ -71,7 +88,9 @@ const breadShopCommentReducer = (state = INITAL_STATE, action) => {
       const { reCommentRegister, commenstId } = action.payload;
       const newReComment = state.content.map((comment) => ({ ...comment }));
       const updateReComment = newReComment.findIndex((list) => list.id === Number(commenstId));
-      newReComment[updateReComment].comments.unshift(reCommentRegister);
+      if (updateReComment !== -1) {
+        newReComment[updateReComment].comments.unshift(reCommentRegister);
+      }
       return {
         ...state,
         content: newReComment
@@ -82,12 +101,17 @@ const breadShopCommentReducer = (state = INITAL_STATE, action) => {
       const { commentId, reCommentId, modifyForm } = action.payload;
       const newReComment = state.content.map((comment) => ({ ...comment }));
       const findIndexComment = newReComment.findIndex((list) => list.id === Number(commentId));
-      const findIndexReComment = newReComment[findIndexComment].comments.findIndex((list) => list.id === Number(reCommentId));
-      const newObject = {
-        ...newReComment[findIndexComment].comments[findIndexReComment],
-        content: modifyForm
-      };
-      newReComment[findIndexComment].comments.splice(findIndexReComment, 1, newObject);
+      if (findIndexComment !== -1) {
+        const findIndexReComment = newReComment[findIndexComment].comments.findIndex((list) => list.id === Number(reCommentId));
+        if (findIndexReComment !== -1) {
+          const newObject = {
+            ...newReComment[findIndexComment].comments[findIndexReComment],
+            content: modifyForm
+          };
+          newReComment[findIndexComment].comments.splice(findIndexReComment, 1, newObject);
+        }
+      }
+
       return {
         ...state,
         content: newReComment
@@ -99,8 +123,10 @@ const breadShopCommentReducer = (state = INITAL_STATE, action) => {
       const { commentId, reCommentId } = action.payload;
       const newReComment = state.content.map((comment) => ({ ...comment }));
       const findParentsIndex = newReComment.findIndex((list) => list.id === Number(commentId));
-      const findChildIndex = newReComment[findParentsIndex].comments.findIndex((list) => list.id === Number(reCommentId));
-      newReComment[findParentsIndex].comments.splice(findChildIndex, 1);
+      if (findParentsIndex !== -1) {
+        const findChildIndex = newReComment[findParentsIndex].comments.findIndex((list) => list.id === Number(reCommentId));
+        newReComment[findParentsIndex].comments.splice(findChildIndex, 1);
+      }
 
       return {
         ...state,

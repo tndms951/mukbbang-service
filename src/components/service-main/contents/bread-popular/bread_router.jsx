@@ -1,7 +1,7 @@
 import React from 'react';
 import { Route, Switch } from 'react-router-dom';
 
-import breadPoular from './popular_component';
+import breadPoular from './bread_popular';
 import breadDetail from './detail/bread_detail';
 
 const BreadRouter = () => (

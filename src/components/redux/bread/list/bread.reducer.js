@@ -14,6 +14,14 @@ const breadListReducer = (state = INITAL_STATE, action) => {
         breadList: bread
       };
     }
+    case breadTypes.BREAD_LIST_MORE: {
+      const { bread } = action.payload;
+      const moreList = [...state.breadList, ...bread];
+      return {
+        ...state,
+        breadList: moreList
+      };
+    }
 
     case breadTypes.HEART_LIKE_TRUE: {
       const { trueBreadId } = action.payload;

@@ -59,7 +59,7 @@ const HouseRangking = ({ breadShopList, onBreadShopList, onBreadShopTrue, onBrea
     const query = qs.parse(location.search, {
       ignoreQueryPrefix: true
     });
-    console.log(query);
+
     if (!query.si_code) {
       setSiList({
         id: -1,
@@ -217,7 +217,6 @@ const HouseRangking = ({ breadShopList, onBreadShopList, onBreadShopTrue, onBrea
   };
 
   const fetchMoreData = async () => {
-    console.log('스크롤');
     try {
       const query = qs.parse(location.search, {
         ignoreQueryPrefix: true

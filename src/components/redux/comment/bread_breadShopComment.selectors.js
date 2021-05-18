@@ -1,6 +1,6 @@
 import { createSelector } from 'reselect';
 
-const selectDetailComment = (state) => state.breadShop.comment;
+const selectDetailComment = (state) => state.comment;
 
 // 댓글
 export const selectShopComment = createSelector([selectDetailComment], (breadShopComment) => breadShopComment.content);

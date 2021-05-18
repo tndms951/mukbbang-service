@@ -8,10 +8,10 @@ import { AuthorComment, ReCommentForm } from './first_commend_style';
 import axios from '../../../../utils/axios';
 import { errorhandler } from '../../../../utils/common';
 import Recommend from '../second-recomment/second_recomment';
-import { setReCommentRegister } from '../../../redux/breadshop/comment/breadShopComment.actions';
+import { setReCommentRegister } from '../../../redux/comment/bread_breadShopComment.actions';
 import { selectCurrentUser } from '../../../redux/user/user.selectors';
 
-const RegisterComment = ({ onCommentModify, onCommentDelete, onReCommentRegister, comment, breadShopId, userLoginInfo }) => {
+const RegisterComment = ({ onCommentModify, onCommentDelete, onReCommentRegister, comment, breadShopId, userLoginInfo, type, breadId }) => {
   // 댓글수정 form
   const [editValue, setEditValue] = useState('');
   // 인풋창 open close
@@ -29,9 +29,16 @@ const RegisterComment = ({ onCommentModify, onCommentDelete, onReCommentRegister
   // 댓글 삭제
   const commentDelete = async (commentId) => {
     try {
-      const { status } = await axios.delete(`/comment/bread/shop/${commentId}`);
-      if (status === 200) {
-        onCommentDelete(commentId);
+      if (type === 'breadHouseType') {
+        const { status } = await axios.delete(`/comment/bread/shop/${commentId}`);
+        if (status === 200) {
+          onCommentDelete(commentId);
+        }
+      } else if (type === 'breadType') {
+        const { status } = await axios.delete(`/comment/bread/${commentId}`);
+        if (status === 200) {
+          onCommentDelete(commentId);
+        }
       }
     } catch (err) {
       errorhandler(err);
@@ -44,15 +51,28 @@ const RegisterComment = ({ onCommentModify, onCommentDelete, onReCommentRegister
     setEditValue(comment.content);
 
     try {
-      const modifyObject = {
-        content: editValue
-      };
-      if (inputOpen) {
-        const { status } = await axios.put(`/comment/bread/shop/${commentId}`, modifyObject);
+      if (type === 'breadHouseType') {
+        const modifyObject = {
+          content: editValue
+        };
+        if (inputOpen) {
+          const { status } = await axios.put(`/comment/bread/shop/${commentId}`, modifyObject);
 
-        if (status === 201) {
-          onCommentModify(editValue, commentId);
-          setEditValue(editValue);
+          if (status === 201) {
+            onCommentModify(editValue, commentId);
+            setEditValue(editValue);
+          }
+        }
+      } else if (type === 'breadType') {
+        const modifyObject = {
+          content: editValue
+        };
+        if (inputOpen) {
+          const { status } = await axios.put(`/comment/bread/${commentId}`, modifyObject);
+          if (status === 201) {
+            onCommentModify(editValue, commentId);
+            setEditValue(editValue);
+          }
         }
       }
     } catch (err) {
@@ -74,17 +94,29 @@ const RegisterComment = ({ onCommentModify, onCommentDelete, onReCommentRegister
     setReCommendForm(e.target.value);
   };
 
+  // 대댓글 등록
   const handleSubmit = async (e, commentId) => {
     e.preventDefault();
     try {
-      const reCommentObject = {
-        content: reCommendForm
-      };
-      const { status, data } = await axios.post(`/comment/bread/shop/${breadShopId}/${commentId}`, reCommentObject);
+      if (type === 'breadHouseType') {
+        const reCommentObject = {
+          content: reCommendForm
+        };
+        const { status, data } = await axios.post(`/comment/bread/shop/${breadShopId}/${commentId}`, reCommentObject);
 
-      if (status === 201) {
-        onReCommentRegister(data.data, commentId);
-        setReCommendForm('');
+        if (status === 201) {
+          onReCommentRegister(data.data, commentId);
+          setReCommendForm('');
+        }
+      } else if (type === 'breadType') {
+        const reCommentObject = {
+          content: reCommendForm
+        };
+        const { status, data } = await axios.post(`/comment/bread/${breadId}/${commentId}`, reCommentObject);
+        if (status === 201) {
+          onReCommentRegister(data.data, commentId);
+          setReCommendForm('');
+        }
       }
     } catch (err) {
       errorhandler(err);
@@ -145,19 +177,27 @@ const RegisterComment = ({ onCommentModify, onCommentDelete, onReCommentRegister
         )}
       </ReCommentForm>
       {comment.comments.map((list) => (
-        <Recommend key={`recomment-${list.id}`} list={list} reCommendOpen={reCommendOpen} comment={comment} />
+        <Recommend key={`recomment-${list.id}`} list={list} reCommendOpen={reCommendOpen} comment={comment} type={type} />
       ))}
     </AuthorComment>
   );
 };
 
+RegisterComment.defaultProps = {
+  type: undefined,
+  breadShopId: undefined,
+  breadId: undefined
+};
+
 RegisterComment.propTypes = {
-  breadShopId: PropTypes.string.isRequired,
+  breadShopId: PropTypes.string,
   onCommentModify: PropTypes.func.isRequired,
   onCommentDelete: PropTypes.func.isRequired,
   comment: PropTypes.instanceOf(Object).isRequired,
   onReCommentRegister: PropTypes.func.isRequired,
-  userLoginInfo: PropTypes.instanceOf(Object).isRequired
+  userLoginInfo: PropTypes.instanceOf(Object).isRequired,
+  type: PropTypes.string,
+  breadId: PropTypes.string
 };
 
 const reCommentStateToProps = createStructuredSelector({

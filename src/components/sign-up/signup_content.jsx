@@ -1,22 +1,15 @@
 import React, { useState } from 'react';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
+import qs from 'qs';
 
 import axios, { setAuthorization } from '../../utils/axios';
 import { sweetAlert, isEmailValid, errorhandler } from '../../utils/common';
-import {
-  SignupAllWrap,
-  InputEmail,
-  InputName,
-  InputPassword,
-  ReInputPassword,
-  LoginButton,
-  SignupLine
-} from './signup_content_style';
+import { SignupAllWrap, InputEmail, InputName, InputPassword, ReInputPassword, LoginButton, SignupLine } from './signup_content_style';
 import { setCurrentUser } from '../redux/user/user.actions';
 import Social from '../common-component/social';
 
-function Signup({ onUserSet, history }) {
+function Signup({ onUserSet, history, location }) {
   // 기능코드
   const [LoginValue, setLoginValue] = useState({
     email: '',
@@ -52,13 +45,14 @@ function Signup({ onUserSet, history }) {
         if (status === 201) {
           const { token } = data.data;
           setAuthorization(token);
-        }
-
-        const { data: userData } = await axios.get('/user/current');
-        if (status === 200) {
-          const { token } = data.data;
-          onUserSet(userData, token);
-          history.push('/');
+          const { status: userStatus, data: userData } = await axios.get('/user/current');
+          if (userStatus === 200) {
+            onUserSet(userData, token);
+            const query = qs.parse(location.search, {
+              ignoreQueryPrefix: true
+            });
+            history.push(query?.moveAddress || '/');
+          }
         }
       }
     } catch (err) {
@@ -81,47 +75,23 @@ function Signup({ onUserSet, history }) {
 
           <InputEmail>
             <span>이메일 입력</span>
-            <input
-              type="text"
-              placeholder="이메일 입력"
-              onChange={handleChange}
-              name="email"
-              value={email}
-            />
+            <input type="text" placeholder="이메일 입력" onChange={handleChange} name="email" value={email} />
           </InputEmail>
 
           <InputName>
             <span>이름 입력</span>
-            <input
-              type="text"
-              placeholder="이름 입력"
-              name="name"
-              value={name}
-              onChange={handleChange}
-            />
+            <input type="text" placeholder="이름 입력" name="name" value={name} onChange={handleChange} />
           </InputName>
 
           <InputPassword>
             <span>비밀번호 입력</span>
             <span>(영문, 숫자, 특수문자 포함 8자리 이상)</span>
-            <input
-              type="password"
-              placeholder="비밀번호"
-              onChange={handleChange}
-              name="password"
-              value={password}
-            />
+            <input type="password" placeholder="비밀번호" onChange={handleChange} name="password" value={password} />
           </InputPassword>
 
           <ReInputPassword>
             <span>비밀번호 재확인</span>
-            <input
-              type="password"
-              placeholder="비밀번호"
-              name="repassword"
-              value={repassword}
-              onChange={handleChange}
-            />
+            <input type="password" placeholder="비밀번호" name="repassword" value={repassword} onChange={handleChange} />
           </ReInputPassword>
 
           <LoginButton>
@@ -141,7 +111,8 @@ function Signup({ onUserSet, history }) {
 
 Signup.propTypes = {
   onUserSet: PropTypes.func.isRequired,
-  history: PropTypes.objectOf(PropTypes.object).isRequired
+  history: PropTypes.objectOf(PropTypes.object).isRequired,
+  location: PropTypes.instanceOf(Object).isRequired
 };
 
 const mapDispatchToProps = (dispatch) => ({

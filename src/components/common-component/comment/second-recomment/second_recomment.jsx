@@ -7,10 +7,10 @@ import moment from 'moment';
 import { errorhandler } from '../../../../utils/common';
 import axios from '../../../../utils/axios';
 import { ReComment, ButtonWrap } from './second_recomment_style';
-import { setReCommentModify, setReCommentDelete } from '../../../redux/breadshop/comment/breadShopComment.actions';
+import { setReCommentModify, setReCommentDelete } from '../../../redux/comment/bread_breadShopComment.actions';
 import { selectCurrentUser } from '../../../redux/user/user.selectors';
 
-const Recommend = ({ list, reCommendOpen, onReCommentModify, comment, onReCommentDelete, userLoginInfo }) => {
+const Recommend = ({ list, reCommendOpen, onReCommentModify, comment, onReCommentDelete, userLoginInfo, type }) => {
   // 대댓글 수정
   const [modifyInput, setModifyInput] = useState(false);
   const [modifyForm, setModifyForm] = useState('');
@@ -28,14 +28,25 @@ const Recommend = ({ list, reCommendOpen, onReCommentModify, comment, onReCommen
   // 대댓글 수정(저장)
   const reCommentSave = async (reCommentId) => {
     try {
-      const reCommentObject = {
-        content: modifyForm
-      };
-      const { status } = await axios.put(`/comment/bread/shop/${reCommentId}`, reCommentObject);
-      if (status === 201) {
-        onReCommentModify(comment.id, reCommentId, modifyForm);
+      if (type === 'breadHouseType') {
+        const reCommentObject = {
+          content: modifyForm
+        };
+        const { status } = await axios.put(`/comment/bread/shop/${reCommentId}`, reCommentObject);
+        if (status === 201) {
+          onReCommentModify(comment.id, reCommentId, modifyForm);
+        }
+        setModifyInput(false);
+      } else if (type === 'breadType') {
+        const reCommentObject = {
+          content: modifyForm
+        };
+        const { status } = await axios.put(`/comment/bread/${reCommentId}`, reCommentObject);
+        if (status === 201) {
+          onReCommentModify(comment.id, reCommentId, modifyForm);
+        }
+        setModifyInput(false);
       }
-      setModifyInput(false);
     } catch (err) {
       errorhandler(err);
     }
@@ -49,9 +60,16 @@ const Recommend = ({ list, reCommendOpen, onReCommentModify, comment, onReCommen
   // 삭제
   const reCommentDelete = async () => {
     try {
-      const { status } = await axios.delete(`/comment/bread/shop/${list.id}`);
-      if (status === 200) {
-        onReCommentDelete(comment.id, list.id);
+      if (type === 'breadHouseType') {
+        const { status } = await axios.delete(`/comment/bread/shop/${list.id}`);
+        if (status === 200) {
+          onReCommentDelete(comment.id, list.id);
+        }
+      } else if (type === 'breadType') {
+        const { status } = await axios.delete(`/comment/bread/${list.id}`);
+        if (status === 200) {
+          onReCommentDelete(comment.id, list.id);
+        }
       }
     } catch (err) {
       errorhandler(err);
@@ -101,13 +119,18 @@ const Recommend = ({ list, reCommendOpen, onReCommentModify, comment, onReCommen
   );
 };
 
+Recommend.defaultProps = {
+  type: undefined
+};
+
 Recommend.propTypes = {
   list: PropTypes.instanceOf(Object).isRequired,
   reCommendOpen: PropTypes.bool.isRequired,
   onReCommentModify: PropTypes.func.isRequired,
   comment: PropTypes.instanceOf(Object).isRequired,
   onReCommentDelete: PropTypes.func.isRequired,
-  userLoginInfo: PropTypes.instanceOf(Object).isRequired
+  userLoginInfo: PropTypes.instanceOf(Object).isRequired,
+  type: PropTypes.string
 };
 
 const reCommentStateToProps = createStructuredSelector({

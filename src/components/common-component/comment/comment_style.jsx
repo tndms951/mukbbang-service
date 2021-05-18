@@ -27,6 +27,10 @@ export const CommentBox = styled.div`
     resize: none;
   }
 
+  & textarea[readonly] {
+    cursor: pointer;
+  }
+
   & .registerButton {
     border: 1px solid #9a9a9a;
     float: right;
@@ -42,7 +46,7 @@ export const CommentBox = styled.div`
 `;
 
 export const MoreButton = styled.div`
-  margin-top: 40px;
+  margin: 40px 0;
   text-align: center;
   border: 1px solid #9a9a9a;
 
@@ -53,5 +57,6 @@ export const MoreButton = styled.div`
     padding: 10px;
     font-size: 14px;
     font-weight: 500;
+    width: 100%;
   }
 `;

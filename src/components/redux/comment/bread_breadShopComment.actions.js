@@ -1,4 +1,4 @@
-import breadShopDetailComment from './breadShopComment.types';
+import breadShopDetailComment from './bread_breadShopComment.types';
 
 // 댓글list
 export const setShopDetailComment = (commentList, pagnation) => ({

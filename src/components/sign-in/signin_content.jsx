@@ -2,20 +2,17 @@ import React, { useState, useEffect } from 'react';
 
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
+import qs from 'qs';
+import { Link } from 'react-router-dom';
+
 import { setCurrentUser } from '../redux/user/user.actions';
 import { sweetAlert, isEmailValid, errorhandler } from '../../utils/common';
 import axios, { setAuthorization } from '../../utils/axios';
 
-import {
-  SigninAllWrap,
-  InputEmail,
-  InputPassword,
-  LoginButton,
-  SigninLine
-} from './signin_content_style';
+import { SigninAllWrap, InputEmail, InputPassword, LoginButton, SigninLine } from './signin_content_style';
 import Social from '../common-component/social';
 
-function Signin({ onUserSet, history }) {
+function Signin({ onUserSet, history, location }) {
   const [LoginValue, setLoginValue] = useState({
     email: '',
     password: ''
@@ -56,7 +53,10 @@ function Signin({ onUserSet, history }) {
           const { status: signinStatus, data: getData } = await axios.get('/user/current');
           if (signinStatus === 200) {
             onUserSet(getData.data, token);
-            history.push('/');
+            const query = qs.parse(location.search, {
+              ignoreQueryPrefix: true
+            });
+            history.push(query?.moveAddress || '/');
           }
         }
       }
@@ -80,29 +80,20 @@ function Signin({ onUserSet, history }) {
 
           <InputEmail>
             <span>이메일</span>
-            <input
-              type="text"
-              placeholder="이메일 입력"
-              onChange={handleChange}
-              name="email"
-              value={email}
-            />
+            <input type="text" placeholder="이메일 입력" onChange={handleChange} name="email" value={email} />
           </InputEmail>
 
           <InputPassword>
             <span>비밀번호</span>
-            <input
-              type="password"
-              placeholder="비밀번호 입력"
-              onChange={handleChange}
-              name="password"
-              value={password}
-            />
+            <input type="password" placeholder="비밀번호 입력" onChange={handleChange} name="password" value={password} />
           </InputPassword>
 
           <LoginButton>
             <button type="submit">로그인</button>
           </LoginButton>
+          <Link to={`/signup${location.search}`}>
+            <button type="button">회원가입</button>
+          </Link>
         </form>
         <SigninLine>
           <span>또는</span>
@@ -117,7 +108,8 @@ function Signin({ onUserSet, history }) {
 
 Signin.propTypes = {
   onUserSet: PropTypes.func.isRequired,
-  history: PropTypes.instanceOf(Object).isRequired
+  history: PropTypes.instanceOf(Object).isRequired,
+  location: PropTypes.instanceOf(Object).isRequired
 };
 
 const userToPropsDispatch = (dispatch) => ({
