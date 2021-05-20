@@ -21,6 +21,7 @@ import { PopularBreadWrap, PopularWrap, BreadList } from './bread_popular_style'
  */
 
 const PopularBread = ({ breadList, onBreadList, onBreadListMore, onBreadHeartTrue, onBreadHeartFalse, location }) => {
+  console.log(location);
   // 스크롤시
   const [page, setPage] = useState(1);
   useEffect(() => {
