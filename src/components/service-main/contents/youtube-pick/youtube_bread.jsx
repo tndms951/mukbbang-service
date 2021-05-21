@@ -13,8 +13,6 @@ import { setYoutubeList, setYoutubePagination } from '../../../redux/youtube/you
 import { selectYoutubeList } from '../../../redux/youtube/youtube.selectors';
 
 const YoutubePickBread = ({ youtubePickBreadList, youtubePickList, location, youtubePagination }) => {
-  console.log(location);
-
   const [page, setPage] = useState(1);
   useEffect(() => {
     async function fetchyoutubeData() {
@@ -71,6 +69,7 @@ const YoutubePickBread = ({ youtubePickBreadList, youtubePickList, location, you
       const query = qs.parse(location.search, {
         ignoreQueryPrefix: true
       });
+
       const queryObject = { ...query };
 
       queryObject.page = String(page + 1);
