@@ -81,7 +81,7 @@ const Header = ({ currentUser, onLogout }) => {
           <Link to="/rank/bread?page=1&limit=12">
             <li>요즘 인기있는 빵</li>
           </Link>
-          <Link to="/youtube-bread">
+          <Link to="/youtube-bread?page=1&limit=12">
             <li>유튜버 픽빵</li>
           </Link>
           <li>커뮤니티</li>

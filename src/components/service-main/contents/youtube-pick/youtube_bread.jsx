@@ -1,27 +1,25 @@
-import React, { useEffect } from 'react';
+import React, { useEffect, useState } from 'react';
 import Youtube from 'react-youtube';
-// import { Swiper } from 'swiper/react';
-// import 'swiper/css/swiper.scss';
+import { createStructuredSelector } from 'reselect';
+import PropTypes from 'prop-types';
+import { connect } from 'react-redux';
+import InfiniteScroll from 'react-infinite-scroll-component';
+import qs from 'qs';
 
-import Slider from 'react-slick';
 import axios from '../../../../utils/axios';
 import { errorhandler } from '../../../../utils/common';
+import { BreadPickWrap, YoutubePickEvent, StyledSlider, PickBreadTitle, PickBreadOdd, PickBreadEven } from './youtube_bread_style';
+import { setYoutubeList, setYoutubePagination } from '../../../redux/youtube/youtube.actions';
+import { selectYoutubeList } from '../../../redux/youtube/youtube.selectors';
 
-import {
-  BreadPickWrap,
-  YoutubePickEvent,
-  StyledSlider,
-  PickBreadTitle,
-  PickBreadImage
-} from './youtube_bread_style';
-
-const PickBread = () => {
+const YoutubePickBread = ({ youtubePickBreadList, youtubePickList, location, youtubePagination }) => {
+  const [page, setPage] = useState(1);
   useEffect(() => {
     async function fetchyoutubeData() {
       try {
-        const { status, data } = await axios.get('/youtube');
+        const { status, data } = await axios.get(`/youtube${location.search}`);
         if (status === 200) {
-          console.log(data);
+          youtubePickList(data.list);
         }
       } catch (err) {
         errorhandler(err);
@@ -29,11 +27,12 @@ const PickBread = () => {
     }
     fetchyoutubeData();
   }, []);
+
   const opts = {
-    width: '300',
-    height: '300',
+    width: '553',
+    height: '311',
     playerVars: {
-      autoplay: 1
+      // autoplay: 1
     }
   };
 
@@ -41,36 +40,49 @@ const PickBread = () => {
     e.target.pauseVideo();
   };
 
-  // 슬라이드
-  const settings = {
-    dots: true,
-    infinite: true,
-    autoplay: true,
-    speed: 500,
-    slidesToShow: 4,
-    slidesToScroll: 1,
+  //   responsive: [
+  //     // 반응형 웹 구현 옵션
+  //     {
+  //       breakpoint: 1200, // 화면 사이즈 1200px
+  //       settings: {
+  //         slidesToShow: 3
+  //       }
+  //     },
+  //     {
+  //       breakpoint: 1023,
+  //       settings: {
+  //         slidesToShow: 3
+  //       }
+  //     },
+  //     {
+  //       breakpoint: 767,
+  //       settings: {
+  //         slidesToShow: 1
+  //       }
+  //     }
+  //   ]
+  // };
 
-    responsive: [
-      // 반응형 웹 구현 옵션
-      {
-        breakpoint: 1200, // 화면 사이즈 1200px
-        settings: {
-          slidesToShow: 3
-        }
-      },
-      {
-        breakpoint: 1023,
-        settings: {
-          slidesToShow: 3
-        }
-      },
-      {
-        breakpoint: 767,
-        settings: {
-          slidesToShow: 1
-        }
+  // 스크롤(pagination)
+  const fetMoreData = async () => {
+    try {
+      const query = qs.parse(location.search, {
+        ignoreQueryPrefix: true
+      });
+
+      const queryObject = { ...query };
+
+      queryObject.page = String(page + 1);
+      queryObject.limit = String(12);
+      const queryData = qs.stringify(queryObject);
+      const { status, data } = await axios.get(`/youtube?${queryData}`);
+      if (status === 200) {
+        youtubePagination(data.list);
+        setPage(page + 1);
       }
-    ]
+    } catch (err) {
+      errorhandler(err);
+    }
   };
 
   return (
@@ -81,73 +93,70 @@ const PickBread = () => {
         <span>유튜버들이 선택한 빵을 즐겨보세요</span>
       </PickBreadTitle>
 
-      {/* <Swiper
-        navigation
-        pagination={{
-          clickable: true
-        }}
-        scrollbar={{
-          draggable: true
-        }}> */}
-      {/* eslint-disable-next-line react/jsx-props-no-spreading */}
-      <Slider {...settings}>
-        <StyledSlider>
-          <PickBreadImage>
-            <div className="VideoContainer">
-              <Youtube
-                className="youtubeVideo"
-                videoId="2g811Eo7K8U"
-                opts={opts}
-                onReady={onReady}
-              />
-            </div>
-            <div className="pick_title">
-              <span>Title</span>
-              <span>Description</span>
-              <button type="button" className="show_button">
-                리뷰 보러가기
-              </button>
-            </div>
-          </PickBreadImage>
-          <PickBreadImage>
-            <div className="VideoContainer">
-              <Youtube
-                className="youtubeVideo"
-                videoId="2g811Eo7K8U"
-                opts={opts}
-                onReady={onReady}
-              />
-            </div>
-            <div className="pick_title">
-              <span>Title</span>
-              <span>Description</span>
-              <button type="button" className="show_button">
-                리뷰 보러가기
-              </button>
-            </div>
-          </PickBreadImage>
-          <PickBreadImage>
-            <div className="VideoContainer">
-              <Youtube
-                className="youtubeVideo VideoContainer"
-                videoId="2g811Eo7K8U"
-                opts={opts}
-                onReady={onReady}
-              />
-            </div>
-            <div className="pick_title">
-              <span>Title</span>
-              <span>Description</span>
-              <button type="button" className="show_button">
-                리뷰 보러가기
-              </button>
-            </div>
-          </PickBreadImage>
-        </StyledSlider>
-      </Slider>
-      {/* </Swiper> */}
+      <StyledSlider>
+        {/* @ts-ignore */}
+        <InfiniteScroll dataLength={youtubePickBreadList.length} next={fetMoreData} hasMore scrollThreshold="50px">
+          {youtubePickBreadList.map((list, index) => {
+            if (index % 2 === 0) {
+              return (
+                <PickBreadOdd>
+                  <div className="VideoContainer">
+                    <Youtube className="youtubeVideo" videoId={list.link.replace('https://www.youtube.com/embed/', '')} opts={opts} onReady={onReady} />
+                  </div>
+
+                  <div className="pick_title">
+                    <span>{list?.title}</span>
+                    <span>{list?.content}</span>
+                    <button type="button" className="show_button">
+                      <a href={list?.link} target="_blank" rel="noreferrer">
+                        리뷰 보러가기
+                      </a>
+                    </button>
+                  </div>
+                </PickBreadOdd>
+              );
+            }
+            return (
+              <PickBreadEven>
+                <div className="pick_title_even">
+                  <span>{list.title}</span>
+                  <span>{list.content}</span>
+                  <button type="button" className="show_button_even">
+                    <a href={list?.link} target="_blank" rel="noreferrer">
+                      리뷰 보러가기
+                    </a>
+                  </button>
+                </div>
+                <div className="VideoContainer_even">
+                  <Youtube className="youtubeVideo_even" videoId={list.link.replace('https://www.youtube.com/embed/', '')} opts={opts} onReady={onReady} />
+                </div>
+              </PickBreadEven>
+            );
+          })}
+        </InfiniteScroll>
+      </StyledSlider>
     </BreadPickWrap>
   );
 };
 
-export default PickBread;
+YoutubePickBread.defaultProps = {
+  youtubePickBreadList: null
+};
+
+YoutubePickBread.propTypes = {
+  youtubePickBreadList: PropTypes.instanceOf(Object),
+  youtubePickList: PropTypes.func.isRequired,
+  location: PropTypes.instanceOf(Object).isRequired,
+  youtubePagination: PropTypes.func.isRequired
+};
+
+const youtubePickStateToProps = createStructuredSelector({
+  youtubePickBreadList: selectYoutubeList
+});
+
+const youtubePickDispathch = (dispatch) => ({
+  youtubePickList: (list) => dispatch(setYoutubeList(list)),
+  youtubePagination: (list) => dispatch(setYoutubePagination(list))
+});
+
+export default connect(youtubePickStateToProps, youtubePickDispathch)(YoutubePickBread);
