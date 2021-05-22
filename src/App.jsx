@@ -10,6 +10,7 @@ import BreadHouseRouter from './components/service-main/contents/breadShop-rangk
 import BreadRouter from './components/service-main/contents/bread-popular/bread_router';
 import MainHome from './components/service-main/contents/main/mainhome_content';
 import PickBread from './components/service-main/contents/youtube-pick/youtube_bread';
+import Community from './components/service-main/contents/community/notice';
 
 import LayOut from './layout';
 import axios, { setAuthorization } from './utils/axios';
@@ -44,9 +45,10 @@ function App({ onUserData }) {
         <Switch>
           <Route exact path="/signin" component={Signin} />
           <Route exact path="/signup" component={Signup} />
-          <Route path="/rank/bread-house" component={BreadHouseRouter} />
-          <Route path="/rank/bread" component={BreadRouter} />
+          <Route path="/bread-house" component={BreadHouseRouter} />
+          <Route path="/bread" component={BreadRouter} />
           <Route path="/youtube-bread" component={PickBread} />
+          <Route path="/community" component={Community} />
           <Route path="/" component={MainHome} />
         </Switch>
       </LayOut>

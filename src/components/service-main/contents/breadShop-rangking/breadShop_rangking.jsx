@@ -1,3 +1,4 @@
+/* eslint-disable no-unused-vars */
 import React, { useEffect, useState } from 'react';
 import { createStructuredSelector } from 'reselect';
 import { connect } from 'react-redux';
@@ -12,7 +13,7 @@ import axios from '../../../../utils/axios';
 import { errorhandler, sweetAlert } from '../../../../utils/common';
 
 import { selectShopList, selectAddress, selectdongAddress } from '../../../redux/breadshop/list/breadShop.selectors';
-import { setCurrentBreadShop, setShopTrueData, setShopFalseData, setSiAddressData, setDongAddressData } from '../../../redux/breadshop/list/breadShop.actions';
+import { setCurrentBreadShop, setCurrentBreadShopMore, setShopTrueData, setShopFalseData, setSiAddressData, setDongAddressData } from '../../../redux/breadshop/list/breadShop.actions';
 
 import { HouseRangkingWrap, ShopRangking, Location, SelectWrap, City, CurrentLocation, LocationText, RangkingList } from './breadShop_rangking_style';
 
@@ -24,8 +25,14 @@ import { HouseRangkingWrap, ShopRangking, Location, SelectWrap, City, CurrentLoc
  * @desc [breadShop컴포넌트]
  */
 
+const limit = 20;
+
 // eslint-disable-next-line no-unused-vars
-const HouseRangking = ({ breadShopList, onBreadShopList, onBreadShopTrue, onBreadShopFalse, siAddressList, onAddressSi, dongAddressList, onAddressDong, location, history }) => {
+const HouseRangking = ({ breadShopList, onBreadShopList, onBreadShopPagination, onBreadShopTrue, onBreadShopFalse, siAddressList, onAddressSi, dongAddressList, onAddressDong, location, history }) => {
+  console.log(breadShopList);
+  const [hasMore, setHasmore] = useState(true);
+  // console.log(setHasmore);
+
   const [siList, setSiList] = useState({
     id: -1,
     name: '시.도'
@@ -42,12 +49,24 @@ const HouseRangking = ({ breadShopList, onBreadShopList, onBreadShopTrue, onBrea
 
   useEffect(() => {
     async function fetchShopData() {
-      try {
-        const { status, data: breadShopData } = await axios.get(`/bread/shop${location.search}`);
+      const query = qs.parse(location.search, {
+        ignoreQueryPrefix: true
+      });
+      const newQuery = { ...query };
+      newQuery.page = String(1);
+      newQuery.limit = String(limit);
 
+      const queryData = qs.stringify(newQuery);
+
+      try {
+        const { status, data: breadShopData } = await axios.get(`/bread/shop?${queryData}`);
+        console.log(breadShopData);
         if (status === 200) {
+          setPage(1);
           onBreadShopList(breadShopData.list);
           setAddressName(breadShopData.data.addressName);
+
+          setHasmore(breadShopData.pagination.currentPage !== breadShopData.pagination.totalPage);
         }
       } catch (err) {
         errorhandler(err);
@@ -151,7 +170,7 @@ const HouseRangking = ({ breadShopList, onBreadShopList, onBreadShopTrue, onBrea
       id: 0,
       name: '구'
     });
-    history.push(`/rank/bread-house${queryData ? `?${queryData}` : ''}`);
+    history.push(`${location.pathname}${queryData ? `?${queryData}` : ''}`);
     try {
       const { status, data } = await axios.get(`/util/address/gu/${address.id}`);
 
@@ -171,7 +190,7 @@ const HouseRangking = ({ breadShopList, onBreadShopList, onBreadShopTrue, onBrea
       const queryObject = { ...query };
       queryObject.gu_code = address.id;
       const queryData = qs.stringify(queryObject);
-      history.push(`/rank/bread-house${queryData ? `?${queryData}` : ''}`);
+      history.push(`${location.pathname}${queryData ? `?${queryData}` : ''}`);
 
       setGuvalue(address);
     } catch (err) {
@@ -201,7 +220,7 @@ const HouseRangking = ({ breadShopList, onBreadShopList, onBreadShopTrue, onBrea
     queryObject.lon = String(longitude);
 
     const queryData = qs.stringify(queryObject);
-    history.push(`/rank/bread-house?${queryData}`);
+    history.push(`${location.pathname}?${queryData}`);
   };
 
   const errorGeo = () => {
@@ -216,6 +235,7 @@ const HouseRangking = ({ breadShopList, onBreadShopList, onBreadShopTrue, onBrea
     }
   };
 
+  // pagination
   const fetchMoreData = async () => {
     try {
       const query = qs.parse(location.search, {
@@ -223,12 +243,15 @@ const HouseRangking = ({ breadShopList, onBreadShopList, onBreadShopTrue, onBrea
       });
       const queryObject = { ...query };
       queryObject.page = String(page + 1);
-      queryObject.limit = String(12);
+      queryObject.limit = String(limit);
       const queryData = qs.stringify(queryObject);
       const { status, data: breadShopData } = await axios.get(`/bread/shop?${queryData}`);
       if (status === 200) {
-        onBreadShopList(breadShopData.list);
+        onBreadShopPagination(breadShopData.list);
         setPage(page + 1);
+        if (breadShopData.pagination.currentPage === breadShopData.pagination.totalPage) {
+          setHasmore(false);
+        }
       }
     } catch (err) {
       errorhandler(err);
@@ -290,7 +313,7 @@ const HouseRangking = ({ breadShopList, onBreadShopList, onBreadShopTrue, onBrea
 
       <RangkingList>
         {/* @ts-ignore */}
-        <InfiniteScroll dataLength={breadShopList.length} next={fetchMoreData} hasMore scrollThreshold="50px">
+        <InfiniteScroll dataLength={breadShopList.length} next={fetchMoreData} hasMore={hasMore} scrollThreshold="50px">
           <ul className="list_wrap">
             {breadShopList.map((breadShopData) => (
               <Link to={`/rank/bread-house/detail/${breadShopData.id}`} key={`bread_shop_list${breadShopData.id}`}>
@@ -307,6 +330,7 @@ const HouseRangking = ({ breadShopList, onBreadShopList, onBreadShopTrue, onBrea
 HouseRangking.propTypes = {
   breadShopList: PropTypes.instanceOf(Array).isRequired,
   onBreadShopList: PropTypes.func.isRequired,
+  onBreadShopPagination: PropTypes.func.isRequired,
   onBreadShopTrue: PropTypes.func.isRequired,
   onBreadShopFalse: PropTypes.func.isRequired,
   siAddressList: PropTypes.instanceOf(Array).isRequired,
@@ -325,6 +349,7 @@ const breadStateToProps = createStructuredSelector({
 
 const breadShopDispathchToProps = (dispatch) => ({
   onBreadShopList: (breadShop) => dispatch(setCurrentBreadShop(breadShop)),
+  onBreadShopPagination: (list) => dispatch(setCurrentBreadShopMore(list)),
   onBreadShopTrue: (trueBreadShop) => dispatch(setShopTrueData(trueBreadShop)),
   onBreadShopFalse: (falseBreadShop) => dispatch(setShopFalseData(falseBreadShop)),
   onAddressSi: (addressSi) => dispatch(setSiAddressData(addressSi)),
