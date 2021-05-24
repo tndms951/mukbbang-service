@@ -75,16 +75,18 @@ const Header = ({ currentUser, onLogout }) => {
           </h1>
         </Link>
         <ul>
-          <Link to="/rank/bread-house?page=1&limit=12">
+          <Link to="/bread-house">
             <li>빵집 랭킹</li>
           </Link>
-          <Link to="/rank/bread?page=1&limit=12">
+          <Link to="/bread">
             <li>요즘 인기있는 빵</li>
           </Link>
-          <Link to="/youtube-bread?page=1&limit=12">
+          <Link to="/youtube-bread">
             <li>유튜버 픽빵</li>
           </Link>
-          <li>커뮤니티</li>
+          <Link to="/community">
+            <li>커뮤니티</li>
+          </Link>
         </ul>
         <NaveSearch>
           <div className="headerSearch">

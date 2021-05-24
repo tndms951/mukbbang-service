@@ -17,6 +17,7 @@ import { selectCurrentUser } from '../../redux/user/user.selectors';
 const limit = 20;
 
 const Comment = ({ match, onDetailComment, onDetailCommentMore, onRegisterComment, onCommentModify, onCommentDelete, shopDetailComment, shopCommentPagnaition, type, currentUser, history, location }) => {
+  console.log(shopCommentPagnaition);
   // 댓글등록
   const [comment, setComment] = useState('');
   const { breadShopId } = match;

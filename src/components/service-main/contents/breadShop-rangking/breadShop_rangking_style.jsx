@@ -9,6 +9,11 @@ export const HouseRangkingWrap = styled.div`
     font-size: 32px;
     font-weight: 700;
   }
+
+  @media ${({ theme }) => theme.device.mobile} {
+    flex-direction: column;
+    font-size: ${({ theme }) => theme.fontSizes.paragraph};
+  }
 `;
 
 export const ShopRangking = styled.div`

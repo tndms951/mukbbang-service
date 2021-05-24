@@ -43,10 +43,6 @@ export const RightLogin = styled.div`
   float: right;
   line-height: 24px;
 
-  .login_after {
-    outline: 1px solid red;
-  }
-
   .userName {
     margin-right: 16px;
     color: #5c5c5c;
@@ -147,6 +143,10 @@ export const GroupNav = styled.div`
     float: left;
     padding: 8px;
     margin-left: 58px;
+
+    & a {
+      color: black;
+    }
   }
 
   & li {
