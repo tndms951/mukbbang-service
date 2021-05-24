@@ -27,7 +27,7 @@ const BreadLi = ({ likeTrue, likeFalse, breadList }) => {
 
   return (
     <BreadliWrap>
-      <Link to={`/rank/bread/detail/${breadList.id}`} key={`bread-list${breadList.id}`}>
+      <Link to={`/bread/detail/${breadList.id}`} key={`bread-list${breadList.id}`}>
         <span className="bread_image_wrap">
           <img src={breadList.image} alt={`${breadList.title}의 이미지`} />
         </span>

@@ -12,12 +12,15 @@ import { BreadPickWrap, YoutubePickEvent, StyledSlider, PickBreadTitle, PickBrea
 import { setYoutubeList, setYoutubePagination } from '../../../redux/youtube/youtube.actions';
 import { selectYoutubeList } from '../../../redux/youtube/youtube.selectors';
 
+const limit = 20;
+
 const YoutubePickBread = ({ youtubePickBreadList, youtubePickList, location, youtubePagination }) => {
   const [page, setPage] = useState(1);
+
   useEffect(() => {
     async function fetchyoutubeData() {
       try {
-        const { status, data } = await axios.get(`/youtube${location.search}`);
+        const { status, data } = await axios.get(`/youtube?page=${page}&limit=${limit}`);
         if (status === 200) {
           youtubePickList(data.list);
         }
@@ -25,6 +28,7 @@ const YoutubePickBread = ({ youtubePickBreadList, youtubePickList, location, you
         errorhandler(err);
       }
     }
+
     fetchyoutubeData();
   }, []);
 
@@ -73,7 +77,7 @@ const YoutubePickBread = ({ youtubePickBreadList, youtubePickList, location, you
       const queryObject = { ...query };
 
       queryObject.page = String(page + 1);
-      queryObject.limit = String(12);
+      queryObject.limit = String(limit);
       const queryData = qs.stringify(queryObject);
       const { status, data } = await axios.get(`/youtube?${queryData}`);
       if (status === 200) {

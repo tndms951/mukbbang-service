@@ -20,13 +20,15 @@ import { PopularBreadWrap, PopularWrap, BreadList } from './bread_popular_style'
  * @desc [bread컴포넌트]
  */
 
+const limit = 20;
+
 const PopularBread = ({ breadList, onBreadList, onBreadListMore, onBreadHeartTrue, onBreadHeartFalse, location }) => {
   // 스크롤시
   const [page, setPage] = useState(1);
   useEffect(() => {
     async function fetchbreadData() {
       try {
-        const { status, data: breadData } = await axios.get(`/bread${location.search}`);
+        const { status, data: breadData } = await axios.get(`/bread?page=${page}&limit=${limit}`);
 
         if (status === 200) {
           onBreadList(breadData.list);

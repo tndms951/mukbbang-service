@@ -4,22 +4,27 @@ import { createStructuredSelector } from 'reselect';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 import { Link } from 'react-router-dom';
+import qs from 'qs';
 
 import axios from '../../../../../utils/axios';
 import { CommunityWrap, TitleButton, NoticeWrap } from './notice_style';
 import { setNoticeList } from '../../../../redux/community/notice.actions';
 import { selectCommunity } from '../../../../redux/community/notice.selectors';
 
-const Notice = ({ onNoticeList, noticeList }) => {
+const Notice = ({ onNoticeList, noticeList, location }) => {
+  console.log(location);
   console.log(noticeList);
   const [notice, setNotice] = useState(true);
   console.log(setNotice);
 
   useEffect(() => {
     async function fetchCommunityData() {
+      const query = qs.parse(location.search, {
+        ignoreQueryPrefix: true
+      });
+      console.log(query);
       try {
         const { data, status } = await axios.get(`/notice?menu=${notice}`);
-        console.log(data);
         if (status === 200) {
           onNoticeList(data.list);
         }
@@ -29,11 +34,10 @@ const Notice = ({ onNoticeList, noticeList }) => {
     }
     fetchCommunityData();
   }, []);
-
   return (
     <CommunityWrap>
       <TitleButton>
-        <Link to="/community">
+        <Link to={`/community?${notice}`}>
           <span className="menu_notice">공지사항</span>
         </Link>
         {/* <Link to={`/community${event}`}> */}
@@ -44,8 +48,7 @@ const Notice = ({ onNoticeList, noticeList }) => {
         <ul>
           {noticeList.map((list, index) => (
             <li>
-              <span className="count_number">{index - 1}</span>
-              <span className="notice_content">{list.content}</span>
+              <span className="count_number">{index + 1}</span> <span className="notice_content">{list.content}</span>
             </li>
           ))}
         </ul>
@@ -56,7 +59,8 @@ const Notice = ({ onNoticeList, noticeList }) => {
 
 Notice.propTypes = {
   onNoticeList: PropTypes.func.isRequired,
-  noticeList: PropTypes.instanceOf(Object).isRequired
+  noticeList: PropTypes.instanceOf(Object).isRequired,
+  location: PropTypes.instanceOf(Object).isRequired
 };
 
 const communityStateToProps = createStructuredSelector({
