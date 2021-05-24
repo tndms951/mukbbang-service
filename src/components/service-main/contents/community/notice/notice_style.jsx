@@ -9,6 +9,10 @@ export const TitleButton = styled.span`
   outline: 1px solid red;
   padding: 20px 320px;
 
+  & a {
+    text-decoration: none;
+  }
+
   & span {
     padding: 12px 70px;
     background: #f8f8f8;
@@ -32,6 +36,18 @@ export const NoticeWrap = styled.div`
     & li {
       padding: 24px;
       border-top: 1px solid #9a9a9a;
+      
+    }
+
+    & .count_number {
+      margin-right: 24px;
+      font-weight: 700;
+      font- size: 18px;
+    }
+
+    & .notice_content {
+      font-size: 16px;
+      
     }
   }
 `;

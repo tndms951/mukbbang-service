@@ -104,10 +104,9 @@ const HouseRangking = ({ breadShopList, onBreadShopList, onBreadShopPagination, 
         if (status === 200) {
           onAddressSi(data.list);
           if (query.si_code) {
-            const ValueId = data.list.find((value) => value.id === Number(query.si_code));
-
-            if (ValueId) {
-              setSiList(ValueId);
+            const valueId = data.list.find((value) => value.id === Number(query.si_code));
+            if (valueId) {
+              setSiList(valueId);
             }
           }
         }
@@ -125,9 +124,9 @@ const HouseRangking = ({ breadShopList, onBreadShopList, onBreadShopPagination, 
         }
 
         if (query.gu_code) {
-          const ValueId = data.list.find((value) => value.id === Number(query.gu_code));
-          if (ValueId) {
-            setGuvalue(ValueId);
+          const valueId = data.list.find((value) => value.id === Number(query.gu_code));
+          if (valueId) {
+            setGuvalue(valueId);
           }
         }
       } catch (err) {

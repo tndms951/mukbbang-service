@@ -1,42 +1,52 @@
-import React, { useEffect } from 'react';
+import React, { useEffect, useState } from 'react';
 import { errorhandler } from 'utils/common';
 import { createStructuredSelector } from 'reselect';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
+import { Link } from 'react-router-dom';
 
-import axios from '../../../../utils/axios';
+import axios from '../../../../../utils/axios';
 import { CommunityWrap, TitleButton, NoticeWrap } from './notice_style';
-import { setNoticeList } from '../../../redux/community/notice.actions';
-import { selectCommunity } from '../../../redux/community/notice.selectors';
+import { setNoticeList } from '../../../../redux/community/notice.actions';
+import { selectCommunity } from '../../../../redux/community/notice.selectors';
 
 const Notice = ({ onNoticeList, noticeList }) => {
-  console.log(onNoticeList);
   console.log(noticeList);
+  const [notice, setNotice] = useState(true);
+  console.log(setNotice);
+
   useEffect(() => {
     async function fetchCommunityData() {
       try {
-        const { data, status } = await axios.get('/notice');
+        const { data, status } = await axios.get(`/notice?menu=${notice}`);
+        console.log(data);
         if (status === 200) {
-          noticeList(data.list);
+          onNoticeList(data.list);
         }
       } catch (err) {
         errorhandler(err);
-        console.log(err);
       }
     }
     fetchCommunityData();
   }, []);
+
   return (
     <CommunityWrap>
       <TitleButton>
-        <span>공지사항</span>
-        <span>이벤트</span>
+        <Link to="/community">
+          <span className="menu_notice">공지사항</span>
+        </Link>
+        {/* <Link to={`/community${event}`}> */}
+        <span>이벤트</span> {/* </Link> */}
       </TitleButton>
 
       <NoticeWrap>
         <ul>
-          <li>1번공지사항입니당.</li>
-          <li>2번공지사항입니당.</li>
+          {noticeList.map((list, index) => (
+            <li>
+              <span className="count_number">{index + 1}</span> <span className="notice_content">{list.content}</span>
+            </li>
+          ))}
         </ul>
       </NoticeWrap>
     </CommunityWrap>
@@ -53,7 +63,7 @@ const communityStateToProps = createStructuredSelector({
 });
 
 const communityDispathch = (dispatch) => ({
-  onnoticeList: (list) => dispatch(setNoticeList(list))
+  onNoticeList: (list) => dispatch(setNoticeList(list))
 });
 
 export default connect(communityStateToProps, communityDispathch)(Notice);
