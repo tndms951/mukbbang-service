@@ -10,7 +10,7 @@ import BreadHouseRouter from './components/service-main/contents/breadShop-rangk
 import BreadRouter from './components/service-main/contents/bread-popular/bread_router';
 import MainHome from './components/service-main/contents/main/mainhome_content';
 import PickBread from './components/service-main/contents/youtube-pick/youtube_bread';
-import Community from './components/service-main/contents/community/notice/notice';
+import Community from './components/service-main/contents/community/community';
 
 import LayOut from './layout';
 import axios, { setAuthorization } from './utils/axios';

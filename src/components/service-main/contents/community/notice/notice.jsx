@@ -1,74 +1,107 @@
 import React, { useEffect, useState } from 'react';
-import { errorhandler } from 'utils/common';
+
 import { createStructuredSelector } from 'reselect';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
-import { Link } from 'react-router-dom';
-import qs from 'qs';
+import InfiniteScroll from 'react-infinite-scroll-component';
+import moment from 'moment';
+// import qs from 'qs';
 
+import { errorhandler } from 'utils/common';
+import DownPage from './notice_downPage';
 import axios from '../../../../../utils/axios';
-import { CommunityWrap, TitleButton, NoticeWrap } from './notice_style';
-import { setNoticeList } from '../../../../redux/community/notice.actions';
-import { selectCommunity } from '../../../../redux/community/notice.selectors';
+import { NoticeWrap } from './notice_style';
+import { setNoticeList, setNoticePagination } from '../../../../redux/community/community.actions';
+import { selectNotice } from '../../../../redux/community/community.selectors';
 
-const Notice = ({ onNoticeList, noticeList, location }) => {
-  console.log(location);
+const limit = 10;
+
+const Notice = ({ onNoticeList, noticeList, onNoticePagination }) => {
   console.log(noticeList);
-  const [notice, setNotice] = useState(true);
-  console.log(setNotice);
+  const [page, setPage] = useState(1);
+  const [hasMore, setHasMore] = useState(true);
+  const [dropDown, setDropDown] = useState(false);
+  console.log(dropDown);
 
   useEffect(() => {
-    async function fetchCommunityData() {
-      const query = qs.parse(location.search, {
-        ignoreQueryPrefix: true
-      });
-      console.log(query);
+    async function fetchNoticeData() {
       try {
-        const { data, status } = await axios.get(`/notice?menu=${notice}`);
+        const { data, status } = await axios.get(`/notice?page=${page}&limit=${limit}`);
+        console.log(data);
         if (status === 200) {
           onNoticeList(data.list);
+          setHasMore(data.pagination.cuttentPage !== data.pagination.totalPage);
         }
       } catch (err) {
         errorhandler(err);
+        console.log(err);
       }
     }
-    fetchCommunityData();
+    fetchNoticeData();
   }, []);
-  return (
-    <CommunityWrap>
-      <TitleButton>
-        <Link to={`/community?${notice}`}>
-          <span className="menu_notice">공지사항</span>
-        </Link>
-        {/* <Link to={`/community${event}`}> */}
-        <span>이벤트</span> {/* </Link> */}
-      </TitleButton>
 
-      <NoticeWrap>
-        <ul>
+  // 스크롤(pagination)
+  const fetMoreData = async () => {
+    try {
+      const { status, data } = await axios.get(`/notice?page=${page}&limit=${limit}`);
+      console.log(data);
+      if (status === 200) {
+        onNoticePagination(data.list);
+        setPage(page + 1);
+        if (data.pagination.currentPage === data.pagination.totalPage) {
+          setHasMore(false);
+        }
+      }
+    } catch (err) {
+      errorhandler(err);
+      console.log(err);
+    }
+  };
+
+  const handleClick = (e, listId) => {
+    e.preventDefault();
+    if (listId) {
+      setDropDown(!dropDown);
+    }
+  };
+
+  return (
+    <NoticeWrap>
+      <ul>
+        {/* @ts-ignore */}
+        <InfiniteScroll dataLength={noticeList.length} next={fetMoreData} hasMore={hasMore} scrollThreshold="50px">
           {noticeList.map((list, index) => (
-            <li>
-              <span className="count_number">{index + 1}</span> <span className="notice_content">{list.content}</span>
+            <li key={`community-notice-${list.id}`} onClick={(e) => handleClick(e, list.id)} role="presentation">
+              <span className="count_number">{index + 1}</span> <span className="notice_content">{list.title}</span>
+              <div className="arrow_down" />
+              {dropDown === list.id ? <DownPage /> : ''}
+              <div className="notice_date">{moment(list.createdAt).format('YYYY-MM-DD')}</div>
             </li>
           ))}
-        </ul>
-      </NoticeWrap>
-    </CommunityWrap>
+        </InfiniteScroll>
+      </ul>
+    </NoticeWrap>
   );
 };
+
+// Notice.defaultProps = {
+//   location: undefined
+// };
 
 Notice.propTypes = {
   onNoticeList: PropTypes.func.isRequired,
   noticeList: PropTypes.instanceOf(Object).isRequired,
-  location: PropTypes.instanceOf(Object).isRequired
+  onNoticePagination: PropTypes.func.isRequired
+  // location: PropTypes.instanceOf(Object)
 };
 
 const communityStateToProps = createStructuredSelector({
-  noticeList: selectCommunity
+  noticeList: selectNotice
 });
 
 const communityDispathch = (dispatch) => ({
-  onNoticeList: (list) => dispatch(setNoticeList(list))
+  onNoticeList: (list) => dispatch(setNoticeList(list)),
+  onNoticePagination: (list) => dispatch(setNoticePagination(list))
 });
 
 export default connect(communityStateToProps, communityDispathch)(Notice);

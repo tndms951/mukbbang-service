@@ -1,0 +1,7 @@
+const CommunityType = {
+  SET_NOTICE_LIST: 'SET_NOTICE_LIST',
+  SET_EVENT_LIST: 'SET_EVENT_LIST',
+  SET_NOTICE_PAGINATION: 'SET_COMMUNITY_PAGINATION'
+};
+
+export default CommunityType;

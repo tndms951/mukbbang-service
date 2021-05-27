@@ -31,7 +31,6 @@ const limit = 20;
 const HouseRangking = ({ breadShopList, onBreadShopList, onBreadShopPagination, onBreadShopTrue, onBreadShopFalse, siAddressList, onAddressSi, dongAddressList, onAddressDong, location, history }) => {
   console.log(breadShopList);
   const [hasMore, setHasmore] = useState(true);
-  // console.log(setHasmore);
 
   const [siList, setSiList] = useState({
     id: -1,
@@ -65,7 +64,6 @@ const HouseRangking = ({ breadShopList, onBreadShopList, onBreadShopPagination, 
           setPage(1);
           onBreadShopList(breadShopData.list);
           setAddressName(breadShopData.data.addressName);
-
           setHasmore(breadShopData.pagination.currentPage !== breadShopData.pagination.totalPage);
         }
       } catch (err) {
@@ -234,7 +232,7 @@ const HouseRangking = ({ breadShopList, onBreadShopList, onBreadShopPagination, 
     }
   };
 
-  // pagination
+  // 스크롤pagination
   const fetchMoreData = async () => {
     try {
       const query = qs.parse(location.search, {
