@@ -1,16 +1,21 @@
 import styled from 'styled-components';
 
 export const EventWrap = styled.div`
-  margin-top: 23px;
   padding: 32px 272px;
   background: #f8f8f8;
 
+  a {
+    text-decoration: none;
+    color: inherit;
+  }
+
   & .box_wrap {
-    border: 1px solid #9a9a9a;
     display: block;
-    padding: 20px;
-    height: 88px;
-    margin-bottom: 32px;
+    margin-bottom: 75px;
+    width: 480px;
+    height: 200px;
+    position: relative;
+    cursor: pointer;
 
     &::after {
       clear: both;
@@ -18,42 +23,50 @@ export const EventWrap = styled.div`
       display: block;
     }
 
-    & span {
-      display: block;
-    }
-
     & img {
-      width: 100px;
+      width: 100%;
+      height: 100%;
+      margin-bottom: 10px;
     }
 
     & p {
       float: right;
     }
 
+    & span {
+      font-size: 14ppx;
+      margin-top: 10px;
+    }
+
     & .going {
-      width: 50px;
-      background: #fb7819;
+      background-color: rgba(0, 0, 0, 0.4);
       color: white;
-      font-size: 14px;
+      font-size: 16px;
       font-weight: 500;
       text-align: center;
       border-radius: 100%;
-      width: 13%;
-      height: 60%;
-      line-height: 53px;
+      width: 15%;
+      height: 33%;
+      line-height: 67px;
+      position: absolute;
+      top: 10px;
+      right: 10px;
     }
 
     & .close {
-      width: 50px;
-      background-color: #d7d7d7;
-      color: #5c5c5c;
-      font-size: 14px;
+      width: 27%;
+      height: 60%;
+      background-color: rgba(0, 0, 0, 0.4);
+      color: white;
+      font-size: 18px;
       font-weight: 500;
       text-align: center;
       border-radius: 100%;
-      width: 13%;
-      height: 60%;
-      line-height: 53px;
+      line-height: 120px;
+      position: absolute;
+      top: 50%;
+      left: 50%;
+      transform: translate(-50%, -50%);
     }
   }
 `;

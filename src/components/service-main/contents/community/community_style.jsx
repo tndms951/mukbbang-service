@@ -6,8 +6,9 @@ export const CommunityWrap = styled.div`
 `;
 
 export const TitleButton = styled.span`
-  outline: 1px solid red;
   padding: 20px 320px;
+  margin-bottom: 50px;
+  display: block;
 
   & a {
     text-decoration: none;

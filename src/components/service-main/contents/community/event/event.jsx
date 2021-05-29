@@ -1,24 +1,30 @@
-import React, { useEffect } from 'react';
+import React, { useEffect, useState } from 'react';
 import { errorhandler } from 'utils/common';
 import { createStructuredSelector } from 'reselect';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
+import moment from 'moment';
+import InfiniteScroll from 'react-infinite-scroll-component';
 
 import axios from '../../../../../utils/axios';
 import { EventWrap } from './event_style';
-import { setEventList } from '../../../../redux/community/community.actions';
+import { setEventList, setEventPagination } from '../../../../redux/community/community.actions';
 import { selectEvent } from '../../../../redux/community/community.selectors';
 
-const Event = ({ onEventList, eventList }) => {
-  console.log(eventList);
-  console.log('이벤트!!!!!!!!');
+const limit = 4;
+
+const Event = ({ onEventList, eventList, onEventPagination }) => {
+  const [page, setPage] = useState(1);
+  const [hasMore, setHasMore] = useState(true);
+  console.log(setHasMore);
 
   useEffect(() => {
     async function fetchEventData() {
       try {
-        const { data, status } = await axios.get('/event');
+        const { data, status } = await axios.get(`/event?page=${page}&limit=${limit}`);
         if (status === 200) {
           onEventList(data.list);
+          setHasMore(data.pagination.currentPage !== data.pagination.totalPage);
         }
       } catch (err) {
         errorhandler(err);
@@ -28,24 +34,54 @@ const Event = ({ onEventList, eventList }) => {
     fetchEventData();
   }, []);
 
+  // 스크롤(pagination)
+  const fetMoreData = async () => {
+    try {
+      const { data, status } = await axios.get(`/event?page=${page + 1}&limit=${limit}`);
+      if (status === 200) {
+        onEventPagination(data.list);
+        setPage(page + 1);
+        if (data.pagination.currentPage === data.pagination.totalPage) {
+          setHasMore(false);
+        }
+      }
+    } catch (err) {
+      errorhandler(err);
+      console.log(err);
+    }
+  };
+
   return (
     <EventWrap>
-      <img src="https://s3.ap-northeast-2.amazonaws.com/image.mercuryeunoia.com/images/event/%E1%84%8C%E1%85%B5%E1%84%89%E1%85%AE%E1%84%88%E1%85%A1%E1%86%BC%E1%84%8C%E1%85%B5%E1%86%B8%E1%84%89%E1%85%A1%E1%84%8C%E1%85%B5%E1%86%AB.jpeg" alt="" />
-      {eventList.map((list) => (
-        // <img src="https://s3.ap-northeast-2.amazonaws.com/image.mercuryeunoia.com/images/event/%E1%84%8C%E1%85%B5%E1%84%89%E1%85%AE%E1%84%88%E1%85%A1%E1%86%BC%E1%84%8C%E1%85%B5%E1%86%B8%E1%84%89%E1%85%A1%E1%84%8C%E1%85%B5%E1%86%AB.jpeg" alt="" />
-        <div className="box_wrap" key={`event-${list.id}`}>
-          <span>{list.title}</span>
-          <img src={list.imageUrl} alt="" />
-          <p className={list.close ? 'going' : 'close'}>{list.close ? '진행중' : '종료'}</p>
-        </div>
-      ))}
+      <ul>
+        {/* @ts-ignore */}
+        <InfiniteScroll dataLength={eventList.length} next={fetMoreData} hasMore={hasMore} scrollThreshold="50px">
+          {eventList.map((list) => (
+            <a href={list.link} target="_blank" rel="noreferrer" key={`event=${list.id}`}>
+              <li>
+                <div className="box_wrap" key={`event-${list.id}`}>
+                  <img src={list.imageUrl} alt="" />
+                  {/* <span>{list.title}</span> */}
+                  <p className={list.close ? 'close' : 'going'}>{list.close ? '이벤트 종료' : '진행중'}</p>
+                  <span>
+                    [{list.title}] {moment(list.startAt).format('YYYY-MM-DD ')}
+                    {'~'}
+                    {moment(list.endAt).format(' YYYY-MM-DD')}
+                  </span>
+                </div>
+              </li>
+            </a>
+          ))}
+        </InfiniteScroll>
+      </ul>
     </EventWrap>
   );
 };
 
 Event.propTypes = {
   onEventList: PropTypes.func.isRequired,
-  eventList: PropTypes.instanceOf(Object).isRequired
+  eventList: PropTypes.instanceOf(Object).isRequired,
+  onEventPagination: PropTypes.func.isRequired
 };
 
 const eventStateToProps = createStructuredSelector({
@@ -53,7 +89,8 @@ const eventStateToProps = createStructuredSelector({
 });
 
 const eventDispathch = (dispatch) => ({
-  onEventList: (list) => dispatch(setEventList(list))
+  onEventList: (list) => dispatch(setEventList(list)),
+  onEventPagination: (list) => dispatch(setEventPagination(list))
 });
 
 export default connect(eventStateToProps, eventDispathch)(Event);

@@ -20,3 +20,10 @@ export const setNoticePagination = (list) => ({
     list
   }
 });
+
+export const setEventPagination = (list) => ({
+  type: CommunityType.SET_EVENT_PAGINATION,
+  payload: {
+    list
+  }
+});

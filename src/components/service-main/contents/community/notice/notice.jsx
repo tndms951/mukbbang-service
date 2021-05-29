@@ -17,10 +17,9 @@ import { selectNotice } from '../../../../redux/community/community.selectors';
 const limit = 10;
 
 const Notice = ({ onNoticeList, noticeList, onNoticePagination }) => {
-  console.log(noticeList);
   const [page, setPage] = useState(1);
   const [hasMore, setHasMore] = useState(true);
-  const [dropDown, setDropDown] = useState(false);
+  const [dropDown, setDropDown] = useState(0);
   console.log(dropDown);
 
   useEffect(() => {
@@ -30,7 +29,7 @@ const Notice = ({ onNoticeList, noticeList, onNoticePagination }) => {
         console.log(data);
         if (status === 200) {
           onNoticeList(data.list);
-          setHasMore(data.pagination.cuttentPage !== data.pagination.totalPage);
+          setHasMore(data.pagination.currentPage !== data.pagination.totalPage);
         }
       } catch (err) {
         errorhandler(err);
@@ -43,8 +42,8 @@ const Notice = ({ onNoticeList, noticeList, onNoticePagination }) => {
   // 스크롤(pagination)
   const fetMoreData = async () => {
     try {
-      const { status, data } = await axios.get(`/notice?page=${page}&limit=${limit}`);
-      console.log(data);
+      const { status, data } = await axios.get(`/notice?page=${page + 1}&limit=${limit}`);
+
       if (status === 200) {
         onNoticePagination(data.list);
         setPage(page + 1);
@@ -58,10 +57,12 @@ const Notice = ({ onNoticeList, noticeList, onNoticePagination }) => {
     }
   };
 
-  const handleClick = (e, listId) => {
-    e.preventDefault();
-    if (listId) {
-      setDropDown(!dropDown);
+  const handleClick = (listId) => {
+    console.log(listId);
+    if (dropDown === listId) {
+      setDropDown(0);
+    } else {
+      setDropDown(listId);
     }
   };
 
@@ -71,10 +72,10 @@ const Notice = ({ onNoticeList, noticeList, onNoticePagination }) => {
         {/* @ts-ignore */}
         <InfiniteScroll dataLength={noticeList.length} next={fetMoreData} hasMore={hasMore} scrollThreshold="50px">
           {noticeList.map((list, index) => (
-            <li key={`community-notice-${list.id}`} onClick={(e) => handleClick(e, list.id)} role="presentation">
+            <li key={`community-notice-${list.id}`} onClick={() => handleClick(list.id)} role="presentation">
               <span className="count_number">{index + 1}</span> <span className="notice_content">{list.title}</span>
-              <div className="arrow_down" />
-              {dropDown === list.id ? <DownPage /> : ''}
+              <div className={dropDown ? 'arrow_up' : 'arrow_down'} />
+              {list.id === dropDown ? <DownPage /> : ''}
               <div className="notice_date">{moment(list.createdAt).format('YYYY-MM-DD')}</div>
             </li>
           ))}

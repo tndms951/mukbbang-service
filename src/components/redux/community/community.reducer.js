@@ -31,6 +31,14 @@ const noticeReducer = (state = INITAL_STATE, action) => {
         noticeList: newPagination
       };
     }
+    case CommunityType.SET_EVENT_PAGINATION: {
+      const { list } = action.payload;
+      const newPagination = [...state.eventList, ...list];
+      return {
+        ...state,
+        eventList: newPagination
+      };
+    }
     default:
       return state;
   }
