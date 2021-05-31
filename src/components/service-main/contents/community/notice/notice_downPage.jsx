@@ -1,8 +1,25 @@
 import React from 'react';
+import PropTypes from 'prop-types';
 
-const DownPage = () => {
-  console.log('aaaaa');
-  return <h1>어쩌구저쩌구가 있어가지고 그래가지고 어쩌라구 어쩔저저럴~~~~</h1>;
+import { NoticeDownPage } from './notice_downPage_style';
+
+const DownPage = ({ list }) => {
+  console.log(list);
+  return (
+    <NoticeDownPage>
+      <span>
+        안녕하세요 우리 동네 빵집 MeoKppang 입니다.
+        <br />
+        <br />
+      </span>
+
+      <h1>{list.content}</h1>
+    </NoticeDownPage>
+  );
+};
+
+DownPage.propTypes = {
+  list: PropTypes.instanceOf(Object).isRequired
 };
 
 export default DownPage;

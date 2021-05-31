@@ -313,8 +313,8 @@ const HouseRangking = ({ breadShopList, onBreadShopList, onBreadShopPagination, 
         <InfiniteScroll dataLength={breadShopList.length} next={fetchMoreData} hasMore={hasMore} scrollThreshold="50px">
           <ul className="list_wrap">
             {breadShopList.map((breadShopData) => (
-              <Link to={`/rank/bread-house/detail/${breadShopData.id}`} key={`bread_shop_list${breadShopData.id}`}>
-                <BreadShopLi shopList={breadShopData} shopImage={breadShopData.image} shopSeverLike={breadShopData.like} shopId={breadShopData.id} likeTrue={onBreadShopTrue} likeFalse={onBreadShopFalse} />
+              <Link to={`/bread-house/detail/${breadShopData.id}`} key={`bread_shop_list${breadShopData.id}`}>
+                <BreadShopLi shopList={breadShopData} shopSeverLike={breadShopData.like} shopId={breadShopData.id} likeTrue={onBreadShopTrue} likeFalse={onBreadShopFalse} />
               </Link>
             ))}
           </ul>

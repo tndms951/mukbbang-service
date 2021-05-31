@@ -16,7 +16,6 @@ const limit = 4;
 const Event = ({ onEventList, eventList, onEventPagination }) => {
   const [page, setPage] = useState(1);
   const [hasMore, setHasMore] = useState(true);
-  console.log(setHasMore);
 
   useEffect(() => {
     async function fetchEventData() {
@@ -57,20 +56,20 @@ const Event = ({ onEventList, eventList, onEventPagination }) => {
         {/* @ts-ignore */}
         <InfiniteScroll dataLength={eventList.length} next={fetMoreData} hasMore={hasMore} scrollThreshold="50px">
           {eventList.map((list) => (
-            <a href={list.link} target="_blank" rel="noreferrer" key={`event=${list.id}`}>
-              <li>
+            <li>
+              <a href={list.link} target="_blank" rel="noreferrer" key={`event=${list.id}`}>
                 <div className="box_wrap" key={`event-${list.id}`}>
                   <img src={list.imageUrl} alt="" />
                   {/* <span>{list.title}</span> */}
                   <p className={list.close ? 'close' : 'going'}>{list.close ? '이벤트 종료' : '진행중'}</p>
                   <span>
-                    [{list.title}] {moment(list.startAt).format('YYYY-MM-DD ')}
+                    <strong>[{list.title}]</strong> {moment(list.startAt).format('YYYY-MM-DD ')}
                     {'~'}
                     {moment(list.endAt).format(' YYYY-MM-DD')}
                   </span>
                 </div>
-              </li>
-            </a>
+              </a>
+            </li>
           ))}
         </InfiniteScroll>
       </ul>

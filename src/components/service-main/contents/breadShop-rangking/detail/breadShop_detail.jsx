@@ -110,7 +110,7 @@ const ShopDetail = ({ shopDetailBread, shopDetailImages, shopDetailAddress, shop
       <OtherBread>
         <h1>빵</h1>
         <div className="all_show">
-          <Link to="/rank/bread">
+          <Link to="/bread">
             <span>모두보기</span>
           </Link>
           <span className="triangle" />

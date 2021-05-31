@@ -58,7 +58,6 @@ const Notice = ({ onNoticeList, noticeList, onNoticePagination }) => {
   };
 
   const handleClick = (listId) => {
-    console.log(listId);
     if (dropDown === listId) {
       setDropDown(0);
     } else {
@@ -72,11 +71,13 @@ const Notice = ({ onNoticeList, noticeList, onNoticePagination }) => {
         {/* @ts-ignore */}
         <InfiniteScroll dataLength={noticeList.length} next={fetMoreData} hasMore={hasMore} scrollThreshold="50px">
           {noticeList.map((list, index) => (
-            <li key={`community-notice-${list.id}`} onClick={() => handleClick(list.id)} role="presentation">
-              <span className="count_number">{index + 1}</span> <span className="notice_content">{list.title}</span>
-              <div className={dropDown ? 'arrow_up' : 'arrow_down'} />
-              {list.id === dropDown ? <DownPage /> : ''}
-              <div className="notice_date">{moment(list.createdAt).format('YYYY-MM-DD')}</div>
+            <li key={`community-notice-${list.id}`}>
+              <div className="notice_title" onClick={() => handleClick(list.id)} role="presentation">
+                <span className="count_number">{index + 1}</span> <span className="notice_content">{list.title}</span>
+                <div className={dropDown === list.id ? 'arrow_up' : 'arrow_down'} />
+                <div className="notice_date">{moment(list.createdAt).format('YYYY-MM-DD')}</div>
+              </div>
+              {list.id === dropDown ? <DownPage list={list} /> : ''}
             </li>
           ))}
         </InfiniteScroll>

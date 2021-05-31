@@ -1,19 +1,31 @@
 import styled from 'styled-components';
 
 export const EventWrap = styled.div`
-  padding: 32px 272px;
+  padding: 32px 20px;
   background: #f8f8f8;
 
-  a {
-    text-decoration: none;
-    color: inherit;
+  & li {
+    width: 480px;
+    float: left;
+    margin-right: 20px;
+
+    & a {
+      text-decoration: none;
+      color: inherit;
+      display: block;
+      width: 100%;
+    }
+  }
+
+  & li:nth-child(2n) {
+    margin-right: 0px;
   }
 
   & .box_wrap {
     display: block;
-    margin-bottom: 75px;
-    width: 480px;
-    height: 200px;
+    margin-bottom: 90px;
+    width: 100%;
+    height: 250px;
     position: relative;
     cursor: pointer;
 
@@ -38,31 +50,35 @@ export const EventWrap = styled.div`
       margin-top: 10px;
     }
 
-    & .going {
-      background-color: rgba(0, 0, 0, 0.4);
-      color: white;
-      font-size: 16px;
-      font-weight: 500;
-      text-align: center;
-      border-radius: 100%;
-      width: 15%;
-      height: 33%;
-      line-height: 67px;
-      position: absolute;
-      top: 10px;
-      right: 10px;
+    & strong {
+      font-weight: 600;
     }
 
-    & .close {
-      width: 27%;
-      height: 60%;
+    & .going {
       background-color: rgba(0, 0, 0, 0.4);
       color: white;
       font-size: 18px;
       font-weight: 500;
       text-align: center;
       border-radius: 100%;
-      line-height: 120px;
+      width: 20%;
+      height: 33%;
+      line-height: 85px;
+      position: absolute;
+      top: 10px;
+      right: 10px;
+    }
+
+    & .close {
+      width: 32%;
+      height: 60%;
+      background-color: rgba(0, 0, 0, 0.4);
+      color: white;
+      font-size: 20px;
+      font-weight: 500;
+      text-align: center;
+      border-radius: 100%;
+      line-height: 155px;
       position: absolute;
       top: 50%;
       left: 50%;

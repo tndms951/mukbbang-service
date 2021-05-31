@@ -11,13 +11,21 @@ export const NoticeWrap = styled.div`
     & li {
       padding: 24px;
       border-top: 1px solid #9a9a9a;
-      cursor: pointer;
     }
 
     & li:nth-child(1) {
       padding: 24px;
       border-top: none;
-      
+    }
+
+    & .notice_title {
+      cursor: pointer;
+
+      &::after {
+        clear: both;
+        content: '';
+        display: block;
+      }
     }
 
     & .count_number {
@@ -48,10 +56,10 @@ export const NoticeWrap = styled.div`
       background: rgb(255, 255, 255);
     }
 
-    $ .arrow_up {
+    & .arrow_up {
       width: 10px;
       height: 10px;
-      transform: rotate(225deg);
+      transform: rotate(45deg);
       background: rgb(117, 117, 117);
       float: right;
     }
