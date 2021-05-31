@@ -1,5 +1,6 @@
 import React from 'react';
 import PropTypes from 'prop-types';
+import { Link } from 'react-router-dom';
 
 import axios from '../../utils/axios';
 import { errorhandler } from '../../utils/common';
@@ -25,7 +26,15 @@ const BreadShopLi = ({ shopList, shopSeverLike, likeTrue, likeFalse, shopId, bre
 
   return (
     <li>
-      <img src={shopList.image} alt={`${shopList.title}의 이미지`} />
+      <Link to={`/bread-house/detail/${shopId}`} key={`bread_shop_list${shopId}`}>
+        <img src={shopList.image} alt={`${shopList.title}의 이미지`} />
+
+        <dl>
+          {breadShopId ? null : <dt>{shopList.address}</dt>}
+          <dd>{shopList.title}</dd>
+        </dl>
+      </Link>
+
       {breadShopId ? null : (
         <img
           src={shopSeverLike ? 'https://s3.ap-northeast-2.amazonaws.com/image.mercuryeunoia.com/images/web/jisu/+common_icon/heart.png' : 'https://s3.ap-northeast-2.amazonaws.com/image.mercuryeunoia.com/images/web/jisu/+common_icon/spaceheart.png'}
@@ -35,10 +44,6 @@ const BreadShopLi = ({ shopList, shopSeverLike, likeTrue, likeFalse, shopId, bre
           onClick={changeShopHeart}
         />
       )}
-      <dl>
-        {breadShopId ? null : <dt>{shopList.address}</dt>}
-        <dd>{shopList.title}</dd>
-      </dl>
     </li>
   );
 };

@@ -12,8 +12,6 @@ export const PopularWrap = styled.div`
 `;
 
 export const BreadList = styled.div`
-  outline: 1px solid red;
-
   & .list_wrap {
     width: 100%;
     box-sizing: border-box;
