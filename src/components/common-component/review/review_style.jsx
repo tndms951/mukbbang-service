@@ -273,10 +273,6 @@ export const ReviewSlid = styled.div`
 export const ReviewBox = styled.div`
   padding: 32px 192px;
   background: #f8f8f8;
-
-  &.slick-arrow .slick-prev {
-    outline: 1px solid red;
-  }
 `;
 
 export const BoxButton = styled.div`
