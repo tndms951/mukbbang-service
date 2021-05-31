@@ -4,6 +4,7 @@ import { createStructuredSelector } from 'reselect';
 import { connect } from 'react-redux';
 import PropTypes from 'prop-types';
 import Slider from 'react-slick';
+import { Link } from 'react-router-dom';
 
 import { errorhandler } from '../../../../utils/common';
 import BreadLi from '../../../common-component/bread_li_component';
@@ -99,7 +100,9 @@ const MainHome = ({
         <BreadShopRanking>
           <h1>빵집 랭킹</h1>
           <div className="all_show">
-            <span>모두보기</span>
+            <Link to="/bread-house">
+              <span>모두보기</span>
+            </Link>
             <span className="triangle" />
           </div>
         </BreadShopRanking>
@@ -118,7 +121,9 @@ const MainHome = ({
         <BreadShopRanking>
           <h1>요즘 인기있는 빵 랭킹</h1>
           <div className="all_show">
-            <span>모두보기</span>
+            <Link to="/bread">
+              <span>모두보기</span>
+            </Link>
             <span className="triangle" />
           </div>
         </BreadShopRanking>

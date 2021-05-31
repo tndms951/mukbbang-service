@@ -4,9 +4,8 @@ import { createStructuredSelector } from 'reselect';
 import { connect } from 'react-redux';
 import PropTypes from 'prop-types';
 import qs from 'qs';
-import { Link } from 'react-router-dom';
-import InfiniteScroll from 'react-infinite-scroll-component';
 
+import InfiniteScroll from 'react-infinite-scroll-component';
 import BreadShopLi from '../../../common-component/breadShop_li_component';
 
 import axios from '../../../../utils/axios';
@@ -312,9 +311,7 @@ const HouseRangking = ({ breadShopList, onBreadShopList, onBreadShopPagination, 
         <InfiniteScroll dataLength={breadShopList.length} next={fetchMoreData} hasMore={hasMore} scrollThreshold="50px">
           <ul className="list_wrap">
             {breadShopList.map((breadShopData) => (
-              <Link to={`/bread-house/detail/${breadShopData.id}`} key={`bread_shop_list${breadShopData.id}`}>
-                <BreadShopLi shopList={breadShopData} shopSeverLike={breadShopData.like} shopId={breadShopData.id} likeTrue={onBreadShopTrue} likeFalse={onBreadShopFalse} />
-              </Link>
+              <BreadShopLi shopList={breadShopData} shopSeverLike={breadShopData.like} shopId={breadShopData.id} likeTrue={onBreadShopTrue} likeFalse={onBreadShopFalse} />
             ))}
           </ul>
         </InfiniteScroll>

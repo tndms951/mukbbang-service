@@ -80,10 +80,14 @@ export const BreadShopRanking = styled.div`
     font-weight: 700;
     color: #5c5c5c;
 
+    a {
+      color: #5c5c5c;
+    }
+
     & span:first-of-type {
-      margin: 10px 0;
       display: inline-block;
       margin-right: 16px;
+      line-height: 46px;
     }
     & .triangle {
       display: inline-block;
