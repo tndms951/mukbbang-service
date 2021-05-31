@@ -9,7 +9,7 @@ const noticeReducer = (state = INITAL_STATE, action) => {
   switch (action.type) {
     case CommunityType.SET_NOTICE_LIST: {
       const { list } = action.payload;
-      console.log(list);
+
       return {
         ...state,
         noticeList: list
@@ -17,7 +17,7 @@ const noticeReducer = (state = INITAL_STATE, action) => {
     }
     case CommunityType.SET_EVENT_LIST: {
       const { list } = action.payload;
-      console.log(list);
+
       return {
         ...state,
         eventList: list

@@ -5,7 +5,6 @@ import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 import InfiniteScroll from 'react-infinite-scroll-component';
 import moment from 'moment';
-// import qs from 'qs';
 
 import { errorhandler } from 'utils/common';
 import DownPage from './notice_downPage';
@@ -20,20 +19,18 @@ const Notice = ({ onNoticeList, noticeList, onNoticePagination }) => {
   const [page, setPage] = useState(1);
   const [hasMore, setHasMore] = useState(true);
   const [dropDown, setDropDown] = useState(0);
-  console.log(dropDown);
 
   useEffect(() => {
     async function fetchNoticeData() {
       try {
         const { data, status } = await axios.get(`/notice?page=${page}&limit=${limit}`);
-        console.log(data);
+
         if (status === 200) {
           onNoticeList(data.list);
           setHasMore(data.pagination.currentPage !== data.pagination.totalPage);
         }
       } catch (err) {
         errorhandler(err);
-        console.log(err);
       }
     }
     fetchNoticeData();
@@ -53,7 +50,6 @@ const Notice = ({ onNoticeList, noticeList, onNoticePagination }) => {
       }
     } catch (err) {
       errorhandler(err);
-      console.log(err);
     }
   };
 
@@ -86,15 +82,10 @@ const Notice = ({ onNoticeList, noticeList, onNoticePagination }) => {
   );
 };
 
-// Notice.defaultProps = {
-//   location: undefined
-// };
-
 Notice.propTypes = {
   onNoticeList: PropTypes.func.isRequired,
   noticeList: PropTypes.instanceOf(Object).isRequired,
   onNoticePagination: PropTypes.func.isRequired
-  // location: PropTypes.instanceOf(Object)
 };
 
 const communityStateToProps = createStructuredSelector({

@@ -27,7 +27,6 @@ const Event = ({ onEventList, eventList, onEventPagination }) => {
         }
       } catch (err) {
         errorhandler(err);
-        console.log(err);
       }
     }
     fetchEventData();
@@ -46,7 +45,6 @@ const Event = ({ onEventList, eventList, onEventPagination }) => {
       }
     } catch (err) {
       errorhandler(err);
-      console.log(err);
     }
   };
 

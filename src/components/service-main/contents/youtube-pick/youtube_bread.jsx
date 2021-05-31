@@ -22,7 +22,7 @@ const YoutubePickBread = ({ youtubePickBreadList, youtubePickList, location, you
     async function fetchyoutubeData() {
       try {
         const { status, data } = await axios.get(`/youtube?page=${page}&limit=${limit}`);
-        console.log(data);
+
         if (status === 200) {
           youtubePickList(data.list);
           setHasMore(data.pagination.currentPage !== data.pagination.totalPage);

@@ -29,7 +29,6 @@ const limit = 20;
 
 // eslint-disable-next-line no-unused-vars
 const HouseRangking = ({ breadShopList, onBreadShopList, onBreadShopPagination, onBreadShopTrue, onBreadShopFalse, siAddressList, onAddressSi, dongAddressList, onAddressDong, location, history }) => {
-  console.log(breadShopList);
   const [hasMore, setHasmore] = useState(true);
 
   const [siList, setSiList] = useState({
@@ -59,7 +58,7 @@ const HouseRangking = ({ breadShopList, onBreadShopList, onBreadShopPagination, 
 
       try {
         const { status, data: breadShopData } = await axios.get(`/bread/shop?${queryData}`);
-        console.log(breadShopData);
+
         if (status === 200) {
           setPage(1);
           onBreadShopList(breadShopData.list);

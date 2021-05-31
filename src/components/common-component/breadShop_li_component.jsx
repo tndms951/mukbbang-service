@@ -5,7 +5,6 @@ import axios from '../../utils/axios';
 import { errorhandler } from '../../utils/common';
 
 const BreadShopLi = ({ shopList, shopSeverLike, likeTrue, likeFalse, shopId, breadShopId }) => {
-  console.log(shopList);
   const changeShopHeart = async () => {
     try {
       if (shopSeverLike) {
