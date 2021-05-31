@@ -18,7 +18,6 @@ import { setBreadRankingList, setHeartTrueData, setHeartFalseData } from '../../
 
 import { selectEventSwiper } from '../../../redux/main/main.selectors';
 import { setEventSwiper } from '../../../redux/main/main.actions';
-
 import axios from '../../../../utils/axios';
 import { Main, MainBackground, BreadShopRanking, BreadShopList } from './mainhome_content_style';
 

@@ -2,13 +2,12 @@ import styled from 'styled-components';
 import Slider from 'react-slick';
 
 export const Main = styled.div`
-  margin-top: 110px;
+  width: 1024px;
+  margin: 0 auto;
 `;
 
 export const MainBackground = styled(Slider)`
-  width: 1024px;
   margin-bottom: 64px;
-  margin: 0 auto;
 
   & img {
     width: 100%;
@@ -57,9 +56,8 @@ export const BreadShopRanking = styled.div`
   padding: 8px 24px;
   box-sizing: border-box;
   line-height: 28px;
-  width: 1024px;
-  margin: 0 auto;
-  margin-top: 72px;
+  margin-top: 150px;
+  margin-bottom: 24px;
 
   &::after {
     clear: both;
@@ -101,9 +99,6 @@ export const BreadShopRanking = styled.div`
 `;
 
 export const BreadShopList = styled.div`
-  width: 1024px;
-  margin: 0 auto;
-
   .list_wrap {
     padding-left: 24px;
     padding-right: 24px;
@@ -122,6 +117,12 @@ export const BreadShopList = styled.div`
       margin-right: 40px;
       margin-bottom: 26px;
       position: relative;
+
+      @media ${({ theme }) => theme.device.mobile} {
+        width: 50%;
+        margin-right: 0;
+        margin-bottom: 0;
+      }
 
       :nth-child(4) {
         margin-right: 0;
@@ -144,10 +145,6 @@ export const BreadShopList = styled.div`
         right: 15px;
         cursor: pointer;
       }
-    }
-
-    & .aaa {
-      margin-right: 0;
     }
 
     & dl {
