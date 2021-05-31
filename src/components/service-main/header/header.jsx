@@ -84,7 +84,7 @@ const Header = ({ currentUser, onLogout }) => {
           <Link to="/youtube-bread">
             <li>유튜버 픽빵</li>
           </Link>
-          <Link to="/community">
+          <Link to="/community?menu=notice">
             <li>커뮤니티</li>
           </Link>
         </ul>

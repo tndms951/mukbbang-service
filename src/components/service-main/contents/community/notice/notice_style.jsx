@@ -1,33 +1,8 @@
 import styled from 'styled-components';
 
-export const CommunityWrap = styled.div`
-  margin: 180px auto;
-  max-width: 1024px;
-`;
-
-export const TitleButton = styled.span`
-  outline: 1px solid red;
-  padding: 20px 320px;
-
-  & a {
-    text-decoration: none;
-  }
-
-  & span {
-    padding: 12px 70px;
-    background: #f8f8f8;
-    color: #5c5c5c;
-    font-size: 16px;
-    font-weight: 700;
-    cursor: pointer;
-  }
-`;
-
 export const NoticeWrap = styled.div`
   background: #f8f8f8;
-  outline: 1px solid green;
   padding: 32px 193px;
-  margin-top: 23px;
 
   & ul {
     padding: 24px;
@@ -36,7 +11,21 @@ export const NoticeWrap = styled.div`
     & li {
       padding: 24px;
       border-top: 1px solid #9a9a9a;
-      
+    }
+
+    & li:nth-child(1) {
+      padding: 24px;
+      border-top: none;
+    }
+
+    & .notice_title {
+      cursor: pointer;
+
+      &::after {
+        clear: both;
+        content: '';
+        display: block;
+      }
     }
 
     & .count_number {
@@ -47,7 +36,50 @@ export const NoticeWrap = styled.div`
 
     & .notice_content {
       font-size: 16px;
-      
+    }
+
+    & .arrow_down {
+      width: 10px;
+      height: 10px;
+      transform: rotate(225deg);
+      background: rgb(117, 117, 117);
+      float: right;
+    }
+
+    & .arrow_down::after {
+      content: "";
+      position: absolute;
+      left: 1px;
+      top: 1px;
+      width: 10px;
+      height: 10px;
+      background: rgb(255, 255, 255);
+    }
+
+    & .arrow_up {
+      width: 10px;
+      height: 10px;
+      transform: rotate(45deg);
+      background: rgb(117, 117, 117);
+      float: right;
+    }
+
+    & .arrow_up::after {
+      content: "";
+      position: absolute;
+      left: 1px;
+      top: 1px;
+      width: 10px;
+      height: 10px;
+      background: rgb(255, 255, 255);
+    }
+
+    & .notice_date {
+      font-size: 14px;
+      width: 18%;
+      color: #9a9a9a;
+      margin-top: 10px;
+      margin-left: 37px;
     }
   }
 `;

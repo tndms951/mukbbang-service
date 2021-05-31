@@ -7,7 +7,6 @@ export const Main = styled.div`
 
 export const MainBackground = styled(Slider)`
   width: 1024px;
-  outline: 1px solid red;
   margin-bottom: 64px;
   margin: 0 auto;
 

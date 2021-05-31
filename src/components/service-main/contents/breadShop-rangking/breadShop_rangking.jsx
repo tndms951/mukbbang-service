@@ -29,9 +29,7 @@ const limit = 20;
 
 // eslint-disable-next-line no-unused-vars
 const HouseRangking = ({ breadShopList, onBreadShopList, onBreadShopPagination, onBreadShopTrue, onBreadShopFalse, siAddressList, onAddressSi, dongAddressList, onAddressDong, location, history }) => {
-  console.log(breadShopList);
   const [hasMore, setHasmore] = useState(true);
-  // console.log(setHasmore);
 
   const [siList, setSiList] = useState({
     id: -1,
@@ -60,12 +58,11 @@ const HouseRangking = ({ breadShopList, onBreadShopList, onBreadShopPagination, 
 
       try {
         const { status, data: breadShopData } = await axios.get(`/bread/shop?${queryData}`);
-        console.log(breadShopData);
+
         if (status === 200) {
           setPage(1);
           onBreadShopList(breadShopData.list);
           setAddressName(breadShopData.data.addressName);
-
           setHasmore(breadShopData.pagination.currentPage !== breadShopData.pagination.totalPage);
         }
       } catch (err) {
@@ -234,7 +231,7 @@ const HouseRangking = ({ breadShopList, onBreadShopList, onBreadShopPagination, 
     }
   };
 
-  // pagination
+  // 스크롤pagination
   const fetchMoreData = async () => {
     try {
       const query = qs.parse(location.search, {
@@ -315,8 +312,8 @@ const HouseRangking = ({ breadShopList, onBreadShopList, onBreadShopPagination, 
         <InfiniteScroll dataLength={breadShopList.length} next={fetchMoreData} hasMore={hasMore} scrollThreshold="50px">
           <ul className="list_wrap">
             {breadShopList.map((breadShopData) => (
-              <Link to={`/rank/bread-house/detail/${breadShopData.id}`} key={`bread_shop_list${breadShopData.id}`}>
-                <BreadShopLi shopList={breadShopData} shopImage={breadShopData.image} shopSeverLike={breadShopData.like} shopId={breadShopData.id} likeTrue={onBreadShopTrue} likeFalse={onBreadShopFalse} />
+              <Link to={`/bread-house/detail/${breadShopData.id}`} key={`bread_shop_list${breadShopData.id}`}>
+                <BreadShopLi shopList={breadShopData} shopSeverLike={breadShopData.like} shopId={breadShopData.id} likeTrue={onBreadShopTrue} likeFalse={onBreadShopFalse} />
               </Link>
             ))}
           </ul>

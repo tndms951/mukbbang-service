@@ -6,7 +6,7 @@ import breadReducer from './bread/bread-reducer';
 import eventReducer from './main/main.reducer';
 import breadBreadShopComment from './comment/bread_breadShopComment.reducer';
 import youtubeReducer from './youtube/youtube.reducer';
-import CommunityRouter from './community/notice.reducer';
+import CommunityRouter from './community/community.reducer';
 
 const rootReducer = combineReducers({
   user: userReducer,

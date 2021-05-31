@@ -4,7 +4,7 @@ import PropTypes from 'prop-types';
 import axios from '../../utils/axios';
 import { errorhandler } from '../../utils/common';
 
-const BreadShopLi = ({ shopList, shopImage, shopSeverLike, likeTrue, likeFalse, shopId, breadShopId }) => {
+const BreadShopLi = ({ shopList, shopSeverLike, likeTrue, likeFalse, shopId, breadShopId }) => {
   const changeShopHeart = async () => {
     try {
       if (shopSeverLike) {
@@ -25,7 +25,7 @@ const BreadShopLi = ({ shopList, shopImage, shopSeverLike, likeTrue, likeFalse, 
 
   return (
     <li>
-      <img src={shopImage} alt={`${shopList.title}의 이미지`} />
+      <img src={shopList.image} alt={`${shopList.title}의 이미지`} />
       {breadShopId ? null : (
         <img
           src={shopSeverLike ? 'https://s3.ap-northeast-2.amazonaws.com/image.mercuryeunoia.com/images/web/jisu/+common_icon/heart.png' : 'https://s3.ap-northeast-2.amazonaws.com/image.mercuryeunoia.com/images/web/jisu/+common_icon/spaceheart.png'}
@@ -49,7 +49,6 @@ BreadShopLi.propTypes = {
   likeTrue: PropTypes.func,
   likeFalse: PropTypes.func,
   shopId: PropTypes.number.isRequired,
-  shopImage: PropTypes.string.isRequired,
   breadShopId: PropTypes.string
 };
 

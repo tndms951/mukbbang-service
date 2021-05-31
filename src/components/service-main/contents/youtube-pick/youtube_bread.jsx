@@ -12,17 +12,20 @@ import { BreadPickWrap, YoutubePickEvent, StyledSlider, PickBreadTitle, PickBrea
 import { setYoutubeList, setYoutubePagination } from '../../../redux/youtube/youtube.actions';
 import { selectYoutubeList } from '../../../redux/youtube/youtube.selectors';
 
-const limit = 20;
+const limit = 2;
 
 const YoutubePickBread = ({ youtubePickBreadList, youtubePickList, location, youtubePagination }) => {
   const [page, setPage] = useState(1);
+  const [hasMore, setHasMore] = useState(true);
 
   useEffect(() => {
     async function fetchyoutubeData() {
       try {
         const { status, data } = await axios.get(`/youtube?page=${page}&limit=${limit}`);
+
         if (status === 200) {
           youtubePickList(data.list);
+          setHasMore(data.pagination.currentPage !== data.pagination.totalPage);
         }
       } catch (err) {
         errorhandler(err);
@@ -75,7 +78,6 @@ const YoutubePickBread = ({ youtubePickBreadList, youtubePickList, location, you
       });
 
       const queryObject = { ...query };
-
       queryObject.page = String(page + 1);
       queryObject.limit = String(limit);
       const queryData = qs.stringify(queryObject);
@@ -83,6 +85,9 @@ const YoutubePickBread = ({ youtubePickBreadList, youtubePickList, location, you
       if (status === 200) {
         youtubePagination(data.list);
         setPage(page + 1);
+        if (data.pagination.currentPage === data.pagination.totalPage) {
+          setHasMore(false);
+        }
       }
     } catch (err) {
       errorhandler(err);
@@ -99,7 +104,7 @@ const YoutubePickBread = ({ youtubePickBreadList, youtubePickList, location, you
 
       <StyledSlider>
         {/* @ts-ignore */}
-        <InfiniteScroll dataLength={youtubePickBreadList.length} next={fetMoreData} hasMore scrollThreshold="50px">
+        <InfiniteScroll dataLength={youtubePickBreadList.length} next={fetMoreData} hasMore={hasMore} scrollThreshold="50px">
           {youtubePickBreadList.map((list, index) => {
             if (index % 2 === 0) {
               return (
