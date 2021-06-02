@@ -4,6 +4,9 @@ import Slider from 'react-slick';
 export const Main = styled.div`
   width: 1024px;
   margin: 0 auto;
+  @media ${({ theme }) => theme.device.mobile} {
+    width: 100%;
+  }
 `;
 
 export const MainBackground = styled(Slider)`
@@ -56,7 +59,7 @@ export const BreadShopRanking = styled.div`
   padding: 8px 24px;
   box-sizing: border-box;
   line-height: 28px;
-  margin-top: 150px;
+  margin-top: 180px;
   margin-bottom: 24px;
 
   &::after {
@@ -70,6 +73,14 @@ export const BreadShopRanking = styled.div`
     font-size: 32px;
     font-weight: 700;
     line-height: 48px;
+  }
+
+  & .webSize {
+    display: block;
+  }
+
+  & .mobileSize {
+    display: none;
   }
 
   & .all_show {
@@ -99,7 +110,14 @@ export const BreadShopRanking = styled.div`
 
   @media ${({ theme }) => theme.device.mobile} {
     & h1 {
-      font-size: 18px;
+      font-size: 20px;
+    }
+    & .webSize {
+      display: none;
+    }
+
+    & .mobileSize {
+      display: block;
     }
 
     & .all_show {
@@ -113,8 +131,8 @@ export const BreadShopRanking = styled.div`
         display: inline-block;
         width: 0;
         height: 0;
-        border-top: 6px solid transparent;
-        border-left: 8px solid #5c5c5c;
+        border-top: 5px solid transparent;
+        border-left: 6px solid #5c5c5c;
         border-bottom: 6px solid transparent;
       }
     }
@@ -198,20 +216,20 @@ export const BreadShopList = styled.div`
 
   @media ${({ theme }) => theme.device.mobile} {
     .list_wrap {
-      padding: 0px;
+      padding: 0px 10px;
       margin-bottom: 15px;
       position: relative;
-      width: 95%;
+      width: 100%;
       margin: 0 auto;
-      outline: 4px solid pink;
+  
 
     & li {
-      margin-right: 29px;
+      margin-right: 2%;
       margin-bottom: 16px;
-      width: 47%;
-      outline: 3px solid blue;
+      width: 49%;
+      // outline: 3px solid blue;
 
-      & li:nth-child(2n) {
+      &:nth-child(2n) {
         margin-right: 0px;
       }
 
@@ -224,8 +242,8 @@ export const BreadShopList = styled.div`
       }
 
       & .image_wrap {
-        width: 300px;
-        height: 300px;
+        width: 100%;
+        height: auto;
         margin: 0 auto;
       }
 
@@ -238,8 +256,8 @@ export const BreadShopList = styled.div`
 
     & .heart_image {
       position: absolute;
-      top: 17px;
-      right: 40px;
+      top: 12px;
+      right: 8px;
       cursor: pointer;
     }
   }
