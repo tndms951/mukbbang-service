@@ -54,8 +54,8 @@ const Event = ({ onEventList, eventList, onEventPagination }) => {
         {/* @ts-ignore */}
         <InfiniteScroll dataLength={eventList.length} next={fetMoreData} hasMore={hasMore} scrollThreshold="50px">
           {eventList.map((list) => (
-            <li>
-              <a href={list.link} target="_blank" rel="noreferrer" key={`event=${list.id}`}>
+            <li key={`event=${list.id}`}>
+              <a href={list.link} target="_blank" rel="noreferrer">
                 <div className="box_wrap" key={`event-${list.id}`}>
                   <img src={list.imageUrl} alt="" />
                   {/* <span>{list.title}</span> */}

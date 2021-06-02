@@ -18,7 +18,6 @@ import { setBreadRankingList, setHeartTrueData, setHeartFalseData } from '../../
 
 import { selectEventSwiper } from '../../../redux/main/main.selectors';
 import { setEventSwiper } from '../../../redux/main/main.actions';
-
 import axios from '../../../../utils/axios';
 import { Main, MainBackground, BreadShopRanking, BreadShopList } from './mainhome_content_style';
 
@@ -119,7 +118,8 @@ const MainHome = ({
       {/* 빵!!!!! */}
       <div className="breadRankingWrap">
         <BreadShopRanking>
-          <h1>요즘 인기있는 빵 랭킹</h1>
+          <h1 className="webSize">요즘 인기있는 빵 랭킹</h1>
+          <h1 className="mobileSize">인기있는 빵 랭킹</h1>
           <div className="all_show">
             <Link to="/bread">
               <span>모두보기</span>

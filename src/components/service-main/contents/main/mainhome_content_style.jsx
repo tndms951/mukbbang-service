@@ -2,13 +2,15 @@ import styled from 'styled-components';
 import Slider from 'react-slick';
 
 export const Main = styled.div`
-  margin-top: 110px;
+  width: 1024px;
+  margin: 0 auto;
+  @media ${({ theme }) => theme.device.mobile} {
+    width: 100%;
+  }
 `;
 
 export const MainBackground = styled(Slider)`
-  width: 1024px;
   margin-bottom: 64px;
-  margin: 0 auto;
 
   & img {
     width: 100%;
@@ -57,9 +59,8 @@ export const BreadShopRanking = styled.div`
   padding: 8px 24px;
   box-sizing: border-box;
   line-height: 28px;
-  width: 1024px;
-  margin: 0 auto;
-  margin-top: 72px;
+  margin-top: 180px;
+  margin-bottom: 24px;
 
   &::after {
     clear: both;
@@ -72,6 +73,14 @@ export const BreadShopRanking = styled.div`
     font-size: 32px;
     font-weight: 700;
     line-height: 48px;
+  }
+
+  & .webSize {
+    display: block;
+  }
+
+  & .mobileSize {
+    display: none;
   }
 
   & .all_show {
@@ -98,15 +107,41 @@ export const BreadShopRanking = styled.div`
       border-bottom: 7px solid transparent;
     }
   }
+
+  @media ${({ theme }) => theme.device.mobile} {
+    & h1 {
+      font-size: 20px;
+    }
+    & .webSize {
+      display: none;
+    }
+
+    & .mobileSize {
+      display: block;
+    }
+
+    & .all_show {
+      font-size: 18px;
+
+      & span:first-of-type {
+        margin-right: 5px;
+        font-size: 14px;
+      }
+      & .triangle {
+        display: inline-block;
+        width: 0;
+        height: 0;
+        border-top: 5px solid transparent;
+        border-left: 6px solid #5c5c5c;
+        border-bottom: 6px solid transparent;
+      }
+    }
+  }
 `;
 
 export const BreadShopList = styled.div`
-  width: 1024px;
-  margin: 0 auto;
-
   .list_wrap {
-    padding-left: 24px;
-    padding-right: 24px;
+    padding: 0 24px;
     margin-bottom: 26px;
     width: 100%;
     box-sizing: border-box;
@@ -130,9 +165,19 @@ export const BreadShopList = styled.div`
         margin-right: 0;
       }
 
-      & img {
+      a {
+        text-decoration: none;
+        color: black;
+      }
+
+      & .image_wrap {
         width: 214px;
         height: 214px;
+      }
+
+      & img {
+        width: 100%;
+        height: 100%;
         display: block;
       }
 
@@ -144,10 +189,6 @@ export const BreadShopList = styled.div`
         right: 15px;
         cursor: pointer;
       }
-    }
-
-    & .aaa {
-      margin-right: 0;
     }
 
     & dl {
@@ -168,6 +209,73 @@ export const BreadShopList = styled.div`
       & dd {
         margin-bottom: 24px;
         font-size: 24px;
+        font-weight: 700;
+      }
+    }
+  }
+
+  @media ${({ theme }) => theme.device.mobile} {
+    .list_wrap {
+      padding: 0px 10px;
+      margin-bottom: 15px;
+      position: relative;
+      width: 100%;
+      margin: 0 auto;
+  
+
+    & li {
+      margin-right: 2%;
+      margin-bottom: 16px;
+      width: 49%;
+      // outline: 3px solid blue;
+
+      &:nth-child(2n) {
+        margin-right: 0px;
+      }
+
+      & a {
+        text-decoration: none;
+        color: black;
+        display: block;
+        width: 100%;
+        height: 100%;
+      }
+
+      & .image_wrap {
+        width: 100%;
+        height: auto;
+        margin: 0 auto;
+      }
+
+      & img {
+        width: 100%;
+        height: 100%;
+        display: block;
+      }
+    
+
+    & .heart_image {
+      position: absolute;
+      top: 12px;
+      right: 8px;
+      cursor: pointer;
+    }
+  }
+
+    & dl {
+      margin-top: 24px;
+      text-align: center;
+
+      & dt {
+        width: 40%;
+        margin: 0 auto;
+        margin-bottom: 8px;
+        font-size: 14px;
+        text-align: center;
+      }
+      & dd {
+        margin-bottom: 24px;
+        font-size: 20px;
         font-weight: 700;
       }
     }

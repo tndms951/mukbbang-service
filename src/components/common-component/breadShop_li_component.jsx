@@ -27,8 +27,9 @@ const BreadShopLi = ({ shopList, shopSeverLike, likeTrue, likeFalse, shopId, bre
   return (
     <li>
       <Link to={`/bread-house/detail/${shopId}`} key={`bread_shop_list${shopId}`}>
-        <img src={shopList.image} alt={`${shopList.title}의 이미지`} />
-
+        <div className="image_wrap">
+          <img src={shopList.image} alt={`${shopList.title}의 이미지`} />
+        </div>
         <dl>
           {breadShopId ? null : <dt>{shopList.address}</dt>}
           <dd>{shopList.title}</dd>
