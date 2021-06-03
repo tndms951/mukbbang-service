@@ -19,6 +19,10 @@ export const BookMark = styled.div`
     clear: both;
     display: block;
   }
+
+  @media ${({ theme }) => theme.device.mobile} {
+    display: none;
+  }
 `;
 
 export const LeftBookMark = styled.div`
@@ -139,7 +143,8 @@ export const GroupNav = styled.div`
     }
   }
 
-  & ul {
+  & .webSize {
+    display: block;
     float: left;
     padding: 8px;
     margin-left: 58px;
@@ -149,11 +154,85 @@ export const GroupNav = styled.div`
     }
   }
 
+  & .mobileSize {
+    display: none;
+  }
+
   & li {
     float: left;
     font-family: SpoqaHanSans;
     line-height: 24px;
     margin-right: 40px;
+  }
+
+  @media ${({ theme }) => theme.device.mobile} {
+    & .mobileBoxWrap {
+      width: 100%;
+      background: #ffffff;
+      position: fixed;
+      bottom: 0;
+      left: 0;
+      padding: 10px;
+      z-index: 100;
+    }
+
+    & .webSize {
+      display: none;
+    }
+
+    & .mobileSize {
+      display: inline-block;
+      width: 100%;
+
+      & li {
+        width: 20%;
+        margin-right: 0px;
+        height: 65px;
+        font-family: SpoqaHanSans;
+        line-height: 24px;
+
+        & span {
+          font-size: 13px;
+          font-weight: 500;
+          display: block;
+          text-align: center;
+          line-height: 27px;
+        }
+      }
+      & .clickIcons {
+        & svg {
+          color: #fb7819;
+        }
+
+        & span {
+          color: #fb7819;
+        }
+      }
+
+      & a {
+        width: 100%;
+        height: 100%;
+        color: black;
+        text-decoration: none;
+        display: block;
+
+        & svg {
+          width: 40px;
+          height: 30px;
+          margin: 0 auto;
+          padding: 5px;
+          display: block;
+          justify-content: center;
+        }
+      }
+    }
+
+    .icons {
+      width: 100%;
+      height: auto;
+      margin-right: 5px;
+      color: #5c5c5c;
+    }
   }
 `;
 
@@ -212,5 +291,19 @@ export const NaveSearch = styled.div`
 
   & input:focus {
     outline: none;
+  }
+
+  @media ${({ theme }) => theme.device.mobile} {
+    & .headerSearch {
+      position: absolute;
+      top: 10px;
+      left: -16px;
+      margin-right: 12px;
+      float: left;
+    }
+
+    & input {
+      display: none;
+    }
   }
 `;

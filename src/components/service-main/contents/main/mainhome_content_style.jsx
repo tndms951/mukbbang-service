@@ -109,6 +109,8 @@ export const BreadShopRanking = styled.div`
   }
 
   @media ${({ theme }) => theme.device.mobile} {
+    margin-top: 80px;
+
     & h1 {
       font-size: 20px;
     }
