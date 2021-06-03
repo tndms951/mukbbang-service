@@ -4,6 +4,7 @@ import Slider from 'react-slick';
 export const Main = styled.div`
   width: 1024px;
   margin: 0 auto;
+
   @media ${({ theme }) => theme.device.mobile} {
     width: 100%;
   }

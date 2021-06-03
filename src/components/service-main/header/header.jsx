@@ -3,7 +3,7 @@ import React, { useState } from 'react';
 import { connect } from 'react-redux';
 import PropTypes from 'prop-types';
 import { createStructuredSelector } from 'reselect';
-import { Link } from 'react-router-dom';
+import { Link, useLocation } from 'react-router-dom';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faStore, faBreadSlice, faCalendar, faUser } from '@fortawesome/free-solid-svg-icons';
 import { faYoutube } from '@fortawesome/free-brands-svg-icons';
@@ -23,7 +23,9 @@ import { HeaderWrap, BookMark, LeftBookMark, RightLogin, MyProfile, GroupNav, Na
  */
 
 const Header = ({ currentUser, onLogout }) => {
-  alert(window.location.pathname);
+  const location = useLocation();
+  console.log(location);
+
   const [myProfileBox, setMyProfileBox] = useState(false);
 
   // useEffect(() => {
@@ -105,31 +107,31 @@ const Header = ({ currentUser, onLogout }) => {
           {/* 모바일 */}
           <div className="mobileBoxWrap">
             <ul className="mobileSize">
-              <li className={window.location.pathname === '/bread-house' ? 'clickIcons' : ''}>
+              <li className={location.pathname === '/bread-house' ? 'clickIcons' : ''}>
                 <Link to="/bread-house">
                   <FontAwesomeIcon icon={faStore} className="icons" />
                   <span>빵집 랭킹</span>
                 </Link>
               </li>
-              <li className={window.location.pathname === '/bread' ? 'clickIcons' : ''}>
+              <li className={location.pathname === '/bread' ? 'clickIcons' : ''}>
                 <Link to="/bread">
                   <FontAwesomeIcon icon={faBreadSlice} className="icons" />
                   <span>인기있는 빵</span>
                 </Link>
               </li>
-              <li className={window.location.pathname === '/youtube-bread' ? 'clickIcons' : ''}>
+              <li className={location.pathname === '/youtube-bread' ? 'clickIcons' : ''}>
                 <Link to="/youtube-bread">
                   <FontAwesomeIcon icon={faYoutube} className="icons" />
                   <span>유튜버 픽빵</span>
                 </Link>
               </li>
-              <li>
+              <li className={location.pathname === '/community' ? 'clickIcons' : ''}>
                 <Link to="/community?menu=notice">
                   <FontAwesomeIcon icon={faCalendar} className="icons" />
                   <span>커뮤니티</span>
                 </Link>
               </li>
-              <li>
+              <li className={location.pathname === '/login' ? 'clickIcons' : ''}>
                 <Link to="/login">
                   <FontAwesomeIcon icon={faUser} className="icons" />
                   <span>내정보</span>

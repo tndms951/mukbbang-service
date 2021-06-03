@@ -166,14 +166,20 @@ export const GroupNav = styled.div`
   }
 
   @media ${({ theme }) => theme.device.mobile} {
+    padding: 10px 15px 10px 15px;
+
     & .mobileBoxWrap {
       width: 100%;
       background: #ffffff;
       position: fixed;
       bottom: 0;
       left: 0;
-      padding: 10px;
+      padding: 10px 0px;
       z-index: 100;
+    }
+
+    & h1 {
+      width: 25%;
     }
 
     & .webSize {
@@ -294,12 +300,33 @@ export const NaveSearch = styled.div`
   }
 
   @media ${({ theme }) => theme.device.mobile} {
+    position: relative;
+
+    & .clearfix::after {
+      content: '';
+      clear: both;
+      display: block;
+    }
+
     & .headerSearch {
       position: absolute;
+      width: 20px;
+      height: 20px;
       top: 10px;
-      left: -16px;
+      left: -23px;
       margin-right: 12px;
       float: left;
+
+      & span::before {
+        width: 20px;
+        height: 20px;
+      }
+
+      & span::after {
+        width: 10px;
+        top: 19px;
+        left: 17px;
+      }
     }
 
     & input {
