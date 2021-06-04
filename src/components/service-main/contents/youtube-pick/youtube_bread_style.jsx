@@ -1,7 +1,7 @@
 import styled from 'styled-components';
 
 export const BreadPickWrap = styled.div`
-  margin: 180px auto;
+  margin: 104px auto;
   max-width: 1024px;
 `;
 

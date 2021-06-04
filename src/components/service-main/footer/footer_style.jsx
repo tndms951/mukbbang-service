@@ -2,32 +2,35 @@ import styled from 'styled-components';
 
 export const FooterWarp = styled.div`
   background-color: #383838;
-  // height: 192px;
-  padding: 36px; 214px; 80px 214px;
+  padding: 36px;
   box-sizing: border-box;
   width: 100%;
 
-  & .clearfix::after {
-    content: '';
+  &::after {
     clear: both;
+    content: '';
     display: block;
+  }
+
+  @media ${({ theme }) => theme.device.mobile} {
+    margin-bottom: 80px;
+    padding: 20px;
   }
 `;
 
 export const SnsIcon = styled.div`
-  backgroun-color: red;
-
-  & .clearfix::after {
-    content: '';
-    clear: both;
-    display: block;
-  }
+  margin-bottom: 10px;
 
   & ul {
     margin-bottom: 28px;
-    width: 23%;
+    width: 100%;
     margin: 0 auto;
-    margin-bottom: 30px;
+
+    &::after {
+      clear: both;
+      content: '';
+      display: block;
+    }
   }
 
   & li {
@@ -37,8 +40,9 @@ export const SnsIcon = styled.div`
     margin-right: 32px;
 
     & img {
-      width: 24px;
-      hegith: 24px;
+      width: 100%;
+      hegith: 100%;
+      display: block;
     }
   }
 
@@ -48,19 +52,16 @@ export const SnsIcon = styled.div`
 `;
 
 export const CorpArea = styled.div`
-  margin-bottom: 40px;
-
-  & .clearfix::after {
-    content: '';
-    clear: both;
-    display: block;
-  }
-
   & ul {
-    width: 51%;
+    width: 100%;
     margin: 0 auto;
     color: white;
-    height: 24px;
+
+    &::after {
+      clear: both;
+      content: '';
+      display: block;
+    }
   }
 
   & li {
@@ -71,21 +72,42 @@ export const CorpArea = styled.div`
     line-height: 24px;
     float: left;
     margin-right: 45px;
+
+    &::after {
+      clear: both;
+      content: '';
+      display: block;
+    }
   }
 
-  & li:nth-child(2) img {
-    width: 14px;
-    height: 20px;
-    margin-right: 13px;
-  }
-
-  & li:nth-child(2) span {
-    line-height: 24px;
+  .footer_image_wrap {
+    float: left;
+    width: 15px;
+    height: 15px;
+    line-height: 30px;
+    margin-right: 6px;
   }
 
   & li:last-of-type img {
-    width: 20px;
-    height: 16px;
+    width: 100%;
+    height: 100%;
     margin-right: 10px;
+  }
+
+  @media ${({ theme }) => theme.device.mobile} {
+    & li {
+      font-size: 12px;
+    }
+
+    .footer_image_wrap {
+      width: 13px;
+      height: 12px;
+      margin-right: 3px;
+    }
+
+    & li:last-of-type img {
+      width: 100%;
+      height: 100%;
+    }
   }
 `;

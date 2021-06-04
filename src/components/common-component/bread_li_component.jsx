@@ -31,7 +31,6 @@ const BreadLi = ({ likeTrue, likeFalse, breadList }) => {
         <span className="bread_image_wrap">
           <img src={breadList.image} alt={`${breadList.title}의 이미지`} />
         </span>
-
         <dl>
           <dd>{breadList.title}</dd>
         </dl>

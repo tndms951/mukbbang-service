@@ -24,7 +24,6 @@ import { HeaderWrap, BookMark, LeftBookMark, RightLogin, MyProfile, GroupNav, Na
 
 const Header = ({ currentUser, onLogout }) => {
   const location = useLocation();
-  console.log(location);
 
   const [myProfileBox, setMyProfileBox] = useState(false);
 

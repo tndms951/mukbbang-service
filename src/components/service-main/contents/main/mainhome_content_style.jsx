@@ -230,7 +230,6 @@ export const BreadShopList = styled.div`
       margin-right: 2%;
       margin-bottom: 16px;
       width: 49%;
-      // outline: 3px solid blue;
 
       &:nth-child(2n) {
         margin-right: 0px;
