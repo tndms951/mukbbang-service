@@ -29,8 +29,9 @@ export const BreadliWrap = styled.li`
     height: 25px;
     display: block;
     position: absolute;
-    top: 17px;
-    right: 15px;
+    cursor: pointer;
+    top: 0px;
+    right: 0px;
 
     & .heart_image {
       width: 100%;

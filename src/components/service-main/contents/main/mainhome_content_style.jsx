@@ -4,6 +4,7 @@ import Slider from 'react-slick';
 export const Main = styled.div`
   width: 1024px;
   margin: 0 auto;
+
   @media ${({ theme }) => theme.device.mobile} {
     width: 100%;
   }
@@ -109,6 +110,8 @@ export const BreadShopRanking = styled.div`
   }
 
   @media ${({ theme }) => theme.device.mobile} {
+    margin-top: 80px;
+
     & h1 {
       font-size: 20px;
     }
@@ -227,7 +230,6 @@ export const BreadShopList = styled.div`
       margin-right: 2%;
       margin-bottom: 16px;
       width: 49%;
-      // outline: 3px solid blue;
 
       &:nth-child(2n) {
         margin-right: 0px;
