@@ -35,7 +35,6 @@ const Header = ({ currentUser, onLogout }) => {
     const query = qs.parse(location.search, {
       ignoreQueryPrefix: true
     });
-    console.log(query);
 
     setTitle(query.title ? String(query.title) : '');
   }, [location.search]);
