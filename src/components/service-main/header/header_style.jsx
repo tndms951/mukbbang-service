@@ -165,6 +165,10 @@ export const GroupNav = styled.div`
     margin-right: 40px;
   }
 
+  & .clickMenu {
+    color: #fb7819;
+  }
+
   @media ${({ theme }) => theme.device.mobile} {
     padding: 10px 15px 10px 15px;
 
@@ -328,7 +332,6 @@ export const NaveSearch = styled.div`
         left: 17px;
       }
     }
-
     & input {
       display: none;
     }

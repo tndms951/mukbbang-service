@@ -1,13 +1,13 @@
 /* eslint-disable jsx-a11y/alt-text */
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import { connect } from 'react-redux';
 import PropTypes from 'prop-types';
 import { createStructuredSelector } from 'reselect';
-import { Link, useLocation } from 'react-router-dom';
+import { Link, useLocation, useHistory } from 'react-router-dom';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faStore, faBreadSlice, faCalendar, faUser } from '@fortawesome/free-solid-svg-icons';
 import { faYoutube } from '@fortawesome/free-brands-svg-icons';
-// import qs from 'qs';
+import qs from 'qs';
 
 import { selectCurrentUser } from '../../redux/user/user.selectors';
 import { setLogout } from '../../redux/user/user.actions';
@@ -23,16 +23,37 @@ import { HeaderWrap, BookMark, LeftBookMark, RightLogin, MyProfile, GroupNav, Na
  */
 
 const Header = ({ currentUser, onLogout }) => {
-  const location = useLocation();
+  const location = useLocation(); // 라우터가 없을때 라이브러리로 가져와서 사용하는것
+  const history = useHistory(); // 라우터가 없을때 라이브러리로 가져와서 사용하는것
 
   const [myProfileBox, setMyProfileBox] = useState(false);
 
-  // useEffect(() => {
-  //   const pathUrl = qs.parse(location.pathname, {
-  //     ignoreQueryPrefix: true
-  //   });
-  //   console.log(pathUrl);
-  // });
+  // 검색조회
+  const [title, setTitle] = useState('');
+
+  useEffect(() => {
+    const query = qs.parse(location.search, {
+      ignoreQueryPrefix: true
+    });
+    console.log(query);
+
+    setTitle(query.title ? String(query.title) : '');
+  }, [location.search]);
+
+  const handleChange = (e) => {
+    setTitle(e.target.value);
+  };
+
+  const handleSearch = (e) => {
+    e.preventDefault();
+    const queryObject = {};
+
+    if (title) {
+      queryObject.title = title;
+    }
+    const queryData = qs.stringify(queryObject);
+    history.push(`/bread-house${queryData ? `?${queryData}` : ''}`);
+  };
 
   return (
     <>
@@ -90,16 +111,16 @@ const Header = ({ currentUser, onLogout }) => {
           </Link>
           <ul className="webSize">
             <Link to="/bread-house">
-              <li>빵집 랭킹</li>
+              <li className={location.pathname === '/bread-house' ? 'clickMenu' : ''}>빵집 랭킹</li>
             </Link>
             <Link to="/bread">
-              <li>요즘 인기있는 빵</li>
+              <li className={location.pathname === '/bread' ? 'clickMenu' : ''}>요즘 인기있는 빵</li>
             </Link>
             <Link to="/youtube-bread">
-              <li>유튜버 픽빵</li>
+              <li className={location.pathname === '/youtube-bread' ? 'clickMenu' : ''}>유튜버 픽빵</li>
             </Link>
             <Link to="/community?menu=notice">
-              <li>커뮤니티</li>
+              <li className={location.pathname === '/community' ? 'clickMenu' : ''}>커뮤니티</li>
             </Link>
           </ul>
 
@@ -144,7 +165,9 @@ const Header = ({ currentUser, onLogout }) => {
             <div className="headerSearch">
               <span />
             </div>
-            <input type="text" placeholder="빵집을 찾아보세요." />
+            <form className="" onSubmit={handleSearch}>
+              <input type="text" placeholder="빵집을 찾아보세요." value={title} onChange={handleChange} />
+            </form>
           </NaveSearch>
         </GroupNav>
       </HeaderWrap>
@@ -158,7 +181,6 @@ const userProps = createStructuredSelector({
 Header.propTypes = {
   currentUser: PropTypes.instanceOf(Object),
   onLogout: PropTypes.func.isRequired
-  // location: PropTypes.instanceOf(Object).isRequired
 };
 
 Header.defaultProps = {
