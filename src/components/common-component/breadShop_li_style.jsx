@@ -50,6 +50,8 @@ export const ShopliWrap = styled.li`
       }
     }
 
+    
+
     & dl {
       text-align: center;
 

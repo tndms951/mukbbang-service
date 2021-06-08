@@ -30,8 +30,8 @@ export const BreadliWrap = styled.li`
     display: block;
     position: absolute;
     cursor: pointer;
-    top: 0px;
-    right: 0px;
+    top: 12px;
+    right: 12px;
 
     & .heart_image {
       width: 100%;
@@ -57,6 +57,17 @@ export const BreadliWrap = styled.li`
       margin-bottom: 24px;
       font-size: 24px;
       font-weight: 700;
+    }
+  }
+
+  @media ${({ theme }) => theme.device.mobile} {
+    & .heart_wrap {
+      top: 12px;
+      right: 12px;
+
+      & .heart_image {
+        width: 100%;
+      }
     }
   }
 `;

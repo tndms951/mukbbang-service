@@ -1,14 +1,29 @@
 import styled from 'styled-components';
 
 export const PopularBreadWrap = styled.div`
-  margin: 180px auto;
+  margin: 150px auto;
   width: 1024px;
+
+  @media ${({ theme }) => theme.device.mobile} {
+    width: 100%;
+    margin: 100px auto;
+  }
 `;
 
 export const PopularWrap = styled.div`
   font-size: 32px;
   font-weight: 700;
   margin-bottom: 32px;
+
+  @media ${({ theme }) => theme.device.mobile} {
+    width: 100%;
+    padding: 0 10px;
+    box-sizing: border-box;
+
+    h1 {
+      font-size: 20px;
+    }
+  }
 `;
 
 export const BreadList = styled.div`
@@ -27,6 +42,7 @@ export const BreadList = styled.div`
     & a {
       display: block;
       text-decoration: none;
+      color: inherit;
     }
 
     &::after {
@@ -34,13 +50,21 @@ export const BreadList = styled.div`
       content: '';
       display: block;
     }
-
-    & a {
-      color: inherit;
-    }
   }
 
-  // & .infinite-scroll-component {
-  //   overflow: hidden;
-  // }
+  @media ${({ theme }) => theme.device.mobile} {
+    & .list_wrap {
+      padding: 0px 10px;
+
+      & li {
+        margin-right: 2%;
+        margin-bottom: 16px;
+        width: 49%;
+
+        &:nth-child(2n) {
+          margin-right: 0px;
+        }
+      }
+    }
+  }
 `;
