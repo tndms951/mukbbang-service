@@ -2,23 +2,48 @@ import styled from 'styled-components';
 
 export const HouseRangkingWrap = styled.div`
   margin: 120px auto;
-
   width: 1024px;
 
   & h1 {
     font-size: 32px;
     font-weight: 700;
   }
+
+  @media ${({ theme }) => theme.device.mobile} {
+    width: 100%;
+  }
+`;
+
+export const LocationWrap = styled.div`
+  &::after {
+    clear: both;
+    content: '';
+    display: block;
+  }
+
+  @media ${({ theme }) => theme.device.mobile} {
+    padding: 12px 10px;
+  }
 `;
 
 export const ShopRangking = styled.div`
-  padding: 8px 24px;
-  margin-bottom: 16px;
+  
+  & h1 {
+    padding: 8px 24px;
+    margin-bottom: 16px;
+    font-size: 20px;
+    float: left;
+  }
+
+  @media ${({ theme }) => theme.device.mobile} {
+    width: 100%:
+    margin-bottom: 30px;
+  }
 `;
 
 export const Location = styled.div`
-  padding: 16px 24px;
   margin-bottom: 48px;
+  float: right;
 
   &::after {
     clear: both;
@@ -29,11 +54,16 @@ export const Location = styled.div`
 
 export const SelectWrap = styled.div`
   display: inline-block;
+  float: left;
 
   &::after {
     clear: both;
     content: '';
     display: block;
+  }
+
+  @media ${({ theme }) => theme.device.mobile} {
+    margin-bottom: 40px;
   }
 `;
 
@@ -104,7 +134,6 @@ export const City = styled.div`
     position: absolute;
     top: calc(100% + 0.5rem);
     left: 0;
-    // padding: 18px 16px;
     padding-top: 18px;
     padding-bottom: 18px;
     margin: 0;
@@ -189,6 +218,22 @@ export const CurrentLocation = styled.div`
     float: left;
     padding: 2px 0;
   }
+
+  @media ${({ theme }) => theme.device.mobile} {
+    & button {
+      padding: 6px 14px;
+      background-color: #3d3d3d;
+      cursor: pointer;
+    }
+    & span {
+      font-size: 14px;
+      color: white;
+      margin-left: 8px;
+      display: block;
+      float: left;
+      padding: 2px 0;
+    }
+  }
 `;
 
 export const LocationText = styled.div`
@@ -196,6 +241,11 @@ export const LocationText = styled.div`
   font-size: 24px;
   font-weight: 700;
   margin-bottom: 24px;
+
+  @media ${({ theme }) => theme.device.mobile} {
+    margin-bottom: 12px;
+    padding: 5px;
+  }
 `;
 
 export const RangkingList = styled.div`
@@ -228,12 +278,6 @@ export const RangkingList = styled.div`
         margin-right: 0;
       }
 
-      & img {
-        width: 214px;
-        height: 214px;
-        display: block;
-      }
-
       & .heart_image {
         width: 0;
         height: 0;
@@ -253,30 +297,26 @@ export const RangkingList = styled.div`
         right: 15px;
       }
     }
+  }
 
-    & .aaa {
-      margin-right: 0;
-    }
+  @media ${({ theme }) => theme.device.mobile} {
+    width: 100%;
 
-    & dl {
-      margin-top: 24px;
+    .list_wrap {
+      padding: 0px 10px;
+      margin-bottom: 15px;
+      position: relative;
+      width: 100%;
+      margin: 0 auto;
 
-      & dt {
-        margin-bottom: 8px;
-        background-color: #0cc3a3;
-        border-radius: 4px;
-        width: 80px;
-        padding: 0 8px;
-        color: white;
-        height: 24px;
-        line-height: 24px;
-        font-size: 14px;
-        text-align: center;
-      }
-      & dd {
-        margin-bottom: 24px;
-        font-size: 24px;
-        font-weight: 700;
+      & li {
+        margin-right: 2%;
+        margin-bottom: 16px;
+        width: 49%;
+
+        &:nth-child(2n) {
+          margin-right: 0px;
+        }
       }
     }
   }

@@ -145,12 +145,20 @@ export const BreadShopList = styled.div`
      :nth-child(8) {
        margin-right: 0;
      }
-     
+
+     & .bread_image_wrap {
+      width: 214px;
+      height: 214px;
+      display: block;
+
       & img{
-        width: 214px;
-        height: 214px;
-        display: block;
+        width: 100%;
+        height: 100%;
+
       } 
+     }
+     
+      
     }
   
     & dl {

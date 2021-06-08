@@ -164,7 +164,7 @@ const Header = ({ currentUser, onLogout }) => {
             <div className="headerSearch">
               <span />
             </div>
-            <form className="" onSubmit={handleSearch}>
+            <form onSubmit={handleSearch}>
               <input type="text" placeholder="빵집을 찾아보세요." value={title} onChange={handleChange} />
             </form>
           </NaveSearch>
