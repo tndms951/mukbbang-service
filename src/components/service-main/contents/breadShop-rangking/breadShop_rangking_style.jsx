@@ -1,7 +1,7 @@
 import styled from 'styled-components';
 
 export const HouseRangkingWrap = styled.div`
-  margin: 120px auto;
+  margin: 150px auto;
   width: 1024px;
 
   & h1 {
@@ -10,6 +10,7 @@ export const HouseRangkingWrap = styled.div`
   }
 
   @media ${({ theme }) => theme.device.mobile} {
+    margin: 100px auto;
     width: 100%;
   }
 `;
@@ -22,20 +23,23 @@ export const LocationWrap = styled.div`
   }
 
   @media ${({ theme }) => theme.device.mobile} {
-    padding: 12px 10px;
   }
 `;
 
 export const ShopRangking = styled.div`
-  
-  & h1 {
-    padding: 8px 24px;
-    margin-bottom: 16px;
-    font-size: 20px;
-    float: left;
-  }
+margin-bottom: 16px;
+
 
   @media ${({ theme }) => theme.device.mobile} {
+   
+
+    & h1 {
+      padding: 8px 24px;
+      margin-bottom: 16px;
+      font-size: 20px;
+      float: left;
+    }
+
     width: 100%:
     margin-bottom: 30px;
   }
@@ -55,6 +59,7 @@ export const Location = styled.div`
 export const SelectWrap = styled.div`
   display: inline-block;
   float: left;
+  padding: 8px 24px;
 
   &::after {
     clear: both;
@@ -64,6 +69,7 @@ export const SelectWrap = styled.div`
 
   @media ${({ theme }) => theme.device.mobile} {
     margin-bottom: 40px;
+    padding: 0 24px;
   }
 `;
 
@@ -194,6 +200,20 @@ export const City = styled.div`
     display: block;
     cursor: pointer;
   }
+
+  @media ${({ theme }) => theme.device.mobile} {
+    details {
+      margin-right: 0px;
+    }
+
+    summary.radios {
+      width: 65%;
+    }
+
+    ul {
+      width: 87%;
+    }
+  }
 `;
 
 export const CurrentLocation = styled.div`
@@ -220,6 +240,8 @@ export const CurrentLocation = styled.div`
   }
 
   @media ${({ theme }) => theme.device.mobile} {
+    padding: 0 10px;
+
     & button {
       padding: 6px 14px;
       background-color: #3d3d3d;
@@ -244,7 +266,6 @@ export const LocationText = styled.div`
 
   @media ${({ theme }) => theme.device.mobile} {
     margin-bottom: 12px;
-    padding: 5px;
   }
 `;
 
@@ -267,7 +288,7 @@ export const RangkingList = styled.div`
 
     & li {
       float: left;
-      margin-right: 30px;
+      margin-right: 40px;
       margin-bottom: 26px;
       position: relative;
 
@@ -293,8 +314,8 @@ export const RangkingList = styled.div`
         position: absolute;
         width: 30px;
         height: 25px;
-        top: 17px;
-        right: 15px;
+        top: 12px;
+        right: 12px;
       }
     }
   }
@@ -316,6 +337,13 @@ export const RangkingList = styled.div`
 
         &:nth-child(2n) {
           margin-right: 0px;
+        }
+      }
+
+      & li {
+        & .heart_image {
+          top: 12px;
+          right: 12px;
         }
       }
     }
