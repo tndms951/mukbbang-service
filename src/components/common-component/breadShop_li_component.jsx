@@ -2,6 +2,7 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import { Link } from 'react-router-dom';
 
+import { ShopliWrap } from './breadShop_li_style';
 import axios from '../../utils/axios';
 import { errorhandler } from '../../utils/common';
 
@@ -25,7 +26,7 @@ const BreadShopLi = ({ shopList, shopSeverLike, likeTrue, likeFalse, shopId, bre
   };
 
   return (
-    <li>
+    <ShopliWrap>
       <Link to={`/bread-house/detail/${shopId}`} key={`bread_shop_list${shopId}`}>
         <div className="image_wrap">
           <img src={shopList.image} alt={`${shopList.title}의 이미지`} />
@@ -45,7 +46,7 @@ const BreadShopLi = ({ shopList, shopSeverLike, likeTrue, likeFalse, shopId, bre
           onClick={changeShopHeart}
         />
       )}
-    </li>
+    </ShopliWrap>
   );
 };
 

@@ -14,7 +14,7 @@ import { errorhandler, sweetAlert } from '../../../../utils/common';
 import { selectShopList, selectAddress, selectdongAddress } from '../../../redux/breadshop/list/breadShop.selectors';
 import { setCurrentBreadShop, setCurrentBreadShopMore, setShopTrueData, setShopFalseData, setSiAddressData, setDongAddressData } from '../../../redux/breadshop/list/breadShop.actions';
 
-import { HouseRangkingWrap, ShopRangking, Location, SelectWrap, City, CurrentLocation, LocationText, RangkingList } from './breadShop_rangking_style';
+import { HouseRangkingWrap, ShopRangking, Location, SelectWrap, City, CurrentLocation, LocationText, RangkingList, LocationWrap } from './breadShop_rangking_style';
 
 /**
  * @author 송지수
@@ -259,7 +259,18 @@ const HouseRangking = ({ breadShopList, onBreadShopList, onBreadShopPagination, 
         <h1>빵집 랭킹</h1>
       </ShopRangking>
 
-      <Location>
+      <LocationWrap>
+        <Location>
+          <CurrentLocation>
+            <button type="button">
+              <img src="https://s3.ap-northeast-2.amazonaws.com/image.mercuryeunoia.com/images/web/jisu/+common_icon/search.png" alt="" />
+              <span onClick={handleLocal} aria-hidden="true" role="button">
+                현재 위치로 설정
+              </span>
+            </button>
+          </CurrentLocation>
+        </Location>
+
         <SelectWrap>
           <City>
             <details className="custom-select">
@@ -291,16 +302,7 @@ const HouseRangking = ({ breadShopList, onBreadShopList, onBreadShopPagination, 
             </details>
           </City>
         </SelectWrap>
-
-        <CurrentLocation>
-          <button type="button">
-            <img src="https://s3.ap-northeast-2.amazonaws.com/image.mercuryeunoia.com/images/web/jisu/+common_icon/search.png" alt="" />
-            <span onClick={handleLocal} aria-hidden="true" role="button">
-              현재 위치로 설정
-            </span>
-          </button>
-        </CurrentLocation>
-      </Location>
+      </LocationWrap>
 
       <LocationText>
         <span>{addressName} 빵집 랭킹</span>
