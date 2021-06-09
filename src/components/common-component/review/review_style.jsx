@@ -4,6 +4,10 @@ export const ReviewWrapBox = styled.div`
   margin: 0 auto;
   margin-top: 150px;
   width: 1024px;
+
+  @media ${({ theme }) => theme.device.mobile} {
+    width: 100%;
+  }
 `;
 
 export const ReviewWrap = styled.div`
@@ -18,6 +22,12 @@ export const ReviewWrap = styled.div`
     width: 500px;
     height: 300px;
   }
+
+  @media ${({ theme }) => theme.device.mobile} {
+    margin-top: 40px;
+    padding: 0 10px;
+    margin-bottom: 20px;
+  }
 `;
 export const ReviewText = styled.div`
   margin: 64px 0 29px; 0;
@@ -25,6 +35,12 @@ export const ReviewText = styled.div`
   font-size: 32px;
   font-weight: 700;
   float: left;
+
+  @media ${({ theme }) => theme.device.mobile} {
+    padding: 0 10px;
+    margin: 0px;
+    font-size: 24px;
+  }
 `;
 
 export const Register = styled.div`
@@ -40,6 +56,12 @@ export const Register = styled.div`
     background: #9a9a9a;
     color: white;
     font-weight: 400;
+  }
+
+  @media ${({ theme }) => theme.device.mobile} {
+    margin: 0px;
+    padding: 4px 20px;
+    font-size: 14px;
   }
 `;
 
@@ -236,6 +258,7 @@ export const ReviewSlid = styled.div`
   .slick-prev {
     width: 32px;
     height: 32px;
+    display: block;
     z-index: 90;
     position: absolute;
     top: 150px;
@@ -273,6 +296,11 @@ export const ReviewSlid = styled.div`
 export const ReviewBox = styled.div`
   padding: 32px 192px;
   background: #f8f8f8;
+
+  @media ${({ theme }) => theme.device.mobile} {
+    width: 92%;
+    padding: 4%;
+  }
 `;
 
 export const BoxButton = styled.div`
@@ -407,5 +435,24 @@ export const ReviewModal = styled.div`
   }
   & .slick-dots {
     margin-bottom: 25px;
+  }
+
+  @media ${({ theme }) => theme.device.mobile} {
+    & .Modal {
+      width: 80%;
+    }
+
+    & .Modal p.title {
+      font-size: 12pt;
+    }
+
+    & .Modal .button-wrap button {
+      padding: 6px 0;
+      font-size: 10pt;
+    }
+
+    & .slick-dots li {
+      width: 15px;
+    }
   }
 `;

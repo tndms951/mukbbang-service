@@ -6,6 +6,11 @@ export const CommentWrap = styled.div`
   padding: 0 192px;
   margin: 0 auto;
   box-sizing: border-box;
+
+  @media ${({ theme }) => theme.device.mobile} {
+    width: 96%;
+    padding: 0 2%;
+  }
 `;
 
 export const CommentBox = styled.div`

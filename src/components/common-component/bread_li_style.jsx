@@ -12,6 +12,11 @@ export const BreadliWrap = styled.li`
     margin-right: 0px;
   }
 
+  & a {
+    text-decoration: none;
+    color: inherit;
+  }
+
   & .bread_image_wrap {
     width: 100%;
     height: 214px;
@@ -24,14 +29,14 @@ export const BreadliWrap = styled.li`
     }
   }
 
-  & .heart_wrap {
+  & .heart_image {
     width: 30px;
     height: 25px;
     display: block;
     position: absolute;
     cursor: pointer;
-    top: 12px;
-    right: 12px;
+    top: 17px;
+    right: 15px;
 
     & .heart_image {
       width: 100%;
@@ -61,13 +66,19 @@ export const BreadliWrap = styled.li`
   }
 
   @media ${({ theme }) => theme.device.mobile} {
+    & .bread_image_wrap {
+      width: 100%;
+      height: 100%;
+
+      & > img {
+        width: 100%;
+        height: 100%;
+        display: block;
+      }
+    }
     & .heart_wrap {
       top: 12px;
       right: 12px;
-
-      & .heart_image {
-        width: 100%;
-      }
     }
   }
 `;

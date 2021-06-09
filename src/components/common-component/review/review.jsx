@@ -12,6 +12,7 @@ import axios from '../../../utils/axios';
 import { errorhandler, sweetAlert } from '../../../utils/common';
 
 const Review = ({ match, shopDetailReview, onDetailReview, onDetailReviewWriting }) => {
+  console.log(shopDetailReview);
   const { breadShopId } = match;
 
   // 리뷰등록

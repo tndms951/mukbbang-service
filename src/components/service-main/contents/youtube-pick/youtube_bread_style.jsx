@@ -181,8 +181,9 @@ export const PickBreadEven = styled.div`
     margin-top: 0px;
     margin-left: 0px;
 
-    & .VideoContainer {
+    & .VideoContainer_even {
       width: 100%;
+      float: none;
 
       & iframe {
         width: 100% !important;
