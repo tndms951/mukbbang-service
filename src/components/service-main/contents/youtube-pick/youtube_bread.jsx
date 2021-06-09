@@ -127,6 +127,9 @@ const YoutubePickBread = ({ youtubePickBreadList, youtubePickList, location, you
             }
             return (
               <PickBreadEven>
+                <div className="VideoContainer_even">
+                  <Youtube className="youtubeVideo_even" videoId={list.link.replace('https://www.youtube.com/embed/', '')} opts={opts} onReady={onReady} />
+                </div>
                 <div className="pick_title_even">
                   <span>{list.title}</span>
                   <span>{list.content}</span>
@@ -135,9 +138,6 @@ const YoutubePickBread = ({ youtubePickBreadList, youtubePickList, location, you
                       리뷰 보러가기
                     </a>
                   </button>
-                </div>
-                <div className="VideoContainer_even">
-                  <Youtube className="youtubeVideo_even" videoId={list.link.replace('https://www.youtube.com/embed/', '')} opts={opts} onReady={onReady} />
                 </div>
               </PickBreadEven>
             );
