@@ -27,11 +27,11 @@ export const LocationWrap = styled.div`
 `;
 
 export const ShopRangking = styled.div`
-margin-bottom: 16px;
+  margin-bottom: 16px;
 
 
   @media ${({ theme }) => theme.device.mobile} {
-   
+    margin-bottom: 0px;
 
     & h1 {
       padding: 8px 24px;
@@ -300,22 +300,15 @@ export const RangkingList = styled.div`
       }
 
       & .heart_image {
-        width: 0;
-        height: 0;
+        position: absolute;
+        width: 30px;
+        height: 25px;
+        top: 17px;
+        right: 15px;
       }
 
       &:nth-child(4n) {
         margin-right: 0px;
-      }
-    }
-
-    & li {
-      & .heart_image {
-        position: absolute;
-        width: 30px;
-        height: 25px;
-        top: 12px;
-        right: 12px;
       }
     }
   }
@@ -337,13 +330,6 @@ export const RangkingList = styled.div`
 
         &:nth-child(2n) {
           margin-right: 0px;
-        }
-      }
-
-      & li {
-        & .heart_image {
-          top: 12px;
-          right: 12px;
         }
       }
     }

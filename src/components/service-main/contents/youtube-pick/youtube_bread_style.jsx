@@ -27,6 +27,10 @@ export const StyledSlider = styled.div`
   & .infinite-scroll-component {
     overflow: hidden !important;
   }
+
+  @media ${({ theme }) => theme.device.mobile} {
+    padding: 0 10px;
+  }
 `;
 
 export const PickBreadOdd = styled.div`
@@ -181,8 +185,9 @@ export const PickBreadEven = styled.div`
     margin-top: 0px;
     margin-left: 0px;
 
-    & .VideoContainer {
+    & .VideoContainer_even {
       width: 100%;
+      float: none;
 
       & iframe {
         width: 100% !important;

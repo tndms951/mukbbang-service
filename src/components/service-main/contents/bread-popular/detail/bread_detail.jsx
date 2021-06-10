@@ -5,7 +5,7 @@ import { connect } from 'react-redux';
 import Slider from 'react-slick';
 
 import { errorhandler } from 'utils/common';
-import { BreadDtail } from './bread_detail_style';
+import { BreadDtail, AllWrap } from './bread_detail_style';
 import Comment from '../../../../common-component/comment/comment';
 import { setCurrentBreadList, setBreadDetailTrue, setBreadDetailFalse } from '../../../../redux/bread/detail/breadDetail.actions';
 import { selectBreadInfo, selectBreadImages } from '../../../../redux/bread/detail/breadDetail.selectors';
@@ -58,29 +58,31 @@ const BreadDetail = ({ match, breadDetailInfo, onBreadDetail, breadDetailImages,
 
   return (
     <BreadDtail>
-      <div className="title_wrap">
-        <span className="detail_text">{breadDetailInfo?.title}</span>
-        <div className="heartImage">
-          <img
-            src={breadDetailInfo?.like ? 'https://s3.ap-northeast-2.amazonaws.com/image.mercuryeunoia.com/images/web/jisu/+common_icon/heart.png' : 'https://s3.ap-northeast-2.amazonaws.com/image.mercuryeunoia.com/images/web/jisu/+common_icon/spaceheart.png'}
-            alt="빈하트 이미지"
-            onClick={onDetailHeart}
-            aria-hidden="true"
-          />
-        </div>
-      </div>
-      {/* eslint-disable-next-line react/jsx-props-no-spreading */}
-      <Slider {...settings}>
-        {breadDetailImages.map((images, index) => (
-          // eslint-disable-next-line react/no-array-index-key
-          <div className="image_wrap" key={`bread-images-${index}`}>
-            <img src={images} alt={`빵사진-${index}`} />
+      <AllWrap>
+        <div className="title_wrap">
+          <span className="detail_text">{breadDetailInfo?.title}</span>
+          <div className="heartImage">
+            <img
+              src={breadDetailInfo?.like ? 'https://s3.ap-northeast-2.amazonaws.com/image.mercuryeunoia.com/images/web/jisu/+common_icon/heart.png' : 'https://s3.ap-northeast-2.amazonaws.com/image.mercuryeunoia.com/images/web/jisu/+common_icon/spaceheart.png'}
+              alt="빈하트 이미지"
+              onClick={onDetailHeart}
+              aria-hidden="true"
+            />
           </div>
-        ))}
-      </Slider>
+        </div>
+        {/* eslint-disable-next-line react/jsx-props-no-spreading */}
+        <Slider {...settings}>
+          {breadDetailImages.map((images, index) => (
+            // eslint-disable-next-line react/no-array-index-key
+            <div className="image_wrap" key={`bread-images-${index}`}>
+              <img src={images} alt={`빵사진-${index}`} />
+            </div>
+          ))}
+        </Slider>
 
-      <span className="detail_bread_name">{breadDetailInfo ? breadDetailInfo.title : ''}</span>
-      <p className="content_text">{breadDetailInfo?.content}</p>
+        <span className="detail_bread_name">{breadDetailInfo ? breadDetailInfo.title : ''}</span>
+        <p className="content_text">{breadDetailInfo?.content}</p>
+      </AllWrap>
       <Comment match={match.params} type="breadType" />
     </BreadDtail>
   );

@@ -1,10 +1,14 @@
 import styled from 'styled-components';
 
+export const FooterAllWrap = styled.div`
+  width: 100%;
+  box-sizing: border-box;
+`;
+
 export const FooterWarp = styled.div`
   background-color: #383838;
-  padding: 36px;
-  box-sizing: border-box;
-  width: 100%;
+  padding: 4%;
+  width: 92%
 
   &::after {
     clear: both;
@@ -14,7 +18,6 @@ export const FooterWarp = styled.div`
 
   @media ${({ theme }) => theme.device.mobile} {
     margin-bottom: 80px;
-    padding: 20px;
   }
 `;
 

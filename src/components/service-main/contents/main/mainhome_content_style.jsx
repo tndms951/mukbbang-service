@@ -60,7 +60,7 @@ export const BreadShopRanking = styled.div`
   padding: 8px 24px;
   box-sizing: border-box;
   line-height: 28px;
-  margin-top: 180px;
+  margin-top: 150px;
   margin-bottom: 24px;
 
   &::after {
@@ -110,7 +110,8 @@ export const BreadShopRanking = styled.div`
   }
 
   @media ${({ theme }) => theme.device.mobile} {
-    margin-top: 80px;
+    margin-top: 40px;
+    margin-bottom: 0px;
 
     & h1 {
       font-size: 20px;

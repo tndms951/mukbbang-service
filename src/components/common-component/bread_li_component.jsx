@@ -28,24 +28,22 @@ const BreadLi = ({ likeTrue, likeFalse, breadList }) => {
   return (
     <BreadliWrap>
       <Link to={`/bread/detail/${breadList.id}`} key={`bread-list${breadList.id}`}>
-        <span className="bread_image_wrap">
+        <div className="bread_image_wrap">
           <img src={breadList.image} alt={`${breadList.title}의 이미지`} />
-        </span>
+        </div>
         <dl>
           <dd>{breadList.title}</dd>
         </dl>
       </Link>
 
       {breadList.like !== undefined ? (
-        <span className="heart_wrap">
-          <img
-            src={breadList.like ? 'https://s3.ap-northeast-2.amazonaws.com/image.mercuryeunoia.com/images/web/jisu/+common_icon/heart.png' : 'https://s3.ap-northeast-2.amazonaws.com/image.mercuryeunoia.com/images/web/jisu/+common_icon/spaceheart.png'}
-            alt="하트 이미지"
-            className="heart_image"
-            aria-hidden="true"
-            onClick={changeBreadHeart}
-          />
-        </span>
+        <img
+          src={breadList.like ? 'https://s3.ap-northeast-2.amazonaws.com/image.mercuryeunoia.com/images/web/jisu/+common_icon/heart.png' : 'https://s3.ap-northeast-2.amazonaws.com/image.mercuryeunoia.com/images/web/jisu/+common_icon/spaceheart.png'}
+          alt="하트 이미지"
+          className="heart_image"
+          aria-hidden="true"
+          onClick={changeBreadHeart}
+        />
       ) : null}
     </BreadliWrap>
   );

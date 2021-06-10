@@ -119,9 +119,7 @@ const ShopDetail = ({ shopDetailBread, shopDetailImages, shopDetailAddress, shop
       <BreadShopList>
         <ul className="list_wrap">
           {shopDetailBread.map((breadShopData) => (
-            // <Link to=""> 빵 디테일 컴포넌트로 이동 해야됨
             <BreadLi key={`bread_shop_list${breadShopData.id}`} breadList={breadShopData} />
-            // </Link>
           ))}
         </ul>
       </BreadShopList>

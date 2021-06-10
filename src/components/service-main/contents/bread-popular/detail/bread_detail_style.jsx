@@ -71,4 +71,47 @@ export const BreadDtail = styled.div`
     font-size: 18px;
     color: #383838;
   }
+
+  @media ${({ theme }) => theme.device.mobile} {
+    width: 100%;
+
+    & .title_wrap {
+      margin-top: 100px;
+      padding-left: 0px;
+    }
+
+    & .detail_text {
+      font-size: 20px;
+    }
+
+    & .heartImage {
+      width: 25px;
+    }
+
+    & .image_wrap {
+      padding: 0px;
+      width: 640px;
+    }
+
+    & .detail_bread_name {
+      width: 100%;
+      text-align: center;
+      font-size: 20px;
+      margin-top: 12px;
+    }
+
+    & .content_text {
+      width: 100%;
+      text-align: center;
+      font-size: 16px;
+      margin: 12px auto;
+    }
+  }
+`;
+
+export const AllWrap = styled.div`
+  @media ${({ theme }) => theme.device.mobile} {
+    width: 96%;
+    padding: 0 2%;
+  }
 `;
