@@ -4,12 +4,13 @@ export const CommentWrap = styled.div`
   margin-top: 40px;
   width: 1024px;
   padding: 0 192px;
-  margin: 0 auto;
   box-sizing: border-box;
 
   @media ${({ theme }) => theme.device.mobile} {
     width: 96%;
     padding: 0 2%;
+    margin: 0px;
+    box-sizing: content-box;
   }
 `;
 
@@ -47,6 +48,12 @@ export const CommentBox = styled.div`
     font-weight: 400;
     margin-top: 10px;
     float: right;
+  }
+
+  @media ${({ theme }) => theme.device.mobile} {
+    & textarea {
+      width: 98%;
+    }
   }
 `;
 

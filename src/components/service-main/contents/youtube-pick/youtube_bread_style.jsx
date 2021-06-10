@@ -27,6 +27,10 @@ export const StyledSlider = styled.div`
   & .infinite-scroll-component {
     overflow: hidden !important;
   }
+
+  @media ${({ theme }) => theme.device.mobile} {
+    padding: 0 10px;
+  }
 `;
 
 export const PickBreadOdd = styled.div`

@@ -43,7 +43,7 @@ export const Grade = styled.div`
 
     & img {
       float: right;
-      width: 30px;
+      width: 25px;
       line-height: 100px;
     }
   }
