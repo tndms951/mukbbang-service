@@ -11,8 +11,7 @@ import { ReviewWrapBox, ReviewWrap, ReviewText, Register, RegisterReviewWrap, Re
 import axios from '../../../utils/axios';
 import { errorhandler, sweetAlert } from '../../../utils/common';
 
-const Review = ({ match, shopDetailReview, onDetailReview, onDetailReviewWriting }) => {
-  console.log(shopDetailReview);
+const Review = ({ match, shopDetailReview, onDetailReview, onDetailReviewWriting, shopDetailInfo }) => {
   const { breadShopId } = match;
 
   // 리뷰등록
@@ -180,7 +179,7 @@ const Review = ({ match, shopDetailReview, onDetailReview, onDetailReviewWriting
             <div className="review_modal_wrap" onClick={reviewCloseModal} aria-hidden="true" />
             <div className="review_modal">
               <div className="title">
-                지수ㅜ수수수수빵집 <span className="title_text">리뷰를 작성해 주세요</span>
+                {shopDetailInfo.title} <span className="title_text">리뷰를 작성해 주세요</span>
               </div>
 
               <div className="review_form_modal">
@@ -301,7 +300,8 @@ Review.propTypes = {
   match: PropTypes.instanceOf(Object).isRequired,
   shopDetailReview: PropTypes.instanceOf(Array).isRequired,
   onDetailReview: PropTypes.func.isRequired,
-  onDetailReviewWriting: PropTypes.func.isRequired
+  onDetailReviewWriting: PropTypes.func.isRequired,
+  shopDetailInfo: PropTypes.instanceOf(Object).isRequired
 };
 
 const shopReviewStateToProps = createStructuredSelector({

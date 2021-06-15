@@ -106,67 +106,66 @@ const Social = ({ onUserSet, history }) => {
   };
 
   return (
-    <SosalLogin className="clearfix">
-      <GoogleWrap>
-        <GoogleLogin
-          clientId={googleToken}
-          render={(renderProps) => (
-            <button onClick={renderProps.onClick} disabled={renderProps.disabled} type="button">
-              <img
-                src="https://s3.ap-northeast-2.amazonaws.com/image.mercuryeunoia.com/images/web/jisu/+common_icon/google.png"
-                alt="구글 로그인"
-              />
-              <span>구글</span>
-            </button>
-          )}
-          buttonText="Login"
-          onSuccess={responseGoogle}
-          onFailure={responseGoogle}
-          cookiePolicy="single_host_origin"
-        />
-      </GoogleWrap>
+    <SosalLogin>
+      <div className="socal_wrap">
+        <GoogleWrap>
+          <GoogleLogin
+            clientId={googleToken}
+            render={(renderProps) => (
+              <div className="google_wrap" onClick={renderProps.onClick} aria-hidden>
+                <button disabled={renderProps.disabled} type="button">
+                  <img src="https://s3.ap-northeast-2.amazonaws.com/image.mercuryeunoia.com/images/web/jisu/+common_icon/google.png" alt="구글 로그인" />
+                </button>
+                <span>구글</span>
+              </div>
+            )}
+            buttonText="Login"
+            onSuccess={responseGoogle}
+            onFailure={responseGoogle}
+            cookiePolicy="single_host_origin"
+          />
+        </GoogleWrap>
 
-      <FacebookWrap>
-        <FacebookLogin
-          appId={facebookToken}
-          callback={responseFacebook}
-          fields="name,email,picture"
-          render={(renderProps) => (
-            <button onClick={renderProps.onClick} type="button">
-              <img
-                src="https://s3.ap-northeast-2.amazonaws.com/image.mercuryeunoia.com/images/web/jisu/+common_icon/socalfacebook.png"
-                alt="페이스북 로그인"
-              />
-              <span>페이스북</span>
-            </button>
-          )}
-        />
-      </FacebookWrap>
+        <FacebookWrap>
+          <FacebookLogin
+            appId={facebookToken}
+            callback={responseFacebook}
+            fields="name,email,picture"
+            render={(renderProps) => (
+              <div className="facebook_wrap" onClick={renderProps.onClick} aria-hidden>
+                <button type="button">
+                  <img src="https://s3.ap-northeast-2.amazonaws.com/image.mercuryeunoia.com/images/web/jisu/+common_icon/socalfacebook.png" alt="페이스북 로그인" />
+                </button>
+                <span>페이스북</span>
+              </div>
+            )}
+          />
+        </FacebookWrap>
 
-      <KakaoWrap>
-        <KakaoLogin
-          token={kakaoToken}
-          onSuccess={onSuccess}
-          onFail={console.error}
-          onLogout={console.info}
-          render={({ onClick }) => (
-            <div onClick={onClick} aria-hidden="true" role="button">
-              <img
-                src="https://s3.ap-northeast-2.amazonaws.com/image.mercuryeunoia.com/images/web/jisu/+common_icon/ico_kakaotalk.png"
-                alt="카카오톡 로그인"
-              />
-              <span>카카오톡</span>
-            </div>
-          )}
-        />
-      </KakaoWrap>
+        <KakaoWrap>
+          <KakaoLogin
+            token={kakaoToken}
+            onSuccess={onSuccess}
+            onFail={console.error}
+            onLogout={console.info}
+            render={({ onClick }) => (
+              <div className="kakao_wrap" onClick={onClick} aria-hidden="true" role="button">
+                <button type="button">
+                  <img src="https://s3.ap-northeast-2.amazonaws.com/image.mercuryeunoia.com/images/web/jisu/+common_icon/ico_kakaotalk.png" alt="카카오톡 로그인" />
+                </button>
+                <span>카카오톡</span>
+              </div>
+            )}
+          />
+        </KakaoWrap>
+      </div>
     </SosalLogin>
   );
 };
 
 Social.propTypes = {
   onUserSet: PropTypes.func.isRequired,
-  history: PropTypes.objectOf(PropTypes.object).isRequired
+  history: PropTypes.instanceOf(Object).isRequired
 };
 
 const userToPropsDispatch = (dispatch) => ({

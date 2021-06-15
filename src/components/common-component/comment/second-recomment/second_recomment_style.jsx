@@ -52,6 +52,24 @@ export const ReComment = styled.div`
       line-height: 18px;
     }
   }
+
+  @media ${({ theme }) => theme.device.mobile} {
+    & .list_all_wrap {
+      padding: 10px;
+      width: 95%;
+      background: #f8f8f8;
+
+      & .current_date {
+        // width: 100%;
+      }
+
+      & .button_ {
+        margin-left: 45px;
+        margin-top: 10px;
+        width: 80%;
+      }
+    }
+  }
 `;
 
 export const ButtonWrap = styled.div`

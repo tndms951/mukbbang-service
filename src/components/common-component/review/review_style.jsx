@@ -115,7 +115,30 @@ export const RegisterReviewWrap = styled.div`
   & .review_modal .review_form_modal {
     margin-top: 16px;
   }
+
+  @media ${({ theme }) => theme.device.mobile} {
+    & .review_modal {
+      width: 80%;
+    }
+
+    & .review_modal > * {
+      margin: 0px;
+    }
+
+    & .review_modal > *:first-child {
+      margin-top: 16px;
+    }
+
+    & .review_modal .title {
+      font-size: 11pt;
+      text-align: left;
+    }
+    & .review_modal .title_text {
+      font-size: 16px;
+    }
+  }
 `;
+
 export const RegisterReview = styled.div`
   & textarea {
     width: 90%;
@@ -165,6 +188,22 @@ export const RegisterReview = styled.div`
       background-size: cover;
     }
   }
+
+  @media ${({ theme }) => theme.device.mobile} {
+    & textarea {
+      margin: 0px
+    }
+  
+    & input {
+      margin-left: 0px;
+      margin-top: 10px;
+    }
+  
+    & .file_button {
+      margin-left: 0px;
+      margin-top: 10px;
+    }
+  }
 `;
 
 export const ImageMap = styled.div`
@@ -191,6 +230,11 @@ export const ImageWrap = styled.div`
     position: absolute;
     top: 0;
     right: 0;
+  }
+
+  @media ${({ theme }) => theme.device.mobile} {
+    width: 30%;
+    margin: 10px;
   }
 `;
 
@@ -245,6 +289,15 @@ export const ReviewButton = styled.div`
     background: #fb7819;
     color: white;
     border: 1px solid white;
+  }
+
+  @media ${({ theme }) => theme.device.mobile} {
+    padding-bottom: 30px;
+
+    & .reviewButton {
+      padding: 3%;
+      margin-top: 30px;
+    }
   }
 `;
 

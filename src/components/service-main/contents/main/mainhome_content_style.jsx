@@ -4,6 +4,7 @@ import Slider from 'react-slick';
 export const Main = styled.div`
   width: 1024px;
   margin: 0 auto;
+  margin-top: 105px;
 
   @media ${({ theme }) => theme.device.mobile} {
     width: 100%;
@@ -12,19 +13,20 @@ export const Main = styled.div`
 
 export const MainBackground = styled(Slider)`
   margin-bottom: 64px;
+  width: 100%;
 
   & img {
     width: 100%;
-    height: 400px;
     position: relative;
   }
 
   .slick-prev {
     width: 32px;
     height: 32px;
-    z-index: 100;
+    display: block;
+    z-index: 90;
     position: absolute;
-    top: 200px;
+    top: 150px;
     left: 1px;
     background: rgba(255, 255, 255, 0.9);
     box-shadow: transparent 0px 0px 0px 1px, transparent 0px 0px 0px 4px, rgb(0 0 0 / 18%) 0px 2px 4px !important;
@@ -53,6 +55,17 @@ export const MainBackground = styled(Slider)`
 
   .slick-dots {
     margin-bottom: 25px;
+  }
+
+  @media ${({ theme }) => theme.device.mobile} {
+    margin-bottom: 64px;
+    width: 100%;
+    height: 300px;
+
+    & img {
+      width: 100%;
+      height: 300px;
+    }
   }
 `;
 

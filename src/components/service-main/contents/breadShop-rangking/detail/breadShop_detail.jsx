@@ -104,7 +104,7 @@ const ShopDetail = ({ shopDetailBread, shopDetailImages, shopDetailAddress, shop
           </p>
         </Information>
       </ShopImage>
-      <Review match={match.params} />
+      <Review match={match.params} shopDetailInfo={shopDetailInfo} />
       <Comment match={match.params} type="breadHouseType" history={history} location={location} />
 
       <OtherBread>

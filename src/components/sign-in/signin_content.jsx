@@ -9,7 +9,7 @@ import { setCurrentUser } from '../redux/user/user.actions';
 import { sweetAlert, isEmailValid, errorhandler } from '../../utils/common';
 import axios, { setAuthorization } from '../../utils/axios';
 
-import { SigninAllWrap, InputEmail, InputPassword, LoginButton, SigninLine } from './signin_content_style';
+import { SigninAllWrap, InputEmail, InputPassword, LoginButton, SigninLine, SigninUp } from './signin_content_style';
 import Social from '../common-component/social';
 
 function Signin({ onUserSet, history, location }) {
@@ -91,9 +91,11 @@ function Signin({ onUserSet, history, location }) {
           <LoginButton>
             <button type="submit">로그인</button>
           </LoginButton>
-          <Link to={`/signup${location.search}`}>
-            <button type="button">회원가입</button>
-          </Link>
+          <SigninUp>
+            <Link to={`/signup${location.search}`}>
+              <span>회원가입</span>
+            </Link>
+          </SigninUp>
         </form>
         <SigninLine>
           <span>또는</span>

@@ -19,6 +19,15 @@ export const SignupAllWrap = styled.div`
     font-size: 24px;
     font-weight: 700;
   }
+
+  @media ${({ theme }) => theme.device.mobile} {
+    width: 100%;
+
+    & .login-wrap {
+      padding: 36px 53px 109px 53px;
+      margin: 100px 0;
+    }
+  }
 `;
 
 export const InputEmail = styled.div`
@@ -83,6 +92,12 @@ export const InputPassword = styled.div`
     padding: 8px 16px;
     border: 1px solid #9a9a9a;
     box-sizing: border-box;
+  }
+
+  @media ${({ theme }) => theme.device.mobile} {
+    & span:last-of-type {
+      font-size: 11px;
+    }
   }
 `;
 

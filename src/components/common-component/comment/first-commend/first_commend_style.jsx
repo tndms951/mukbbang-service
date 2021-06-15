@@ -124,4 +124,24 @@ export const ReCommentForm = styled.div`
     margin-top: 10px;
     margin-right: 33px;
   }
+
+  @media ${({ theme }) => theme.device.mobile} {
+    & .all_wrap {
+      width: 100%;
+      padding: 4%;
+      padding: 0px;
+      margin-top: 10px;
+    }
+
+    & form {
+      padding-left: 10px;
+    }
+
+    & .recomment_button {
+      float: right;
+      width: 25%;
+      font-size: 13px;
+      margin-right: 10px;
+    }
+  }
 `;

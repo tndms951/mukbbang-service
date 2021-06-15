@@ -22,7 +22,7 @@ import { PopularBreadWrap, PopularWrap, BreadList } from './bread_popular_style'
 
 const limit = 20;
 
-const PopularBread = ({ breadList, onBreadList, onBreadListMore, onBreadHeartTrue, onBreadHeartFalse, location }) => {
+const PopularBread = ({ breadList, onBreadList, onBreadListMore, onBreadHeartTrue, onBreadHeartFalse, location, history }) => {
   // 스크롤시
   const [page, setPage] = useState(1);
   useEffect(() => {
@@ -64,22 +64,20 @@ const PopularBread = ({ breadList, onBreadList, onBreadListMore, onBreadHeartTru
 
   return (
     <PopularBreadWrap>
-      <>
-        <PopularWrap>
-          <h1>요즘 인기있는 빵</h1>
-        </PopularWrap>
+      <PopularWrap>
+        <h1>요즘 인기있는 빵</h1>
+      </PopularWrap>
 
-        <BreadList>
-          {/* @ts-ignore */}
-          <InfiniteScroll dataLength={breadList.length} next={fetMoreData} hasMore scrollThreshold="50px">
-            <ul className="list_wrap">
-              {breadList.map((list) => (
-                <BreadLi breadList={list} likeTrue={onBreadHeartTrue} likeFalse={onBreadHeartFalse} />
-              ))}
-            </ul>
-          </InfiniteScroll>
-        </BreadList>
-      </>
+      <BreadList>
+        {/* @ts-ignore */}
+        <InfiniteScroll dataLength={breadList.length} next={fetMoreData} hasMore scrollThreshold="50px">
+          <ul className="list_wrap">
+            {breadList.map((list) => (
+              <BreadLi key={`bread-list${list.id}`} breadList={list} breadLike={list.like} likeTrue={onBreadHeartTrue} likeFalse={onBreadHeartFalse} location={location} history={history} />
+            ))}
+          </ul>
+        </InfiniteScroll>
+      </BreadList>
     </PopularBreadWrap>
   );
 };
@@ -90,7 +88,8 @@ PopularBread.propTypes = {
   onBreadListMore: PropTypes.func.isRequired,
   onBreadHeartTrue: PropTypes.func.isRequired,
   onBreadHeartFalse: PropTypes.func.isRequired,
-  location: PropTypes.instanceOf(Object).isRequired
+  location: PropTypes.instanceOf(Object).isRequired,
+  history: PropTypes.instanceOf(Object).isRequired
 };
 
 const breadStateToProps = createStructuredSelector({
