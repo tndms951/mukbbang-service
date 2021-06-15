@@ -35,6 +35,8 @@ export const Grade = styled.div`
   }
 
   @media ${({ theme }) => theme.device.mobile} {
+    padding: 28px 24px;
+
     & h1 {
       font-size: 20px;
       font-weight: 700;

@@ -82,4 +82,31 @@ export const NoticeWrap = styled.div`
       margin-left: 37px;
     }
   }
+
+  @media ${({ theme }) => theme.device.mobile} {
+    padding: 0px;
+
+    & ul {
+      padding: 10px;
+  
+      & li {
+        padding: 20px;
+      }
+  
+      & .count_number {
+        margin-right: 6px;
+        font-size: 14px;
+      }
+  
+      & .notice_content {
+        font-size: 14px;
+      }
+  
+      & .notice_date {
+        font-size: 14px;
+        width: 40%;
+        margin-left: 20px;
+      }
+    }
+  }
 `;

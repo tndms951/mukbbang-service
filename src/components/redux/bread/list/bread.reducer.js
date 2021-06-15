@@ -25,11 +25,8 @@ const breadListReducer = (state = INITAL_STATE, action) => {
 
     case breadTypes.HEART_LIKE_TRUE: {
       const { trueBreadId } = action.payload;
-
       const newLike = [...state.breadList];
-
       const updateLike = newLike.findIndex((like) => like.id === Number(trueBreadId));
-
       if (updateLike > -1) {
         newLike[updateLike].like = true;
       }
@@ -41,11 +38,8 @@ const breadListReducer = (state = INITAL_STATE, action) => {
 
     case breadTypes.HEART_LIKE_FALSE: {
       const { falseBreadId } = action.payload;
-
       const newLikeFalse = [...state.breadList];
-
       const updateFalse = newLikeFalse.findIndex((dislike) => dislike.id === Number(falseBreadId));
-
       if (updateFalse > -1) {
         newLikeFalse[updateFalse].like = false;
       }

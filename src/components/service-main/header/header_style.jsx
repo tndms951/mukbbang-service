@@ -126,6 +126,10 @@ export const GroupNav = styled.div`
   padding: 10px 24px 10px 26px;
   background-color: #ffffff;
 
+  & .mobile_search {
+    display: none;
+  }
+
   & .clearfix::after {
     content: '';
     clear: both;
@@ -242,6 +246,26 @@ export const GroupNav = styled.div`
       height: auto;
       margin-right: 5px;
       color: #5c5c5c;
+    }
+
+    & .mobile_search {
+      display: block;
+      padding-top: 60px;
+      text-align: center;
+
+      & form {
+        display: block;
+        text-align: center;
+
+        & input {
+          display: block;
+          border: 2px solid #fb7819;
+          outline: none;
+          width: 95%;
+          height: 30px;
+          margin-bottom: 10px;
+        }
+      }
     }
   }
 `;

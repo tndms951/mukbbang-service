@@ -27,6 +27,7 @@ const Header = ({ currentUser, onLogout }) => {
   const history = useHistory(); // 라우터가 없을때 라이브러리로 가져와서 사용하는것
 
   const [myProfileBox, setMyProfileBox] = useState(false);
+  const [search, setSearch] = useState(false);
 
   // 검색조회
   const [title, setTitle] = useState('');
@@ -52,6 +53,11 @@ const Header = ({ currentUser, onLogout }) => {
     }
     const queryData = qs.stringify(queryObject);
     history.push(`/bread-house${queryData ? `?${queryData}` : ''}`);
+  };
+
+  // 돋보기 클릭
+  const handleClick = () => {
+    setSearch(!search);
   };
 
   return (
@@ -110,10 +116,10 @@ const Header = ({ currentUser, onLogout }) => {
           </Link>
           <ul className="webSize">
             <Link to="/bread-house">
-              <li className={location.pathname === '/bread-house' ? 'clickMenu' : ''}>빵집 랭킹</li>
+              <li className={location.pathname === '/bread-house' || location.pathname.indexOf('/bread-house/detail/') !== -1 ? 'clickMenu' : ''}>빵집 랭킹</li>
             </Link>
             <Link to="/bread">
-              <li className={location.pathname === '/bread' ? 'clickMenu' : ''}>요즘 인기있는 빵</li>
+              <li className={location.pathname === '/bread' || location.pathname.indexOf('/bread/detail/') !== -1 ? 'clickMenu' : ''}>요즘 인기있는 빵</li>
             </Link>
             <Link to="/youtube-bread">
               <li className={location.pathname === '/youtube-bread' ? 'clickMenu' : ''}>유튜버 픽빵</li>
@@ -126,13 +132,13 @@ const Header = ({ currentUser, onLogout }) => {
           {/* 모바일 */}
           <div className="mobileBoxWrap">
             <ul className="mobileSize">
-              <li className={location.pathname === '/bread-house' ? 'clickIcons' : ''}>
+              <li className={location.pathname === '/bread-house' || location.pathname.indexOf('/bread-house/detail/') !== -1 ? 'clickIcons' : ''}>
                 <Link to="/bread-house">
                   <FontAwesomeIcon icon={faStore} className="icons" />
                   <span>빵집 랭킹</span>
                 </Link>
               </li>
-              <li className={location.pathname === '/bread' ? 'clickIcons' : ''}>
+              <li className={location.pathname === '/bread' || location.pathname.indexOf('/bread/detail/') !== -1 ? 'clickIcons' : ''}>
                 <Link to="/bread">
                   <FontAwesomeIcon icon={faBreadSlice} className="icons" />
                   <span>인기있는 빵</span>
@@ -156,18 +162,30 @@ const Header = ({ currentUser, onLogout }) => {
                   <span>내정보</span>
                 </Link>
               </li>
-              {/* <FontAwesomeIcon icon={fasFaUser} className="search" /> */}
             </ul>
           </div>
 
           <NaveSearch>
-            <div className="headerSearch">
+            <div className="headerSearch" onClick={handleClick} aria-hidden="true" role="button">
               <span />
             </div>
             <form onSubmit={handleSearch}>
               <input type="text" placeholder="빵집을 찾아보세요." value={title} onChange={handleChange} />
             </form>
           </NaveSearch>
+
+          {/* 모바일 검색 */}
+          <div className="mobile_search">
+            {search ? (
+              <>
+                <form onSubmit={handleSearch}>
+                  <input type="text" placeholder="빵집을 찾아보세요." value={title} onChange={handleChange} />
+                </form>
+              </>
+            ) : (
+              ''
+            )}
+          </div>
         </GroupNav>
       </HeaderWrap>
     </>

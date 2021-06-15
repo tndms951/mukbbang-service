@@ -103,7 +103,7 @@ const Comment = ({ match, onDetailComment, onDetailCommentMore, onRegisterCommen
     }
   };
 
-  // 비로그인시 comment 클릭시 로그인페이지 이동
+  // 비로그인시 comment 클릭시 로그인페이지 이동 (로그인후 다시 있던 페이지로이동해줌)
   const loginClick = () => {
     if (!currentUser) {
       const comeAddress = encodeURIComponent(location.pathname + location.search);

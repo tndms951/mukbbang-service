@@ -5,9 +5,9 @@ export const EventWrap = styled.div`
   background: #f8f8f8;
 
   & li {
-    width: 480px;
+    width: 48%;
     float: left;
-    margin-right: 20px;
+    margin-right: 2%;
 
     & a {
       text-decoration: none;
@@ -83,6 +83,28 @@ export const EventWrap = styled.div`
       top: 50%;
       left: 50%;
       transform: translate(-50%, -50%);
+    }
+  }
+
+  @media ${({ theme }) => theme.device.mobile} {
+    & li {
+      width: 100%;
+      margin-right: 0px;
+    }
+
+    & .box_wrap {
+      display: block;
+      margin: 0 auto;
+      margin-bottom: 90px;
+      width: 100%;
+      height: 250px;
+      position: relative;
+      cursor: pointer;
+
+      & img {
+        width: 100%;
+        height: 100%;
+      }
     }
   }
 `;

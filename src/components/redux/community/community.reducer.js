@@ -17,7 +17,6 @@ const noticeReducer = (state = INITAL_STATE, action) => {
     }
     case CommunityType.SET_EVENT_LIST: {
       const { list } = action.payload;
-
       return {
         ...state,
         eventList: list

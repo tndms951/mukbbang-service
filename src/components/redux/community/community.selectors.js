@@ -1,7 +1,7 @@
 import { createSelector } from 'reselect';
 
-const selectNoticeList = (state) => state.community;
+const selectCommunityList = (state) => state.community;
 
-export const selectNotice = createSelector([selectNoticeList], (list) => list.noticeList);
+export const selectNotice = createSelector([selectCommunityList], (list) => list.noticeList);
 
-export const selectEvent = createSelector([selectNoticeList], (list) => list.eventList);
+export const selectEvent = createSelector([selectCommunityList], (list) => list.eventList);

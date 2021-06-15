@@ -16,8 +16,8 @@ import { setCurrentBreadShop, setShopTrueData, setShopFalseData } from '../../..
 import { selectBreadList } from '../../../redux/bread/list/bread.selectors';
 import { setBreadRankingList, setHeartTrueData, setHeartFalseData } from '../../../redux/bread/list/bread.actions';
 
-import { selectEventSwiper } from '../../../redux/main/main.selectors';
-import { setEventSwiper } from '../../../redux/main/main.actions';
+import { selectEvent } from '../../../redux/community/community.selectors';
+import { setEventList } from '../../../redux/community/community.actions';
 import axios from '../../../../utils/axios';
 import { Main, MainBackground, BreadShopRanking, BreadShopList } from './mainhome_content_style';
 
@@ -151,14 +151,14 @@ MainHome.propTypes = {
   onBreadHeartTrue: PropTypes.func.isRequired,
   onBreadHeartFalse: PropTypes.func.isRequired,
 
-  eventList: PropTypes.instanceOf(Array).isRequired,
+  eventList: PropTypes.instanceOf(Object).isRequired,
   onEventList: PropTypes.func.isRequired
 };
 
 const breadStateToProps = createStructuredSelector({
   breadShopList: selectShopList,
   breadList: selectBreadList,
-  eventList: selectEventSwiper
+  eventList: selectEvent
 });
 
 const breadShopDispathchToProps = (dispatch) => ({
@@ -170,7 +170,7 @@ const breadShopDispathchToProps = (dispatch) => ({
   onBreadHeartTrue: (trueBreadId) => dispatch(setHeartTrueData(trueBreadId)),
   onBreadHeartFalse: (falseBreadId) => dispatch(setHeartFalseData(falseBreadId)),
 
-  onEventList: (event) => dispatch(setEventSwiper(event))
+  onEventList: (event) => dispatch(setEventList(event))
 });
 
 export default connect(breadStateToProps, breadShopDispathchToProps)(MainHome);

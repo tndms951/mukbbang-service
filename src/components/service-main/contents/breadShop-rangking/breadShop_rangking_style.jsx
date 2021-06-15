@@ -10,7 +10,7 @@ export const HouseRangkingWrap = styled.div`
   }
 
   @media ${({ theme }) => theme.device.mobile} {
-    margin: 100px auto;
+    margin: 150px auto;
     width: 100%;
   }
 `;
@@ -23,6 +23,7 @@ export const LocationWrap = styled.div`
   }
 
   @media ${({ theme }) => theme.device.mobile} {
+    padding: 0 10px;
   }
 `;
 
@@ -59,7 +60,7 @@ export const Location = styled.div`
 export const SelectWrap = styled.div`
   display: inline-block;
   float: left;
-  padding: 8px 24px;
+  // padding: 8px 24px;
 
   &::after {
     clear: both;
@@ -69,7 +70,7 @@ export const SelectWrap = styled.div`
 
   @media ${({ theme }) => theme.device.mobile} {
     margin-bottom: 40px;
-    padding: 0 24px;
+    // padding: 0 24px;
   }
 `;
 
@@ -203,7 +204,7 @@ export const City = styled.div`
 
   @media ${({ theme }) => theme.device.mobile} {
     details {
-      margin-right: 0px;
+      margin-right: -10px;
     }
 
     summary.radios {
@@ -240,8 +241,6 @@ export const CurrentLocation = styled.div`
   }
 
   @media ${({ theme }) => theme.device.mobile} {
-    padding: 0 10px;
-
     & button {
       padding: 6px 14px;
       background-color: #3d3d3d;
@@ -305,6 +304,7 @@ export const RangkingList = styled.div`
         height: 25px;
         top: 17px;
         right: 15px;
+        cursor: pointer;
       }
 
       &:nth-child(4n) {
