@@ -9,7 +9,8 @@ import { errorhandler } from '../../utils/common';
 import { BreadliWrap } from './bread_li_style';
 import { selectCurrentUser } from '../redux/user/user.selectors';
 
-const BreadLi = ({ likeTrue, likeFalse, breadList, breadLike, currentUser, location, history }) => {
+const BreadLi = ({ likeTrue, likeFalse, breadList, currentUser, location, history, breadListLike }) => {
+  console.log(currentUser);
   const changeBreadHeart = async () => {
     if (!currentUser) {
       const comeAddress = encodeURIComponent(location.pathname + location.search);
@@ -35,7 +36,7 @@ const BreadLi = ({ likeTrue, likeFalse, breadList, breadLike, currentUser, locat
 
   return (
     <BreadliWrap>
-      <Link to={`/bread/detail/${breadList.id}`}>
+      <Link to={`/bread/detail/${breadList.id}`} key={`bread-list${breadList.id}`}>
         <div className="bread_image_wrap">
           <img src={breadList.image} alt={`${breadList.title}의 이미지`} />
         </div>
@@ -44,7 +45,7 @@ const BreadLi = ({ likeTrue, likeFalse, breadList, breadLike, currentUser, locat
         </dl>
       </Link>
 
-      {breadLike !== undefined ? (
+      {breadListLike !== undefined ? (
         <img
           src={breadList.like ? 'https://s3.ap-northeast-2.amazonaws.com/image.mercuryeunoia.com/images/web/jisu/+common_icon/heart.png' : 'https://s3.ap-northeast-2.amazonaws.com/image.mercuryeunoia.com/images/web/jisu/+common_icon/spaceheart.png'}
           alt="하트 이미지"
@@ -62,7 +63,8 @@ BreadLi.defaultProps = {
   likeFalse: undefined,
   currentUser: null,
   location: undefined,
-  history: undefined
+  history: undefined,
+  breadListLike: undefined
 };
 
 BreadLi.propTypes = {
@@ -72,7 +74,7 @@ BreadLi.propTypes = {
   currentUser: PropTypes.instanceOf(Object),
   location: PropTypes.instanceOf(Object),
   history: PropTypes.instanceOf(Object),
-  breadLike: PropTypes.bool.isRequired
+  breadListLike: PropTypes.bool
 };
 
 const breadLiStateToProps = createStructuredSelector({

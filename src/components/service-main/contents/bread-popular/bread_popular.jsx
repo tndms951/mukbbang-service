@@ -73,7 +73,7 @@ const PopularBread = ({ breadList, onBreadList, onBreadListMore, onBreadHeartTru
         <InfiniteScroll dataLength={breadList.length} next={fetMoreData} hasMore scrollThreshold="50px">
           <ul className="list_wrap">
             {breadList.map((list) => (
-              <BreadLi key={`bread-list${list.id}`} breadList={list} breadLike={list.like} likeTrue={onBreadHeartTrue} likeFalse={onBreadHeartFalse} location={location} history={history} />
+              <BreadLi key={`bread-list${list.id}`} breadList={list} breadListLike={list.like} likeTrue={onBreadHeartTrue} likeFalse={onBreadHeartFalse} location={location} history={history} />
             ))}
           </ul>
         </InfiniteScroll>
