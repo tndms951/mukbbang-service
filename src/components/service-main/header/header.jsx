@@ -86,7 +86,9 @@ const Header = ({ currentUser, onLogout }) => {
                   </span>
                   {myProfileBox ? (
                     <MyProfile>
-                      <span>내가 찜한 빵/빵집</span>
+                      <Link to="/pick-bread-breadShop">
+                        <span>내가 찜한 빵/빵집</span>
+                      </Link>
                       <span>내 정보 수정</span>
                       <span onClick={onLogout} aria-hidden="true">
                         로그아웃

@@ -41,3 +41,10 @@ export const setDongAddressData = (dongAddress) => ({
     dongAddress
   }
 });
+
+export const setPickBreadShopList = (event) => ({
+  type: breadShopTypes.SET_PICK_BREADSHOP_LIST,
+  payload: {
+    event
+  }
+});

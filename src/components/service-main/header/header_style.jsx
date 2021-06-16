@@ -99,13 +99,21 @@ export const MyProfile = styled.div`
   right: 20px;
   background: white;
 
+  & a {
+    text-decoration: none;
+  }
+
   & span {
     display: block;
-    margin-bottom: 20px;
     font-weight: 500;
     color: #383838;
     height: 24px;
     line-height: 24px;
+  }
+
+  & span:nth-child(2) {
+    margin: 20px 0px;
+    font-weight: 600;
   }
 
   & span:last-child {

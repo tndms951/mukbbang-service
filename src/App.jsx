@@ -11,6 +11,7 @@ import BreadRouter from './components/service-main/contents/bread-popular/bread_
 import MainHome from './components/service-main/contents/main/mainhome_content';
 import PickBread from './components/service-main/contents/youtube-pick/youtube_bread';
 import Community from './components/service-main/contents/community/community';
+import PickBreadBreadShop from './components/service-main/contents/my-picck/pick_bread_breadShop';
 
 import LayOut from './layout';
 import axios, { setAuthorization } from './utils/axios';
@@ -45,6 +46,7 @@ function App({ onUserData }) {
         <Switch>
           <Route exact path="/signin" component={Signin} />
           <Route exact path="/signup" component={Signup} />
+          <Route path="/pick-bread-breadShop" component={PickBreadBreadShop} />
           <Route path="/bread-house" component={BreadHouseRouter} />
           <Route path="/bread" component={BreadRouter} />
           <Route path="/youtube-bread" component={PickBread} />
