@@ -41,3 +41,8 @@ export const setDongAddressData = (dongAddress) => ({
     dongAddress
   }
 });
+
+// 처음 랜더시 그전 값이 보여서 초기화 해줌
+export const setBreadShopReset = () => ({
+  type: breadShopTypes.SET_BREAD_SHOP_RESET
+});

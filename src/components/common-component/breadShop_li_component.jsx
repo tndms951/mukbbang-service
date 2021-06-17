@@ -9,7 +9,7 @@ import axios from '../../utils/axios';
 import { errorhandler } from '../../utils/common';
 import { selectCurrentUser } from '../redux/user/user.selectors';
 
-const BreadShopLi = ({ shopList, shopSeverLike, likeTrue, likeFalse, shopId, breadShopId, currentUser, location, history }) => {
+const BreadShopLi = ({ shopList, shopSeverLike, likeTrue, likeFalse, shopId, currentUser, location, history }) => {
   const changeShopHeart = async () => {
     if (!currentUser) {
       const comeAddress = encodeURIComponent(location.pathname + location.search);
@@ -29,6 +29,7 @@ const BreadShopLi = ({ shopList, shopSeverLike, likeTrue, likeFalse, shopId, bre
         }
       } catch (err) {
         errorhandler(err);
+        console.log(err);
       }
     }
   };
@@ -40,12 +41,12 @@ const BreadShopLi = ({ shopList, shopSeverLike, likeTrue, likeFalse, shopId, bre
           <img src={shopList.image} alt={`${shopList.title}의 이미지`} />
         </div>
         <dl>
-          {breadShopId ? null : <dt>{shopList.address}</dt>}
+          {shopId ? <dt>{shopList.address}</dt> : null}
           <dd>{shopList.title}</dd>
         </dl>
       </Link>
 
-      {breadShopId ? null : (
+      {shopId ? (
         <img
           src={shopSeverLike ? 'https://s3.ap-northeast-2.amazonaws.com/image.mercuryeunoia.com/images/web/jisu/+common_icon/heart.png' : 'https://s3.ap-northeast-2.amazonaws.com/image.mercuryeunoia.com/images/web/jisu/+common_icon/spaceheart.png'}
           alt="하트 이미지"
@@ -53,7 +54,7 @@ const BreadShopLi = ({ shopList, shopSeverLike, likeTrue, likeFalse, shopId, bre
           aria-hidden="true"
           onClick={changeShopHeart}
         />
-      )}
+      ) : null}
     </ShopliWrap>
   );
 };
@@ -62,7 +63,6 @@ BreadShopLi.defaultProps = {
   shopSeverLike: undefined,
   likeTrue: undefined,
   likeFalse: undefined,
-  breadShopId: undefined,
   currentUser: null,
   history: undefined,
   location: undefined
@@ -74,7 +74,6 @@ BreadShopLi.propTypes = {
   likeTrue: PropTypes.func,
   likeFalse: PropTypes.func,
   shopId: PropTypes.number.isRequired,
-  breadShopId: PropTypes.string,
   currentUser: PropTypes.instanceOf(Object),
   location: PropTypes.instanceOf(Object),
   history: PropTypes.instanceOf(Object)

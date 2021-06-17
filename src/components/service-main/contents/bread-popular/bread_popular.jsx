@@ -47,9 +47,8 @@ const PopularBread = ({ breadList, onBreadList, onBreadListMore, onBreadHeartTru
         ignoreQueryPrefix: true
       });
       const queryObject = { ...query };
-
       queryObject.page = String(page + 1);
-      queryObject.limit = String(12);
+      queryObject.limit = String(limit);
       const queryData = qs.stringify(queryObject);
       const { data, status } = await axios.get(`/bread?${queryData}`);
 
@@ -73,7 +72,7 @@ const PopularBread = ({ breadList, onBreadList, onBreadListMore, onBreadHeartTru
         <InfiniteScroll dataLength={breadList.length} next={fetMoreData} hasMore scrollThreshold="50px">
           <ul className="list_wrap">
             {breadList.map((list) => (
-              <BreadLi key={`bread-list${list.id}`} breadList={list} breadLike={list.like} likeTrue={onBreadHeartTrue} likeFalse={onBreadHeartFalse} location={location} history={history} />
+              <BreadLi key={`bread-list${list.id}`} breadList={list} breadListLike={list.like} likeTrue={onBreadHeartTrue} likeFalse={onBreadHeartFalse} location={location} history={history} />
             ))}
           </ul>
         </InfiniteScroll>

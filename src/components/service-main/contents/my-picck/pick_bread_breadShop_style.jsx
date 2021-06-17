@@ -1,17 +1,18 @@
 import styled from 'styled-components';
 
-export const CommunityWrap = styled.div`
+export const PickWrap = styled.div`
+  width: 1024px;
   margin: 200px auto;
-  max-width: 1024px;
 
   @media ${({ theme }) => theme.device.mobile} {
     width: 96%;
     margin-top: 140px;
     padding: 0 2%:
+
   }
 `;
 
-export const TitleButton = styled.span`
+export const TitleButton = styled.div`
   margin-bottom: 50px;
   display: block;
   text-align: center;
@@ -32,12 +33,12 @@ export const TitleButton = styled.span`
     cursor: pointer;
   }
 
-  & .notice_active {
+  & .breadShop_active {
     background: #fb7819;
     color: white;
   }
 
-  & .event_action {
+  & .bread_active {
     background: #fb7819;
     color: white;
   }
@@ -45,6 +46,7 @@ export const TitleButton = styled.span`
   @media ${({ theme }) => theme.device.mobile} {
     width: 60%;
     padding: 0 4%;
+
     margin-bottom: 20px;
     display: block;
     text-align: center;

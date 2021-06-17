@@ -65,6 +65,12 @@ const breadShopReducer = (state = INITAL_STATE, action) => {
         dongAddressList: dongAddress
       };
     }
+    case breadShopTypes.SET_BREAD_SHOP_RESET: {
+      return {
+        ...state,
+        breadShopList: []
+      };
+    }
     default:
       return state;
   }
