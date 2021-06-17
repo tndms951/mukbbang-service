@@ -30,7 +30,7 @@ const PickBreadShop = ({ breadShopList, onBreadShopList, onBreadShopPagination, 
       const queryData = qs.stringify(newQuery);
       try {
         const { status, data } = await axios.get(`/user/bread/shop?${queryData}`);
-        console.log(data);
+
         if (status === 200) {
           setPage(1);
           onBreadShopList(data.list);
@@ -56,7 +56,7 @@ const PickBreadShop = ({ breadShopList, onBreadShopList, onBreadShopPagination, 
       queryObject.limit = String(limit);
       const queryData = qs.stringify(queryObject);
       const { status, data } = await axios.get(`/user/bread/shop?${queryData}`);
-      console.log(data);
+
       if (status === 200) {
         onBreadShopPagination(data.list);
         setPage(page + 1);

@@ -10,7 +10,6 @@ import { errorhandler } from '../../utils/common';
 import { selectCurrentUser } from '../redux/user/user.selectors';
 
 const BreadShopLi = ({ shopList, shopSeverLike, likeTrue, likeFalse, shopId, currentUser, location, history }) => {
-  console.log(shopSeverLike);
   const changeShopHeart = async () => {
     if (!currentUser) {
       const comeAddress = encodeURIComponent(location.pathname + location.search);

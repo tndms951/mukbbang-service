@@ -11,7 +11,7 @@ const PickBreadBreadShop = ({ location }) => {
   const query = qs.parse(location.search, {
     ignoreQueryPrefix: true
   });
-  console.log(query);
+
   return (
     <PickWrap>
       <TitleButton>

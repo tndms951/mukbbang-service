@@ -10,7 +10,6 @@ import { BreadliWrap } from './bread_li_style';
 import { selectCurrentUser } from '../redux/user/user.selectors';
 
 const BreadLi = ({ likeTrue, likeFalse, breadList, currentUser, location, history, breadListLike }) => {
-  console.log(currentUser);
   const changeBreadHeart = async () => {
     if (!currentUser) {
       const comeAddress = encodeURIComponent(location.pathname + location.search);
