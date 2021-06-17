@@ -6,8 +6,9 @@ export const PickWrap = styled.div`
 
   @media ${({ theme }) => theme.device.mobile} {
     width: 96%;
-    margin-top: 100px;
+    margin-top: 140px;
     padding: 0 2%:
+
   }
 `;
 
@@ -45,6 +46,7 @@ export const TitleButton = styled.div`
   @media ${({ theme }) => theme.device.mobile} {
     width: 60%;
     padding: 0 4%;
+
     margin-bottom: 20px;
     display: block;
     text-align: center;

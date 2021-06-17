@@ -6,7 +6,6 @@ import breadReducer from './bread/bread-reducer';
 import breadBreadShopComment from './comment/bread_breadShopComment.reducer';
 import youtubeReducer from './youtube/youtube.reducer';
 import communityRouter from './community/community.reducer';
-import myPick from './my-pick/pick_bread_breadShop.reducer';
 
 const rootReducer = combineReducers({
   user: userReducer,
@@ -14,8 +13,7 @@ const rootReducer = combineReducers({
   bread: breadReducer,
   youtube: youtubeReducer,
   community: communityRouter,
-  comment: breadBreadShopComment,
-  pick: myPick
+  comment: breadBreadShopComment
 });
 
 export default rootReducer;

@@ -42,9 +42,7 @@ export const setDongAddressData = (dongAddress) => ({
   }
 });
 
-export const setPickBreadShopList = (event) => ({
-  type: breadShopTypes.SET_PICK_BREADSHOP_LIST,
-  payload: {
-    event
-  }
+// 처음 랜더시 그전 값이 보여서 초기화 해줌
+export const setBreadShopReset = () => ({
+  type: breadShopTypes.SET_BREAD_SHOP_RESET
 });

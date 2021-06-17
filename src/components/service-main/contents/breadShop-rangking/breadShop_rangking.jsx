@@ -12,7 +12,7 @@ import axios from '../../../../utils/axios';
 import { errorhandler, sweetAlert } from '../../../../utils/common';
 
 import { selectShopList, selectAddress, selectdongAddress } from '../../../redux/breadshop/list/breadShop.selectors';
-import { setCurrentBreadShop, setCurrentBreadShopMore, setShopTrueData, setShopFalseData, setSiAddressData, setDongAddressData } from '../../../redux/breadshop/list/breadShop.actions';
+import { setCurrentBreadShop, setCurrentBreadShopMore, setShopTrueData, setShopFalseData, setSiAddressData, setDongAddressData, setBreadShopReset } from '../../../redux/breadshop/list/breadShop.actions';
 
 import { HouseRangkingWrap, ShopRangking, Location, SelectWrap, City, CurrentLocation, LocationText, RangkingList, LocationWrap } from './breadShop_rangking_style';
 
@@ -27,7 +27,7 @@ import { HouseRangkingWrap, ShopRangking, Location, SelectWrap, City, CurrentLoc
 const limit = 20;
 
 // eslint-disable-next-line no-unused-vars
-const HouseRangking = ({ breadShopList, onBreadShopList, onBreadShopPagination, onBreadShopTrue, onBreadShopFalse, siAddressList, onAddressSi, dongAddressList, onAddressDong, location, history }) => {
+const HouseRangking = ({ breadShopList, onBreadShopList, onBreadShopPagination, onBreadShopTrue, onBreadShopFalse, siAddressList, onAddressSi, dongAddressList, onAddressDong, location, history, onBreadShopReset }) => {
   const [hasMore, setHasmore] = useState(true);
 
   const [siList, setSiList] = useState({
@@ -149,6 +149,8 @@ const HouseRangking = ({ breadShopList, onBreadShopList, onBreadShopPagination, 
     //   console.log('파괴!!');
     //   window.removeEventListener('scroll', scrollEvent);
     // };
+
+    return onBreadShopReset();
   }, []);
 
   const handleClickSi = async (address) => {
@@ -333,7 +335,8 @@ HouseRangking.propTypes = {
   dongAddressList: PropTypes.instanceOf(Array).isRequired,
   onAddressDong: PropTypes.func.isRequired,
   location: PropTypes.instanceOf(Object).isRequired,
-  history: PropTypes.instanceOf(Object).isRequired
+  history: PropTypes.instanceOf(Object).isRequired,
+  onBreadShopReset: PropTypes.func.isRequired
 };
 
 const breadStateToProps = createStructuredSelector({
@@ -348,7 +351,8 @@ const breadShopDispathchToProps = (dispatch) => ({
   onBreadShopTrue: (trueBreadShop) => dispatch(setShopTrueData(trueBreadShop)),
   onBreadShopFalse: (falseBreadShop) => dispatch(setShopFalseData(falseBreadShop)),
   onAddressSi: (addressSi) => dispatch(setSiAddressData(addressSi)),
-  onAddressDong: (addressDong) => dispatch(setDongAddressData(addressDong))
+  onAddressDong: (addressDong) => dispatch(setDongAddressData(addressDong)),
+  onBreadShopReset: () => dispatch(setBreadShopReset())
 });
 
 export default connect(breadStateToProps, breadShopDispathchToProps)(HouseRangking);

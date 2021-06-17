@@ -22,7 +22,7 @@ const PickBreadBreadShop = ({ location }) => {
           <span className={query.menu === 'bread' ? 'bread_active' : ''}>빵</span>
         </Link>
       </TitleButton>
-      {query.menu === 'breadShop' ? <PickBreadShop /> : <PickBread />}
+      {query.menu === 'breadShop' ? <PickBreadShop location={location} /> : <PickBread />}
     </PickWrap>
   );
 };

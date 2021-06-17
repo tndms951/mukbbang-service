@@ -6,7 +6,7 @@ export const CommunityWrap = styled.div`
 
   @media ${({ theme }) => theme.device.mobile} {
     width: 96%;
-    margin-top: 100px;
+    margin-top: 140px;
     padding: 0 2%:
   }
 `;

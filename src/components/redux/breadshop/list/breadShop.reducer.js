@@ -3,8 +3,7 @@ import breadShopTypes from './breadShop.types';
 const INITAL_STATE = {
   breadShopList: [],
   siAddressList: [],
-  dongAddressList: [],
-  pickBreadShopList: []
+  dongAddressList: []
 };
 
 const breadShopReducer = (state = INITAL_STATE, action) => {
@@ -66,12 +65,10 @@ const breadShopReducer = (state = INITAL_STATE, action) => {
         dongAddressList: dongAddress
       };
     }
-    case breadShopTypes.SET_PICK_BREADSHOP_LIST: {
-      const { event } = action.payload;
-      console.log(event);
+    case breadShopTypes.SET_BREAD_SHOP_RESET: {
       return {
         ...state,
-        pickBreadShopList: event
+        breadShopList: []
       };
     }
     default:

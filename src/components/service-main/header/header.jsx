@@ -86,7 +86,7 @@ const Header = ({ currentUser, onLogout }) => {
                   </span>
                   {myProfileBox ? (
                     <MyProfile>
-                      <Link to="/pick-bread-breadShop">
+                      <Link to="/pick-bread-breadShop?menu=breadShop">
                         <span>내가 찜한 빵/빵집</span>
                       </Link>
                       <span>내 정보 수정</span>
