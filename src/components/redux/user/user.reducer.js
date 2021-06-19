@@ -1,4 +1,5 @@
 import UseTypes from './user.types';
+import { setAuthorizationReset } from '../../../utils/axios';
 
 const INITAL_STATE = {
   currentUser: null,
@@ -19,6 +20,7 @@ const userReducer = (state = INITAL_STATE, action) => {
     }
     case UseTypes.SET_LOGOUT: {
       localStorage.removeItem('userToken');
+      setAuthorizationReset();
       return {
         ...state,
         token: '',

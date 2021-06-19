@@ -7,7 +7,7 @@ import PickBreadShop from './pick-breadShop/pick_breadShop';
 import PickBread from './pick-bread/pick_bread';
 import { PickWrap, TitleButton } from './pick_bread_breadShop_style';
 
-const PickBreadBreadShop = ({ location }) => {
+const PickBreadBreadShop = ({ location, history }) => {
   const query = qs.parse(location.search, {
     ignoreQueryPrefix: true
   });
@@ -22,13 +22,14 @@ const PickBreadBreadShop = ({ location }) => {
           <span className={query.menu === 'bread' ? 'bread_active' : ''}>빵</span>
         </Link>
       </TitleButton>
-      {query.menu === 'breadShop' ? <PickBreadShop location={location} /> : <PickBread />}
+      {query.menu === 'breadShop' ? <PickBreadShop location={location} history={history} /> : <PickBread location={location} history={history} />}
     </PickWrap>
   );
 };
 
 PickBreadBreadShop.propTypes = {
-  location: PropTypes.instanceOf(Object).isRequired
+  location: PropTypes.instanceOf(Object).isRequired,
+  history: PropTypes.objectOf(PropTypes.object).isRequired
 };
 
 export default PickBreadBreadShop;

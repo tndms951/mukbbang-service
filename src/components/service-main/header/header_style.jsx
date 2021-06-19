@@ -79,6 +79,11 @@ export const RightLogin = styled.div`
 
   .login_wrap {
     margin: 4px 0;
+
+    a {
+      color: black;
+      text-decoration: none;
+    }
   }
 
   & img {
