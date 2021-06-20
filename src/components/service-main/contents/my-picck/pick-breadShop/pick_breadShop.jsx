@@ -21,7 +21,6 @@ const PickBreadShop = ({ breadShopList, onBreadShopList, onBreadShopPagination, 
 
   useEffect(() => {
     const token = localStorage.getItem('userToken');
-    console.log(token);
     if (!token) {
       history.push('/');
     }

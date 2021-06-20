@@ -11,12 +11,17 @@ import BreadLi from '../../../../common-component/bread_li_component';
 import { PickBreadList } from './pick_bread_style';
 import { setBreadRankingList, setHeartTrueData, setHeartFalseData } from '../../../../redux/bread/list/bread.actions';
 import { selectBreadList } from '../../../../redux/bread/list/bread.selectors';
+import { selectCurrentUser } from '../../../../redux/user/user.selectors';
 
 const limit = 20;
 
 const PickBread = ({ breadList, onBreadList, onBreadTrue, onBreadFalse, location }) => {
   const [hasMore, setHasMore] = useState(true);
   const [page, setPage] = useState(1);
+
+  useEffect(() => {
+    console.log(localStorage);
+  }, []);
 
   useEffect(() => {
     async function fetchPickBread() {
@@ -90,7 +95,8 @@ PickBread.propTypes = {
   location: PropTypes.instanceOf(Object).isRequired
 };
 const pickBreadStateToProps = createStructuredSelector({
-  breadList: selectBreadList
+  breadList: selectBreadList,
+  currentUser: selectCurrentUser
 });
 
 const pickBreadDispathchToProps = (dispatch) => ({

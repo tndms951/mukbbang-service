@@ -16,6 +16,7 @@ import { setCurrentBreadShop, setCurrentBreadShopMore, setShopTrueData, setShopF
 
 import { HouseRangkingWrap, ShopRangking, Location, SelectWrap, City, CurrentLocation, LocationText, RangkingList, LocationWrap } from './breadShop_rangking_style';
 
+import LoadingHOC from '../../../common-component/loadingHOC';
 /**
  * @author 송지수
  * @email tndms951@naver.com
@@ -27,7 +28,7 @@ import { HouseRangkingWrap, ShopRangking, Location, SelectWrap, City, CurrentLoc
 const limit = 20;
 
 // eslint-disable-next-line no-unused-vars
-const HouseRangking = ({ breadShopList, onBreadShopList, onBreadShopPagination, onBreadShopTrue, onBreadShopFalse, siAddressList, onAddressSi, dongAddressList, onAddressDong, location, history, onBreadShopReset }) => {
+const HouseRangking = ({ breadShopList, onBreadShopList, onBreadShopPagination, onBreadShopTrue, onBreadShopFalse, siAddressList, onAddressSi, dongAddressList, onAddressDong, location, history, onBreadShopReset, isLoadingset, loading }) => {
   const [hasMore, setHasmore] = useState(true);
 
   const [siList, setSiList] = useState({
@@ -46,6 +47,7 @@ const HouseRangking = ({ breadShopList, onBreadShopList, onBreadShopPagination, 
 
   useEffect(() => {
     async function fetchShopData() {
+      isLoadingset(true);
       const query = qs.parse(location.search, {
         ignoreQueryPrefix: true
       });
@@ -63,6 +65,7 @@ const HouseRangking = ({ breadShopList, onBreadShopList, onBreadShopPagination, 
           onBreadShopList(breadShopData.list);
           setAddressName(breadShopData.data.addressName);
           setHasmore(breadShopData.pagination.currentPage !== breadShopData.pagination.totalPage);
+          isLoadingset(false);
         }
       } catch (err) {
         errorhandler(err);
@@ -256,71 +259,73 @@ const HouseRangking = ({ breadShopList, onBreadShopList, onBreadShopPagination, 
   };
 
   return (
-    <HouseRangkingWrap>
-      <ShopRangking>
-        <h1>빵집 랭킹</h1>
-      </ShopRangking>
+    !loading && (
+      <>
+        <ShopRangking>
+          <h1>빵집 랭킹</h1>
+        </ShopRangking>
 
-      <LocationWrap>
-        <Location>
-          <CurrentLocation>
-            <button type="button">
-              <img src="https://s3.ap-northeast-2.amazonaws.com/image.mercuryeunoia.com/images/web/jisu/+common_icon/search.png" alt="" />
-              <span onClick={handleLocal} aria-hidden="true" role="button">
-                현재 위치로 설정
-              </span>
-            </button>
-          </CurrentLocation>
-        </Location>
+        <LocationWrap>
+          <Location>
+            <CurrentLocation>
+              <button type="button">
+                <img src="https://s3.ap-northeast-2.amazonaws.com/image.mercuryeunoia.com/images/web/jisu/+common_icon/search.png" alt="" />
+                <span onClick={handleLocal} aria-hidden="true" role="button">
+                  현재 위치로 설정
+                </span>
+              </button>
+            </CurrentLocation>
+          </Location>
 
-        <SelectWrap>
-          <City>
-            <details className="custom-select">
-              <summary className="radios">
-                <input type="radio" name="city" id="default" title={siList.name} checked />
-              </summary>
-              <ul className="list">
-                {siAddressList.map((address) => (
-                  <li key={`siAddress-${address.id}`} onClick={() => handleClickSi(address)} onKeyPress={handleClickSi} role="presentation">
-                    <label>{address.name}</label>
-                  </li>
-                ))}
-              </ul>
-            </details>
-          </City>
+          <SelectWrap>
+            <City>
+              <details className="custom-select">
+                <summary className="radios">
+                  <input type="radio" name="city" id="default" title={siList.name} checked />
+                </summary>
+                <ul className="list">
+                  {siAddressList.map((address) => (
+                    <li key={`siAddress-${address.id}`} onClick={() => handleClickSi(address)} onKeyPress={handleClickSi} role="presentation">
+                      <label>{address.name}</label>
+                    </li>
+                  ))}
+                </ul>
+              </details>
+            </City>
 
-          <City>
-            <details className="custom-select">
-              <summary className="radios">
-                <input type="radio" name="dong" id="default" title={guvalue.name} checked />
-              </summary>
-              <ul className="list">
-                {dongAddressList.map((address) => (
-                  <li key={`dongAddress-${address.id}`} onClick={() => handleClickGu(address)} onKeyPress={handleClickSi} role="presentation">
-                    <label>{address.name}</label>
-                  </li>
-                ))}
-              </ul>
-            </details>
-          </City>
-        </SelectWrap>
-      </LocationWrap>
+            <City>
+              <details className="custom-select">
+                <summary className="radios">
+                  <input type="radio" name="dong" id="default" title={guvalue.name} checked />
+                </summary>
+                <ul className="list">
+                  {dongAddressList.map((address) => (
+                    <li key={`dongAddress-${address.id}`} onClick={() => handleClickGu(address)} onKeyPress={handleClickSi} role="presentation">
+                      <label>{address.name}</label>
+                    </li>
+                  ))}
+                </ul>
+              </details>
+            </City>
+          </SelectWrap>
+        </LocationWrap>
 
-      <LocationText>
-        <span>{addressName} 빵집 랭킹</span>
-      </LocationText>
+        <LocationText>
+          <span>{addressName} 빵집 랭킹</span>
+        </LocationText>
 
-      <RangkingList>
-        {/* @ts-ignore */}
-        <InfiniteScroll dataLength={breadShopList.length} next={fetchMoreData} hasMore={hasMore} scrollThreshold="50px">
-          <ul className="list_wrap">
-            {breadShopList.map((breadShopData) => (
-              <BreadShopLi key={`bread_shop_list${breadShopData.id}`} shopList={breadShopData} shopSeverLike={breadShopData.like} shopId={breadShopData.id} likeTrue={onBreadShopTrue} likeFalse={onBreadShopFalse} location={location} history={history} />
-            ))}
-          </ul>
-        </InfiniteScroll>
-      </RangkingList>
-    </HouseRangkingWrap>
+        <RangkingList>
+          {/* @ts-ignore */}
+          <InfiniteScroll dataLength={breadShopList.length} next={fetchMoreData} hasMore={hasMore} scrollThreshold="50px">
+            <ul className="list_wrap">
+              {breadShopList.map((breadShopData) => (
+                <BreadShopLi key={`bread_shop_list${breadShopData.id}`} shopList={breadShopData} shopSeverLike={breadShopData.like} shopId={breadShopData.id} likeTrue={onBreadShopTrue} likeFalse={onBreadShopFalse} location={location} history={history} />
+              ))}
+            </ul>
+          </InfiniteScroll>
+        </RangkingList>
+      </>
+    )
   );
 };
 
@@ -336,7 +341,9 @@ HouseRangking.propTypes = {
   onAddressDong: PropTypes.func.isRequired,
   location: PropTypes.instanceOf(Object).isRequired,
   history: PropTypes.instanceOf(Object).isRequired,
-  onBreadShopReset: PropTypes.func.isRequired
+  onBreadShopReset: PropTypes.func.isRequired,
+  isLoadingset: PropTypes.func.isRequired,
+  loading: PropTypes.bool.isRequired
 };
 
 const breadStateToProps = createStructuredSelector({
@@ -355,4 +362,4 @@ const breadShopDispathchToProps = (dispatch) => ({
   onBreadShopReset: () => dispatch(setBreadShopReset())
 });
 
-export default connect(breadStateToProps, breadShopDispathchToProps)(HouseRangking);
+export default connect(breadStateToProps, breadShopDispathchToProps)(LoadingHOC(HouseRangking, '빵집랭킹 페이지 입니다.'));
