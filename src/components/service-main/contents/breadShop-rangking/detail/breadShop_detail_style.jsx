@@ -5,6 +5,12 @@ export const HouseDetaile = styled.div`
   margin-top: 150px;
   width: 1024px;
 
+  .loading_title {
+    font-size: 20px;
+    font-weight: 700;
+    text-align: center;
+  }
+
   @media ${({ theme }) => theme.device.mobile} {
     width: 100%;
     margin-top: 100px;

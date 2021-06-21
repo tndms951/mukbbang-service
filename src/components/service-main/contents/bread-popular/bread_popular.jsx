@@ -11,6 +11,7 @@ import { setBreadRankingList, setBreadListMore, setHeartTrueData, setHeartFalseD
 import axios from '../../../../utils/axios';
 import { errorhandler } from '../../../../utils/common';
 import { PopularBreadWrap, PopularWrap, BreadList } from './bread_popular_style';
+import LoadingHOC from '../../../common-component/loadingHOC';
 
 /**
  * @author 송지수
@@ -22,16 +23,18 @@ import { PopularBreadWrap, PopularWrap, BreadList } from './bread_popular_style'
 
 const limit = 20;
 
-const PopularBread = ({ breadList, onBreadList, onBreadListMore, onBreadHeartTrue, onBreadHeartFalse, location, history }) => {
+const PopularBread = ({ breadList, onBreadList, onBreadListMore, onBreadHeartTrue, onBreadHeartFalse, location, history, isLoadingset, loading }) => {
   // 스크롤시
   const [page, setPage] = useState(1);
   useEffect(() => {
     async function fetchbreadData() {
+      isLoadingset(true);
       try {
         const { status, data: breadData } = await axios.get(`/bread?page=${page}&limit=${limit}`);
 
         if (status === 200) {
           onBreadList(breadData.list);
+          isLoadingset(false);
         }
       } catch (err) {
         errorhandler(err);
@@ -62,22 +65,24 @@ const PopularBread = ({ breadList, onBreadList, onBreadListMore, onBreadHeartTru
   };
 
   return (
-    <PopularBreadWrap>
-      <PopularWrap>
-        <h1>요즘 인기있는 빵</h1>
-      </PopularWrap>
+    !loading && (
+      <PopularBreadWrap>
+        <PopularWrap>
+          <h1>요즘 인기있는 빵</h1>
+        </PopularWrap>
 
-      <BreadList>
-        {/* @ts-ignore */}
-        <InfiniteScroll dataLength={breadList.length} next={fetMoreData} hasMore scrollThreshold="50px">
-          <ul className="list_wrap">
-            {breadList.map((list) => (
-              <BreadLi key={`bread-list${list.id}`} breadList={list} breadListLike={list.like} likeTrue={onBreadHeartTrue} likeFalse={onBreadHeartFalse} location={location} history={history} />
-            ))}
-          </ul>
-        </InfiniteScroll>
-      </BreadList>
-    </PopularBreadWrap>
+        <BreadList>
+          {/* @ts-ignore */}
+          <InfiniteScroll dataLength={breadList.length} next={fetMoreData} hasMore scrollThreshold="50px">
+            <ul className="list_wrap">
+              {breadList.map((list) => (
+                <BreadLi key={`bread-list${list.id}`} breadList={list} breadListLike={list.like} likeTrue={onBreadHeartTrue} likeFalse={onBreadHeartFalse} location={location} history={history} />
+              ))}
+            </ul>
+          </InfiniteScroll>
+        </BreadList>
+      </PopularBreadWrap>
+    )
   );
 };
 
@@ -88,7 +93,9 @@ PopularBread.propTypes = {
   onBreadHeartTrue: PropTypes.func.isRequired,
   onBreadHeartFalse: PropTypes.func.isRequired,
   location: PropTypes.instanceOf(Object).isRequired,
-  history: PropTypes.instanceOf(Object).isRequired
+  history: PropTypes.instanceOf(Object).isRequired,
+  isLoadingset: PropTypes.func.isRequired,
+  loading: PropTypes.bool.isRequired
 };
 
 const breadStateToProps = createStructuredSelector({
@@ -102,4 +109,4 @@ const breadDispathchToProps = (dispatch) => ({
   onBreadHeartFalse: (falseBreadId) => dispatch(setHeartFalseData(falseBreadId))
 });
 
-export default connect(breadStateToProps, breadDispathchToProps)(PopularBread);
+export default connect(breadStateToProps, breadDispathchToProps)(LoadingHOC(PopularBread, <div className="loading_title">인기있는 빵 페이지 입니다.</div>));

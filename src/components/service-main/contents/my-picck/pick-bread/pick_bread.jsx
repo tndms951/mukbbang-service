@@ -15,13 +15,16 @@ import { selectCurrentUser } from '../../../../redux/user/user.selectors';
 
 const limit = 20;
 
-const PickBread = ({ breadList, onBreadList, onBreadTrue, onBreadFalse, location }) => {
+const PickBread = ({ breadList, onBreadList, onBreadTrue, onBreadFalse, location, currentUser, history }) => {
   const [hasMore, setHasMore] = useState(true);
   const [page, setPage] = useState(1);
 
   useEffect(() => {
-    console.log(localStorage);
-  }, []);
+    const token = localStorage.getItem('userToken');
+    if (!token) {
+      history.push('/');
+    }
+  }, [currentUser]);
 
   useEffect(() => {
     async function fetchPickBread() {
@@ -87,12 +90,18 @@ const PickBread = ({ breadList, onBreadList, onBreadTrue, onBreadFalse, location
   );
 };
 
+PickBread.defaultProps = {
+  currentUser: null
+};
+
 PickBread.propTypes = {
   breadList: PropTypes.instanceOf(Object).isRequired,
   onBreadList: PropTypes.func.isRequired,
   onBreadTrue: PropTypes.func.isRequired,
   onBreadFalse: PropTypes.func.isRequired,
-  location: PropTypes.instanceOf(Object).isRequired
+  location: PropTypes.instanceOf(Object).isRequired,
+  currentUser: PropTypes.instanceOf(Object),
+  history: PropTypes.objectOf(PropTypes.object).isRequired
 };
 const pickBreadStateToProps = createStructuredSelector({
   breadList: selectBreadList,

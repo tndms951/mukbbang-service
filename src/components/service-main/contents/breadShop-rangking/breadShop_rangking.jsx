@@ -14,7 +14,7 @@ import { errorhandler, sweetAlert } from '../../../../utils/common';
 import { selectShopList, selectAddress, selectdongAddress } from '../../../redux/breadshop/list/breadShop.selectors';
 import { setCurrentBreadShop, setCurrentBreadShopMore, setShopTrueData, setShopFalseData, setSiAddressData, setDongAddressData, setBreadShopReset } from '../../../redux/breadshop/list/breadShop.actions';
 
-import { HouseRangkingWrap, ShopRangking, Location, SelectWrap, City, CurrentLocation, LocationText, RangkingList, LocationWrap } from './breadShop_rangking_style';
+import { ShopRangking, Location, SelectWrap, City, CurrentLocation, LocationText, RangkingList, LocationWrap } from './breadShop_rangking_style';
 
 import LoadingHOC from '../../../common-component/loadingHOC';
 /**
@@ -362,4 +362,4 @@ const breadShopDispathchToProps = (dispatch) => ({
   onBreadShopReset: () => dispatch(setBreadShopReset())
 });
 
-export default connect(breadStateToProps, breadShopDispathchToProps)(LoadingHOC(HouseRangking, '빵집랭킹 페이지 입니다.'));
+export default connect(breadStateToProps, breadShopDispathchToProps)(LoadingHOC(HouseRangking, <div className="loading_title">빵집랭킹 페이지 입니다.</div>));

@@ -4,6 +4,12 @@ export const HouseRangkingWrap = styled.div`
   margin: 150px auto;
   width: 1024px;
 
+  .loading_title {
+    font-size: 20px;
+    font-weight: 700;
+    text-align: center;
+  }
+
   & h1 {
     font-size: 32px;
     font-weight: 700;
