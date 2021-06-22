@@ -15,6 +15,12 @@ const LoadingWrap = styled.div`
   svg rect {
     fill: #ff6700;
   }
+
+  @media ${({ theme }) => theme.device.mobile} {
+    width: 100%;
+    padding: 0px;
+    margin: 0px;
+  }
 `;
 
 const Loading = () => (

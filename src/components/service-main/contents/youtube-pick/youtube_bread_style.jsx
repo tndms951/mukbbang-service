@@ -3,11 +3,22 @@ import styled from 'styled-components';
 export const BreadPickWrap = styled.div`
   margin: 104px auto;
   max-width: 1024px;
+
+  .loading_title {
+    font-size: 20px;
+    font-weight: 700;
+    text-align: center;
+  }
 `;
 
 export const YoutubePickEvent = styled.div`
-  height: 400px;
-  background-color: #d7d7d7;
+  width: 100%;
+
+  @media ${({ theme }) => theme.device.mobile} {
+    & img {
+      width: 100%;
+    }
+  }
 `;
 
 export const PickBreadTitle = styled.div`
@@ -18,6 +29,10 @@ export const PickBreadTitle = styled.div`
   & span {
     font-size: 22px;
     font-weight: 600;
+  }
+
+  @media ${({ theme }) => theme.device.mobile} {
+    margin-bottom: 10px;
   }
 `;
 

@@ -6,19 +6,23 @@ import Loading from './loading/loading';
 const LoadingHOC = (WrapperComponent, message) => {
   const HOC = (props) => {
     const [loading, setLoading] = useState(true);
+    const [StyleValue, setStyleValue] = useState(false);
 
     const isLoadingset = (status) => {
       setLoading(status);
+      setStyleValue(status);
     };
+
     return (
       <HouseRangkingWrap>
         {loading && (
           <>
             <Loading />
             <div>{message}</div>
+            <div style={{ margin: '0px' }} />
           </>
         )}
-        <WrapperComponent {...props} isLoadingset={isLoadingset} loading={loading} />
+        <WrapperComponent {...props} isLoadingset={isLoadingset} loading={loading} StyleValue={StyleValue} />
       </HouseRangkingWrap>
     );
   };

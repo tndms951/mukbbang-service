@@ -3,6 +3,18 @@ import styled from 'styled-components';
 export const NoticeWrap = styled.div`
   background: #f8f8f8;
   padding: 32px 193px;
+ 
+  
+
+  .stylefalse {
+    margin: 0px;
+  }
+
+  .loading_title {
+    font-size: 20px;
+    font-weight: 700;
+    text-align: center;
+  }
 
   & ul {
     padding: 24px;
