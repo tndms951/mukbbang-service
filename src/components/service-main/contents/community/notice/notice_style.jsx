@@ -3,17 +3,17 @@ import styled from 'styled-components';
 export const NoticeWrap = styled.div`
   background: #f8f8f8;
   padding: 32px 193px;
- 
-  
-
-  .stylefalse {
-    margin: 0px;
-  }
+  margin: -100px auto;
 
   .loading_title {
     font-size: 20px;
     font-weight: 700;
     text-align: center;
+  }
+
+  .stylefalse {
+    margin-top: 0px;
+    outline: 1px solid red;
   }
 
   & ul {

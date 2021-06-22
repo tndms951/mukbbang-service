@@ -16,8 +16,7 @@ import LoadingHOC from '../../../../common-component/loadingHOC';
 
 const limit = 10;
 
-const Notice = ({ onNoticeList, noticeList, onNoticePagination, isLoadingset, loading, StyleValue }) => {
-  console.log(StyleValue);
+const Notice = ({ onNoticeList, noticeList, onNoticePagination, isLoadingset, loading }) => {
   const [page, setPage] = useState(1);
   const [hasMore, setHasMore] = useState(true);
   const [dropDown, setDropDown] = useState(0);
@@ -93,8 +92,8 @@ Notice.propTypes = {
   noticeList: PropTypes.instanceOf(Object).isRequired,
   onNoticePagination: PropTypes.func.isRequired,
   isLoadingset: PropTypes.func.isRequired,
-  loading: PropTypes.bool.isRequired,
-  StyleValue: PropTypes.bool.isRequired
+  loading: PropTypes.bool.isRequired
+  // stylefalse: PropTypes.instanceOf(Object).isRequired
 };
 
 const communityStateToProps = createStructuredSelector({
