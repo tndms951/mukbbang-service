@@ -48,7 +48,7 @@ const BreadShopLi = ({ shopList, shopSeverLike, likeTrue, likeFalse, shopId, cur
 
       {shopId ? (
         <img
-          src={shopSeverLike ? 'https://s3.ap-northeast-2.amazonaws.com/image.mercuryeunoia.com/images/web/jisu/+common_icon/heart.png' : 'https://s3.ap-northeast-2.amazonaws.com/image.mercuryeunoia.com/images/web/jisu/+common_icon/spaceheart.png'}
+          src={shopSeverLike && currentUser ? 'https://s3.ap-northeast-2.amazonaws.com/image.mercuryeunoia.com/images/web/jisu/+common_icon/heart.png' : 'https://s3.ap-northeast-2.amazonaws.com/image.mercuryeunoia.com/images/web/jisu/+common_icon/spaceheart.png'}
           alt="하트 이미지"
           className="heart_image"
           aria-hidden="true"

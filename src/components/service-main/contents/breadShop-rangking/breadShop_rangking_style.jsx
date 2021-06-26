@@ -66,7 +66,6 @@ export const Location = styled.div`
 export const SelectWrap = styled.div`
   display: inline-block;
   float: left;
-  // padding: 8px 24px;
 
   &::after {
     clear: both;
@@ -76,7 +75,6 @@ export const SelectWrap = styled.div`
 
   @media ${({ theme }) => theme.device.mobile} {
     margin-bottom: 40px;
-    // padding: 0 24px;
   }
 `;
 
@@ -96,7 +94,7 @@ export const City = styled.div`
   }
 
   summary {
-    padding: 9px 16px;
+    padding: 18px;
     cursor: pointer;
     border-radius: 5px;
     background-color: white;
@@ -122,6 +120,9 @@ export const City = styled.div`
   summary:after {
     content: '';
     display: inline-block;
+    position: absolute;
+    top: 13px;
+    right: 17px;
     float: right;
     width: 0.5rem;
     height: 0.5rem;
@@ -219,6 +220,23 @@ export const City = styled.div`
 
     ul {
       width: 87%;
+    }
+
+    summary:after {
+      content: '';
+      display: inline-block;
+      position: absolute;
+      top: 13px;
+      right: 30px;
+      float: right;
+      width: 0.5rem;
+      height: 0.5rem;
+      border-bottom: 1px solid currentColor;
+      border-left: 1px solid currentColor;
+      border-bottom-left-radius: 2px;
+      transform: rotate(45deg) translate(50%, 0%);
+      transform-origin: center center;
+      transition: transform ease-in-out 100ms;
     }
   }
 `;
