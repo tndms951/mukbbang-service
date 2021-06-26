@@ -11,7 +11,7 @@ const DownPage = ({ list }) => (
       <br />
     </span>
 
-    <h1>{list.content}</h1>
+    <span>{list.content}</span>
   </NoticeDownPage>
 );
 
