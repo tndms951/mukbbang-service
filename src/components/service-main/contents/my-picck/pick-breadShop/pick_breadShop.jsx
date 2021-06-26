@@ -9,14 +9,22 @@ import { errorhandler } from 'utils/common';
 import BreadShopLi from '../../../../common-component/breadShop_li_component';
 import { setCurrentBreadShop, setCurrentBreadShopMore, setShopTrueData, setShopFalseData, setBreadShopReset } from '../../../../redux/breadshop/list/breadShop.actions';
 import { selectShopList } from '../../../../redux/breadshop/list/breadShop.selectors';
-import { BreadPickList } from './pick_breadShop_style';
+import { selectCurrentUser } from '../../../../redux/user/user.selectors';
 import axios from '../../../../../utils/axios';
+import { BreadPickList } from './pick_breadShop_style';
 
 const limit = 20;
 
-const PickBreadShop = ({ breadShopList, onBreadShopList, onBreadShopPagination, onBreadShopTrue, onBreadShopFalse, onBreadShopReset, location }) => {
+const PickBreadShop = ({ breadShopList, onBreadShopList, onBreadShopPagination, onBreadShopTrue, onBreadShopFalse, onBreadShopReset, location, history, currentUser }) => {
   const [hasMore, setHasMore] = useState(true);
   const [page, setPage] = useState(1);
+
+  useEffect(() => {
+    const token = localStorage.getItem('userToken');
+    if (!token) {
+      history.push('/');
+    }
+  }, [currentUser]);
 
   useEffect(() => {
     async function fetchPickBreadShop() {
@@ -28,6 +36,7 @@ const PickBreadShop = ({ breadShopList, onBreadShopList, onBreadShopPagination, 
       newQuery.limit = String(limit);
 
       const queryData = qs.stringify(newQuery);
+
       try {
         const { status, data } = await axios.get(`/user/bread/shop?${queryData}`);
 
@@ -56,7 +65,7 @@ const PickBreadShop = ({ breadShopList, onBreadShopList, onBreadShopPagination, 
       queryObject.limit = String(limit);
       const queryData = qs.stringify(queryObject);
       const { status, data } = await axios.get(`/user/bread/shop?${queryData}`);
-
+      console.log(data);
       if (status === 200) {
         onBreadShopPagination(data.list);
         setPage(page + 1);
@@ -82,6 +91,9 @@ const PickBreadShop = ({ breadShopList, onBreadShopList, onBreadShopPagination, 
     </BreadPickList>
   );
 };
+PickBreadShop.defaultProps = {
+  currentUser: null
+};
 
 PickBreadShop.propTypes = {
   onBreadShopList: PropTypes.func.isRequired,
@@ -90,11 +102,14 @@ PickBreadShop.propTypes = {
   onBreadShopTrue: PropTypes.func.isRequired,
   onBreadShopFalse: PropTypes.func.isRequired,
   onBreadShopReset: PropTypes.func.isRequired,
-  location: PropTypes.instanceOf(Object).isRequired
+  location: PropTypes.instanceOf(Object).isRequired,
+  history: PropTypes.objectOf(PropTypes.object).isRequired,
+  currentUser: PropTypes.instanceOf(Object)
 };
 
 const pickStateToProps = createStructuredSelector({
-  breadShopList: selectShopList
+  breadShopList: selectShopList,
+  currentUser: selectCurrentUser
 });
 
 const pickDispathch = (dispatch) => ({

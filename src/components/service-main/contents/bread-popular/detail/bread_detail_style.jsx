@@ -4,6 +4,12 @@ export const BreadDtail = styled.div`
   width: 1024px;
   margin: 0 auto;
 
+  .loading_title {
+    font-size: 20px;
+    font-weight: 700;
+    text-align: center;
+  }
+
   & .title_wrap {
     margin-top: 176px;
     margin-bottom: 24px;

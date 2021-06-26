@@ -89,8 +89,9 @@ const MainHome = ({
       <div>
         <MainBackground>
           <Slider {...settings}>
-            {eventList.map((listData) => (
-              <img src={listData.imageUrl} alt={listData.title} />
+            {eventList.map((listData, index) => (
+              // eslint-disable-next-line react/no-array-index-key
+              <img src={listData.imageUrl} alt={`이벤트사진-${listData.title}의${index}번째`} key={`listData-image-${index}`} />
             ))}
           </Slider>
         </MainBackground>

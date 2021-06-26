@@ -56,6 +56,7 @@ function Signin({ onUserSet, history, location }) {
             const query = qs.parse(location.search, {
               ignoreQueryPrefix: true
             });
+
             history.push(query?.moveAddress || '/');
           }
         }

@@ -23,6 +23,7 @@ import { HeaderWrap, BookMark, LeftBookMark, RightLogin, MyProfile, GroupNav, Na
  */
 
 const Header = ({ currentUser, onLogout }) => {
+  console.log(currentUser);
   const location = useLocation(); // 라우터가 없을때 라이브러리로 가져와서 사용하는것
   const history = useHistory(); // 라우터가 없을때 라이브러리로 가져와서 사용하는것
 
@@ -193,18 +194,19 @@ const Header = ({ currentUser, onLogout }) => {
     </>
   );
 };
-const userProps = createStructuredSelector({
-  currentUser: selectCurrentUser
-});
+
+Header.defaultProps = {
+  currentUser: null
+};
 
 Header.propTypes = {
   currentUser: PropTypes.instanceOf(Object),
   onLogout: PropTypes.func.isRequired
 };
 
-Header.defaultProps = {
-  currentUser: null
-};
+const userProps = createStructuredSelector({
+  currentUser: selectCurrentUser
+});
 
 const logoutToPropsDispatch = (dispatch) => ({
   onLogout: () => dispatch(setLogout())

@@ -28,3 +28,8 @@ export const setHeartFalseData = (falseBreadId) => ({
     falseBreadId
   }
 });
+
+// 처음 렌더시 그전 값이 보여서 초기화 해줌
+export const setBreadReset = () => ({
+  type: breadTypes.SET_BREAD_RESET
+});

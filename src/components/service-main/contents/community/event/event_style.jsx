@@ -3,6 +3,7 @@ import styled from 'styled-components';
 export const EventWrap = styled.div`
   padding: 32px 20px;
   background: #f8f8f8;
+  margin: -100px auto;
 
   & li {
     width: 48%;

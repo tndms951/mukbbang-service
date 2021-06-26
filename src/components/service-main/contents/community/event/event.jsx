@@ -10,20 +10,23 @@ import axios from '../../../../../utils/axios';
 import { EventWrap } from './event_style';
 import { setEventList, setEventPagination } from '../../../../redux/community/community.actions';
 import { selectEvent } from '../../../../redux/community/community.selectors';
+import LoadingHOC from '../../../../common-component/loadingHOC';
 
 const limit = 4;
 
-const Event = ({ onEventList, eventList, onEventPagination }) => {
+const Event = ({ onEventList, eventList, onEventPagination, loading, isLoadingset }) => {
   const [page, setPage] = useState(1);
   const [hasMore, setHasMore] = useState(true);
 
   useEffect(() => {
+    isLoadingset(true);
     async function fetchEventData() {
       try {
         const { data, status } = await axios.get(`/event?page=${page}&limit=${limit}`);
         if (status === 200) {
           onEventList(data.list);
           setHasMore(data.pagination.currentPage !== data.pagination.totalPage);
+          isLoadingset(false);
         }
       } catch (err) {
         errorhandler(err);
@@ -49,36 +52,40 @@ const Event = ({ onEventList, eventList, onEventPagination }) => {
   };
 
   return (
-    <EventWrap>
-      <ul>
-        {/* @ts-ignore */}
-        <InfiniteScroll dataLength={eventList.length} next={fetMoreData} hasMore={hasMore} scrollThreshold="50px">
-          {eventList.map((list) => (
-            <li key={`event=${list.id}`}>
-              <a href={list.link} target="_blank" rel="noreferrer">
-                <div className="box_wrap" key={`event-${list.id}`}>
-                  <img src={list.imageUrl} alt="" />
-                  {/* <span>{list.title}</span> */}
-                  <p className={list.close ? 'close' : 'going'}>{list.close ? '이벤트 종료' : '진행중'}</p>
-                  <span>
-                    <strong>[{list.title}]</strong> {moment(list.startAt).format('YYYY-MM-DD ')}
-                    {'~'}
-                    {moment(list.endAt).format(' YYYY-MM-DD')}
-                  </span>
-                </div>
-              </a>
-            </li>
-          ))}
-        </InfiniteScroll>
-      </ul>
-    </EventWrap>
+    !loading && (
+      <EventWrap>
+        <ul>
+          {/* @ts-ignore */}
+          <InfiniteScroll dataLength={eventList.length} next={fetMoreData} hasMore={hasMore} scrollThreshold="50px">
+            {eventList.map((list) => (
+              <li key={`event=${list.id}`}>
+                <a href={list.link} target="_blank" rel="noreferrer">
+                  <div className="box_wrap" key={`event-${list.id}`}>
+                    <img src={list.imageUrl} alt="" />
+                    {/* <span>{list.title}</span> */}
+                    <p className={list.close ? 'close' : 'going'}>{list.close ? '이벤트 종료' : '진행중'}</p>
+                    <span>
+                      <strong>[{list.title}]</strong> {moment(list.startAt).format('YYYY-MM-DD ')}
+                      {'~'}
+                      {moment(list.endAt).format(' YYYY-MM-DD')}
+                    </span>
+                  </div>
+                </a>
+              </li>
+            ))}
+          </InfiniteScroll>
+        </ul>
+      </EventWrap>
+    )
   );
 };
 
 Event.propTypes = {
   onEventList: PropTypes.func.isRequired,
   eventList: PropTypes.instanceOf(Object).isRequired,
-  onEventPagination: PropTypes.func.isRequired
+  onEventPagination: PropTypes.func.isRequired,
+  loading: PropTypes.bool.isRequired,
+  isLoadingset: PropTypes.func.isRequired
 };
 
 const eventStateToProps = createStructuredSelector({
@@ -90,4 +97,4 @@ const eventDispathch = (dispatch) => ({
   onEventPagination: (list) => dispatch(setEventPagination(list))
 });
 
-export default connect(eventStateToProps, eventDispathch)(Event);
+export default connect(eventStateToProps, eventDispathch)(LoadingHOC(Event, <div className="loading_title">이벤트 페이지 입니다.</div>));
