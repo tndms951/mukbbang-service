@@ -281,7 +281,7 @@ const HouseRangking = ({ breadShopList, onBreadShopList, onBreadShopPagination, 
             <City>
               <details className="custom-select">
                 <summary className="radios">
-                  <input type="radio" name="city" id="default" title={siList.name} checked />
+                  <input type="radio" name="city" id="default" title={siList.name} />
                 </summary>
                 <ul className="list">
                   {siAddressList.map((address) => (
@@ -296,7 +296,7 @@ const HouseRangking = ({ breadShopList, onBreadShopList, onBreadShopPagination, 
             <City>
               <details className="custom-select">
                 <summary className="radios">
-                  <input type="radio" name="dong" id="default" title={guvalue.name} checked />
+                  <input type="radio" name="dong" id="default" title={guvalue.name} />
                 </summary>
                 <ul className="list">
                   {dongAddressList.map((address) => (

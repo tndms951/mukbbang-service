@@ -194,18 +194,19 @@ const Header = ({ currentUser, onLogout }) => {
     </>
   );
 };
-const userProps = createStructuredSelector({
-  currentUser: selectCurrentUser
-});
+
+Header.defaultProps = {
+  currentUser: null
+};
 
 Header.propTypes = {
   currentUser: PropTypes.instanceOf(Object),
   onLogout: PropTypes.func.isRequired
 };
 
-Header.defaultProps = {
-  currentUser: null
-};
+const userProps = createStructuredSelector({
+  currentUser: selectCurrentUser
+});
 
 const logoutToPropsDispatch = (dispatch) => ({
   onLogout: () => dispatch(setLogout())

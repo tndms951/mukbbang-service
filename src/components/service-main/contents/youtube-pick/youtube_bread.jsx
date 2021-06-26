@@ -111,9 +111,10 @@ const YoutubePickBread = ({ youtubePickBreadList, youtubePickList, location, you
         <StyledSlider>
           {/* @ts-ignore */}
           <InfiniteScroll dataLength={youtubePickBreadList.length} next={fetMoreData} hasMore={hasMore} scrollThreshold="50px">
-            {youtubePickBreadList.map((list, index) => {
-              if (index % 2 === 0) {
-                return (
+            {youtubePickBreadList.map((list, index) => (
+              // eslint-disable-next-line react/no-array-index-key
+              <React.Fragment key={`유튜브-${index}`}>
+                {index % 2 === 0 ? (
                   <PickBreadOdd>
                     <div className="VideoContainer">
                       <Youtube className="youtubeVideo" videoId={list.link.replace('https://www.youtube.com/embed/', '')} opts={opts} onReady={onReady} />
@@ -129,25 +130,24 @@ const YoutubePickBread = ({ youtubePickBreadList, youtubePickList, location, you
                       </button>
                     </div>
                   </PickBreadOdd>
-                );
-              }
-              return (
-                <PickBreadEven>
-                  <div className="VideoContainer_even">
-                    <Youtube className="youtubeVideo_even" videoId={list.link.replace('https://www.youtube.com/embed/', '')} opts={opts} onReady={onReady} />
-                  </div>
-                  <div className="pick_title_even">
-                    <span>{list.title}</span>
-                    <span>{list.content}</span>
-                    <button type="button" className="show_button_even">
-                      <a href={list?.link} target="_blank" rel="noreferrer">
-                        리뷰 보러가기
-                      </a>
-                    </button>
-                  </div>
-                </PickBreadEven>
-              );
-            })}
+                ) : (
+                  <PickBreadEven>
+                    <div className="VideoContainer_even">
+                      <Youtube className="youtubeVideo_even" videoId={list.link.replace('https://www.youtube.com/embed/', '')} opts={opts} onReady={onReady} />
+                    </div>
+                    <div className="pick_title_even">
+                      <span>{list.title}</span>
+                      <span>{list.content}</span>
+                      <button type="button" className="show_button_even">
+                        <a href={list?.link} target="_blank" rel="noreferrer">
+                          리뷰 보러가기
+                        </a>
+                      </button>
+                    </div>
+                  </PickBreadEven>
+                )}
+              </React.Fragment>
+            ))}
           </InfiniteScroll>
         </StyledSlider>
       </BreadPickWrap>
