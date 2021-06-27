@@ -1,5 +1,5 @@
 /* eslint-disable jsx-a11y/alt-text */
-import React, { useEffect, useState } from 'react';
+import React, { useEffect, useState, useRef } from 'react';
 import { connect } from 'react-redux';
 import PropTypes from 'prop-types';
 import { createStructuredSelector } from 'reselect';
@@ -9,6 +9,7 @@ import { faStore, faBreadSlice, faCalendar, faUser } from '@fortawesome/free-sol
 import { faYoutube } from '@fortawesome/free-brands-svg-icons';
 import qs from 'qs';
 
+import { sweetAlert } from 'utils/common';
 import { selectCurrentUser } from '../../redux/user/user.selectors';
 import { setLogout } from '../../redux/user/user.actions';
 
@@ -23,12 +24,12 @@ import { HeaderWrap, BookMark, LeftBookMark, RightLogin, MyProfile, GroupNav, Na
  */
 
 const Header = ({ currentUser, onLogout }) => {
-  console.log(currentUser);
   const location = useLocation(); // 라우터가 없을때 라이브러리로 가져와서 사용하는것
   const history = useHistory(); // 라우터가 없을때 라이브러리로 가져와서 사용하는것
 
   const [myProfileBox, setMyProfileBox] = useState(false);
   const [search, setSearch] = useState(false);
+  const searchRef = useRef(null);
 
   // 검색조회
   const [title, setTitle] = useState('');
@@ -39,6 +40,7 @@ const Header = ({ currentUser, onLogout }) => {
     });
 
     setTitle(query.title ? String(query.title) : '');
+    setSearch(false);
   }, [location.search]);
 
   const handleChange = (e) => {
@@ -59,6 +61,16 @@ const Header = ({ currentUser, onLogout }) => {
   // 돋보기 클릭
   const handleClick = () => {
     setSearch(!search);
+    if (!search) {
+      setTimeout(() => {
+        searchRef.current.focus();
+      }, 0);
+    }
+  };
+
+  // 내정보수정 클릭
+  const onMyProfile = () => {
+    sweetAlert('여기까진 개발을 못했네요ㅠㅠ');
   };
 
   return (
@@ -67,8 +79,11 @@ const Header = ({ currentUser, onLogout }) => {
         <BookMark>
           <div className="bookmarkWrap clearfix">
             <LeftBookMark>
-              <span>즐겨찾기</span>
-              <span>입점신청</span>
+              <span className="find_box">즐겨찾기</span>
+              {/* eslint-disable-next-line react/jsx-no-target-blank */}
+              <a href="https://forms.gle/XEaB8VNiHFM8z1bQ7" target="_blank">
+                <span>입점신청</span>
+              </a>
               <span>
                 <img src="https://s3.ap-northeast-2.amazonaws.com/image.mercuryeunoia.com/images/web/jisu/+common_icon/Vector+1.png" alt="아래화살표" />
               </span>
@@ -90,7 +105,9 @@ const Header = ({ currentUser, onLogout }) => {
                       <Link to="/pick-bread-breadShop?menu=breadShop">
                         <span>내가 찜한 빵/빵집</span>
                       </Link>
-                      <span>내 정보 수정</span>
+                      <span onClick={onMyProfile} aria-hidden="true">
+                        내 정보 수정
+                      </span>
                       <span onClick={onLogout} aria-hidden="true">
                         로그아웃
                       </span>
@@ -178,16 +195,10 @@ const Header = ({ currentUser, onLogout }) => {
           </NaveSearch>
 
           {/* 모바일 검색 */}
-          <div className="mobile_search">
-            {search ? (
-              <>
-                <form onSubmit={handleSearch}>
-                  <input type="text" placeholder="빵집을 찾아보세요." value={title} onChange={handleChange} />
-                </form>
-              </>
-            ) : (
-              ''
-            )}
+          <div className={`mobile_search ${search ? '' : 'hide'}`}>
+            <form onSubmit={handleSearch}>
+              <input type="text" placeholder="빵집을 찾아보세요." value={title} onChange={handleChange} ref={searchRef} />
+            </form>
           </div>
         </GroupNav>
       </HeaderWrap>

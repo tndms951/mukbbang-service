@@ -94,7 +94,7 @@ export const City = styled.div`
   }
 
   summary {
-    padding: 18px;
+    padding: 8px;
     cursor: pointer;
     border-radius: 5px;
     background-color: white;
@@ -184,7 +184,6 @@ export const City = styled.div`
   input[type='radio'] {
     counter-increment: radios;
     appearance: none;
-    display: none;
     color: #9a9a9a;
   }
 
@@ -226,8 +225,8 @@ export const City = styled.div`
       content: '';
       display: inline-block;
       position: absolute;
-      top: 13px;
-      right: 30px;
+      top: 14px;
+      right: 55px;
       float: right;
       width: 0.5rem;
       height: 0.5rem;

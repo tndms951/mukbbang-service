@@ -29,7 +29,6 @@ const BreadShopLi = ({ shopList, shopSeverLike, likeTrue, likeFalse, shopId, cur
         }
       } catch (err) {
         errorhandler(err);
-        console.log(err);
       }
     }
   };

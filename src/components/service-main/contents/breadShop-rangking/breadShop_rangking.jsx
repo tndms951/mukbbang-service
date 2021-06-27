@@ -42,7 +42,6 @@ const HouseRangking = ({ breadShopList, onBreadShopList, onBreadShopPagination, 
   });
 
   const [page, setPage] = useState(1);
-
   const [addressName, setAddressName] = useState('전체');
 
   useEffect(() => {
