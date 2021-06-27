@@ -5,3 +5,7 @@
 .swal2-container.swal2-center {
   z-index: 3000;
 }
+
+.hide {
+  display: none !important;
+}

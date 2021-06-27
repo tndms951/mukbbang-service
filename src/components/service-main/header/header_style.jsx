@@ -30,11 +30,13 @@ export const LeftBookMark = styled.div`
   line-height: 24px;
   margin: 4px 0;
 
-  & span:first-child {
-    margin-right: 32px;
+  a {
+    text-decoration: none;
+    color: black;
   }
-  & span:last-child {
-    color: #5c5c5c;
+
+  & .find_box {
+    margin-right: 32px;
   }
 
   & img {

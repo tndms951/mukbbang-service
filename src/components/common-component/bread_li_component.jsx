@@ -46,7 +46,7 @@ const BreadLi = ({ likeTrue, likeFalse, breadList, currentUser, location, histor
 
       {breadListLike !== undefined ? (
         <img
-          src={breadList.like ? 'https://s3.ap-northeast-2.amazonaws.com/image.mercuryeunoia.com/images/web/jisu/+common_icon/heart.png' : 'https://s3.ap-northeast-2.amazonaws.com/image.mercuryeunoia.com/images/web/jisu/+common_icon/spaceheart.png'}
+          src={breadList.like && currentUser ? 'https://s3.ap-northeast-2.amazonaws.com/image.mercuryeunoia.com/images/web/jisu/+common_icon/heart.png' : 'https://s3.ap-northeast-2.amazonaws.com/image.mercuryeunoia.com/images/web/jisu/+common_icon/spaceheart.png'}
           alt="하트 이미지"
           className="heart_image"
           aria-hidden="true"

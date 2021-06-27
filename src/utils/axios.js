@@ -7,7 +7,6 @@ const instance = axios.create({
 
 export const setAuthorization = (token) => {
   instance.defaults.headers.common.Authorization = token;
-  console.log(token);
 };
 
 export const setAuthorizationReset = () => {
