@@ -4,6 +4,7 @@ import { connect } from 'react-redux';
 import { createStructuredSelector } from 'reselect';
 import InfiniteScroll from 'react-infinite-scroll-component';
 import qs from 'qs';
+import { Helmet } from 'react-helmet';
 
 import BreadLi from '../../../common-component/bread_li_component';
 import { selectBreadList } from '../../../redux/bread/list/bread.selectors';
@@ -65,24 +66,33 @@ const PopularBread = ({ breadList, onBreadList, onBreadListMore, onBreadHeartTru
   };
 
   return (
-    !loading && (
-      <PopularBreadWrap>
-        <PopularWrap>
-          <h1>요즘 인기있는 빵</h1>
-        </PopularWrap>
+    <>
+      <Helmet>
+        <title>먹빵-우리동네빵집 인기있는 빵</title>
+        <meta name="description" content="먹빵-우리동네빵집 인기있는 빵 페이지 입니다." />
+        <meta property="og:title" content="먹빵-우리동네빵집 인기있는 빵 페이지 입니다." />
+        <meta property="og:description" content="먹빵-우리동네빵집 인기있는 빵 페이지 입니다." />
+        <meta property="og:image" content="https://s3.ap-northeast-2.amazonaws.com/image.mercuryeunoia.com/images/logo/logo.png" />
+      </Helmet>
+      {!loading && (
+        <PopularBreadWrap>
+          <PopularWrap>
+            <h1>요즘 인기있는 빵</h1>
+          </PopularWrap>
 
-        <BreadList>
-          {/* @ts-ignore */}
-          <InfiniteScroll dataLength={breadList.length} next={fetMoreData} hasMore scrollThreshold="50px">
-            <ul className="list_wrap">
-              {breadList.map((list) => (
-                <BreadLi key={`bread-list${list.id}`} breadList={list} breadListLike={list.like} likeTrue={onBreadHeartTrue} likeFalse={onBreadHeartFalse} location={location} history={history} />
-              ))}
-            </ul>
-          </InfiniteScroll>
-        </BreadList>
-      </PopularBreadWrap>
-    )
+          <BreadList>
+            {/* @ts-ignore */}
+            <InfiniteScroll dataLength={breadList.length} next={fetMoreData} hasMore scrollThreshold="50px">
+              <ul className="list_wrap">
+                {breadList.map((list) => (
+                  <BreadLi key={`bread-list${list.id}`} breadList={list} breadListLike={list.like} likeTrue={onBreadHeartTrue} likeFalse={onBreadHeartFalse} location={location} history={history} />
+                ))}
+              </ul>
+            </InfiniteScroll>
+          </BreadList>
+        </PopularBreadWrap>
+      )}
+    </>
   );
 };
 

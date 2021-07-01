@@ -16,8 +16,10 @@ const facebookToken = process.env.REACT_APP_FACEBOOK_KEY;
 const googleToken = process.env.REACT_APP_GOOGLE_KEY;
 
 const Social = ({ onUserSet, history }) => {
+  console.log('소셜로그인!!!!');
   // 카카오
   const onSuccess = async (userData) => {
+    console.log(userData);
     try {
       const { access_token: accessToken } = userData.response;
 
@@ -27,7 +29,7 @@ const Social = ({ onUserSet, history }) => {
       };
 
       const { data } = await axios.post('/user/social/signup', socialObject);
-
+      console.log(data);
       const {
         data: { token }
       } = data;

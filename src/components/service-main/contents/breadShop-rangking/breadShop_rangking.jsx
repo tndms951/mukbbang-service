@@ -4,6 +4,7 @@ import { createStructuredSelector } from 'reselect';
 import { connect } from 'react-redux';
 import PropTypes from 'prop-types';
 import qs from 'qs';
+import { Helmet } from 'react-helmet';
 
 import InfiniteScroll from 'react-infinite-scroll-component';
 import BreadShopLi from '../../../common-component/breadShop_li_component';
@@ -258,73 +259,82 @@ const HouseRangking = ({ breadShopList, onBreadShopList, onBreadShopPagination, 
   };
 
   return (
-    !loading && (
-      <>
-        <ShopRangking>
-          <h1>빵집 랭킹</h1>
-        </ShopRangking>
+    <>
+      <Helmet>
+        <title>먹빵-우리동네빵집 빵집</title>
+        <meta name="description" content="먹빵-우리동네빵집 빵집 페이지 입니다." />
+        <meta property="og:title" content="먹빵-우리동네빵집 빵집 페이지 입니다." />
+        <meta property="og:description" content="먹빵-우리동네빵집 빵집 페이지 입니다." />
+        <meta property="og:image" content="https://s3.ap-northeast-2.amazonaws.com/image.mercuryeunoia.com/images/logo/logo.png" />
+      </Helmet>
+      {!loading && (
+        <>
+          <ShopRangking>
+            <h1>빵집 랭킹</h1>
+          </ShopRangking>
 
-        <LocationWrap>
-          <Location>
-            <CurrentLocation>
-              <button type="button">
-                <img src="https://s3.ap-northeast-2.amazonaws.com/image.mercuryeunoia.com/images/web/jisu/+common_icon/search.png" alt="" />
-                <span onClick={handleLocal} aria-hidden="true" role="button">
-                  현재 위치로 설정
-                </span>
-              </button>
-            </CurrentLocation>
-          </Location>
+          <LocationWrap>
+            <Location>
+              <CurrentLocation>
+                <button type="button">
+                  <img src="https://s3.ap-northeast-2.amazonaws.com/image.mercuryeunoia.com/images/web/jisu/+common_icon/search.png" alt="" />
+                  <span onClick={handleLocal} aria-hidden="true" role="button">
+                    현재 위치로 설정
+                  </span>
+                </button>
+              </CurrentLocation>
+            </Location>
 
-          <SelectWrap>
-            <City>
-              <details className="custom-select">
-                <summary className="radios">
-                  <input type="radio" name="city" id="default" title={siList.name} />
-                </summary>
-                <ul className="list">
-                  {siAddressList.map((address) => (
-                    <li key={`siAddress-${address.id}`} onClick={() => handleClickSi(address)} onKeyPress={handleClickSi} role="presentation">
-                      <label>{address.name}</label>
-                    </li>
-                  ))}
-                </ul>
-              </details>
-            </City>
+            <SelectWrap>
+              <City>
+                <details className="custom-select">
+                  <summary className="radios">
+                    <input type="radio" name="city" id="default" title={siList.name} />
+                  </summary>
+                  <ul className="list">
+                    {siAddressList.map((address) => (
+                      <li key={`siAddress-${address.id}`} onClick={() => handleClickSi(address)} onKeyPress={handleClickSi} role="presentation">
+                        <label>{address.name}</label>
+                      </li>
+                    ))}
+                  </ul>
+                </details>
+              </City>
 
-            <City>
-              <details className="custom-select">
-                <summary className="radios">
-                  <input type="radio" name="dong" id="default" title={guvalue.name} />
-                </summary>
-                <ul className="list">
-                  {dongAddressList.map((address) => (
-                    <li key={`dongAddress-${address.id}`} onClick={() => handleClickGu(address)} onKeyPress={handleClickSi} role="presentation">
-                      <label>{address.name}</label>
-                    </li>
-                  ))}
-                </ul>
-              </details>
-            </City>
-          </SelectWrap>
-        </LocationWrap>
+              <City>
+                <details className="custom-select">
+                  <summary className="radios">
+                    <input type="radio" name="dong" id="default" title={guvalue.name} />
+                  </summary>
+                  <ul className="list">
+                    {dongAddressList.map((address) => (
+                      <li key={`dongAddress-${address.id}`} onClick={() => handleClickGu(address)} onKeyPress={handleClickSi} role="presentation">
+                        <label>{address.name}</label>
+                      </li>
+                    ))}
+                  </ul>
+                </details>
+              </City>
+            </SelectWrap>
+          </LocationWrap>
 
-        <LocationText>
-          <span>{addressName} 빵집 랭킹</span>
-        </LocationText>
+          <LocationText>
+            <span>{addressName} 빵집 랭킹</span>
+          </LocationText>
 
-        <RangkingList>
-          {/* @ts-ignore */}
-          <InfiniteScroll dataLength={breadShopList.length} next={fetchMoreData} hasMore={hasMore} scrollThreshold="50px">
-            <ul className="list_wrap">
-              {breadShopList.map((breadShopData) => (
-                <BreadShopLi key={`bread_shop_list${breadShopData.id}`} shopList={breadShopData} shopSeverLike={breadShopData.like} shopId={breadShopData.id} likeTrue={onBreadShopTrue} likeFalse={onBreadShopFalse} location={location} history={history} />
-              ))}
-            </ul>
-          </InfiniteScroll>
-        </RangkingList>
-      </>
-    )
+          <RangkingList>
+            {/* @ts-ignore */}
+            <InfiniteScroll dataLength={breadShopList.length} next={fetchMoreData} hasMore={hasMore} scrollThreshold="50px">
+              <ul className="list_wrap">
+                {breadShopList.map((breadShopData) => (
+                  <BreadShopLi key={`bread_shop_list${breadShopData.id}`} shopList={breadShopData} shopSeverLike={breadShopData.like} shopId={breadShopData.id} likeTrue={onBreadShopTrue} likeFalse={onBreadShopFalse} location={location} history={history} />
+                ))}
+              </ul>
+            </InfiniteScroll>
+          </RangkingList>
+        </>
+      )}
+    </>
   );
 };
 
