@@ -5,6 +5,7 @@ import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 import InfiniteScroll from 'react-infinite-scroll-component';
 import qs from 'qs';
+import { Helmet } from 'react-helmet';
 
 import axios from '../../../../utils/axios';
 import { errorhandler } from '../../../../utils/common';
@@ -98,60 +99,69 @@ const YoutubePickBread = ({ youtubePickBreadList, youtubePickList, location, you
   };
 
   return (
-    !loading && (
-      <BreadPickWrap>
-        <YoutubePickEvent>
-          <img src="https://s3.ap-northeast-2.amazonaws.com/image.mercuryeunoia.com/images/web/jisu/review.png" alt="" />
-        </YoutubePickEvent>
+    <>
+      <Helmet>
+        <title>먹빵-우리동네빵집 유튜버</title>
+        <meta name="description" content="먹빵-우리동네빵집 유튜버 페이지 입니다." />
+        <meta property="og:title" content="먹빵-우리동네빵집 유튜버 페이지 입니다." />
+        <meta property="og:description" content="먹빵-우리동네빵집 유튜버 페이지 입니다." />
+        <meta property="og:image" content="https://s3.ap-northeast-2.amazonaws.com/image.mercuryeunoia.com/images/logo/logo.png" />
+      </Helmet>
+      {!loading && (
+        <BreadPickWrap>
+          <YoutubePickEvent>
+            <img src="https://s3.ap-northeast-2.amazonaws.com/image.mercuryeunoia.com/images/web/jisu/review.png" alt="" />
+          </YoutubePickEvent>
 
-        <PickBreadTitle>
-          <span>유튜버들이 선택한 빵을 즐겨보세요</span>
-        </PickBreadTitle>
+          <PickBreadTitle>
+            <span>유튜버들이 선택한 빵을 즐겨보세요</span>
+          </PickBreadTitle>
 
-        <StyledSlider>
-          {/* @ts-ignore */}
-          <InfiniteScroll dataLength={youtubePickBreadList.length} next={fetMoreData} hasMore={hasMore} scrollThreshold="50px">
-            {youtubePickBreadList.map((list, index) => (
-              // eslint-disable-next-line react/no-array-index-key
-              <React.Fragment key={`유튜브-${index}`}>
-                {index % 2 === 0 ? (
-                  <PickBreadOdd>
-                    <div className="VideoContainer">
-                      <Youtube className="youtubeVideo" videoId={list.link.replace('https://www.youtube.com/embed/', '')} opts={opts} onReady={onReady} />
-                    </div>
+          <StyledSlider>
+            {/* @ts-ignore */}
+            <InfiniteScroll dataLength={youtubePickBreadList.length} next={fetMoreData} hasMore={hasMore} scrollThreshold="50px">
+              {youtubePickBreadList.map((list, index) => (
+                // eslint-disable-next-line react/no-array-index-key
+                <React.Fragment key={`유튜브-${index}`}>
+                  {index % 2 === 0 ? (
+                    <PickBreadOdd>
+                      <div className="VideoContainer">
+                        <Youtube className="youtubeVideo" videoId={list.link.replace('https://www.youtube.com/embed/', '')} opts={opts} onReady={onReady} />
+                      </div>
 
-                    <div className="pick_title">
-                      <span>{list?.title}</span>
-                      <span>{list?.content}</span>
-                      <button type="button" className="show_button">
-                        <a href={list?.link} target="_blank" rel="noreferrer">
-                          리뷰 보러가기
-                        </a>
-                      </button>
-                    </div>
-                  </PickBreadOdd>
-                ) : (
-                  <PickBreadEven>
-                    <div className="VideoContainer_even">
-                      <Youtube className="youtubeVideo_even" videoId={list.link.replace('https://www.youtube.com/embed/', '')} opts={opts} onReady={onReady} />
-                    </div>
-                    <div className="pick_title_even">
-                      <span>{list.title}</span>
-                      <span>{list.content}</span>
-                      <button type="button" className="show_button_even">
-                        <a href={list?.link} target="_blank" rel="noreferrer">
-                          리뷰 보러가기
-                        </a>
-                      </button>
-                    </div>
-                  </PickBreadEven>
-                )}
-              </React.Fragment>
-            ))}
-          </InfiniteScroll>
-        </StyledSlider>
-      </BreadPickWrap>
-    )
+                      <div className="pick_title">
+                        <span>{list?.title}</span>
+                        <span>{list?.content}</span>
+                        <button type="button" className="show_button">
+                          <a href={list?.link} target="_blank" rel="noreferrer">
+                            리뷰 보러가기
+                          </a>
+                        </button>
+                      </div>
+                    </PickBreadOdd>
+                  ) : (
+                    <PickBreadEven>
+                      <div className="VideoContainer_even">
+                        <Youtube className="youtubeVideo_even" videoId={list.link.replace('https://www.youtube.com/embed/', '')} opts={opts} onReady={onReady} />
+                      </div>
+                      <div className="pick_title_even">
+                        <span>{list.title}</span>
+                        <span>{list.content}</span>
+                        <button type="button" className="show_button_even">
+                          <a href={list?.link} target="_blank" rel="noreferrer">
+                            리뷰 보러가기
+                          </a>
+                        </button>
+                      </div>
+                    </PickBreadEven>
+                  )}
+                </React.Fragment>
+              ))}
+            </InfiniteScroll>
+          </StyledSlider>
+        </BreadPickWrap>
+      )}
+    </>
   );
 };
 

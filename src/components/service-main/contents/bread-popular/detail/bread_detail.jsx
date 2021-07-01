@@ -3,6 +3,7 @@ import PropTypes from 'prop-types';
 import { createStructuredSelector } from 'reselect';
 import { connect } from 'react-redux';
 import Slider from 'react-slick';
+import { Helmet } from 'react-helmet';
 
 import { errorhandler } from 'utils/common';
 import { BreadDtail, AllWrap } from './bread_detail_style';
@@ -59,36 +60,45 @@ const BreadDetail = ({ match, breadDetailInfo, onBreadDetail, breadDetailImages,
   };
 
   return (
-    !loading && (
-      <BreadDtail>
-        <AllWrap>
-          <div className="title_wrap">
-            <span className="detail_text">{breadDetailInfo?.title}</span>
-            <div className="heartImage">
-              <img
-                src={breadDetailInfo?.like ? 'https://s3.ap-northeast-2.amazonaws.com/image.mercuryeunoia.com/images/web/jisu/+common_icon/heart.png' : 'https://s3.ap-northeast-2.amazonaws.com/image.mercuryeunoia.com/images/web/jisu/+common_icon/spaceheart.png'}
-                alt="빈하트 이미지"
-                onClick={onDetailHeart}
-                aria-hidden="true"
-              />
-            </div>
-          </div>
-          {/* eslint-disable-next-line react/jsx-props-no-spreading */}
-          <Slider {...settings}>
-            {breadDetailImages.map((images, index) => (
-              // eslint-disable-next-line react/no-array-index-key
-              <div className="image_wrap" key={`bread-images-${index}`}>
-                <img src={images} alt={`빵사진-${index}`} />
+    <>
+      <Helmet>
+        <title>먹빵-우리동네빵집 인기있는 빵 디테일</title>
+        <meta name="description" content="먹빵-우리동네빵집 인기있는 빵 디테일 페이지 입니다." />
+        <meta property="og:title" content="먹빵-우리동네빵집 인기있는 빵 디테일 페이지 입니다." />
+        <meta property="og:description" content="먹빵-우리동네빵집 인기있는 빵 디테일 페이지 입니다." />
+        <meta property="og:image" content="https://s3.ap-northeast-2.amazonaws.com/image.mercuryeunoia.com/images/logo/logo.png" />
+      </Helmet>
+      {!loading && (
+        <BreadDtail>
+          <AllWrap>
+            <div className="title_wrap">
+              <span className="detail_text">{breadDetailInfo?.title}</span>
+              <div className="heartImage">
+                <img
+                  src={breadDetailInfo?.like ? 'https://s3.ap-northeast-2.amazonaws.com/image.mercuryeunoia.com/images/web/jisu/+common_icon/heart.png' : 'https://s3.ap-northeast-2.amazonaws.com/image.mercuryeunoia.com/images/web/jisu/+common_icon/spaceheart.png'}
+                  alt="빈하트 이미지"
+                  onClick={onDetailHeart}
+                  aria-hidden="true"
+                />
               </div>
-            ))}
-          </Slider>
+            </div>
+            {/* eslint-disable-next-line react/jsx-props-no-spreading */}
+            <Slider {...settings}>
+              {breadDetailImages.map((images, index) => (
+                // eslint-disable-next-line react/no-array-index-key
+                <div className="image_wrap" key={`bread-images-${index}`}>
+                  <img src={images} alt={`빵사진-${index}`} />
+                </div>
+              ))}
+            </Slider>
 
-          <span className="detail_bread_name">{breadDetailInfo ? breadDetailInfo.title : ''}</span>
-          <p className="content_text">{breadDetailInfo?.content}</p>
-        </AllWrap>
-        <Comment match={match.params} type="breadType" />
-      </BreadDtail>
-    )
+            <span className="detail_bread_name">{breadDetailInfo ? breadDetailInfo.title : ''}</span>
+            <p className="content_text">{breadDetailInfo?.content}</p>
+          </AllWrap>
+          <Comment match={match.params} type="breadType" />
+        </BreadDtail>
+      )}
+    </>
   );
 };
 BreadDetail.defaultProps = {

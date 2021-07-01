@@ -6,6 +6,7 @@ import PropTypes from 'prop-types';
 import Signin from './components/sign-in/signin_content';
 import Signup from './components/sign-up/signup_content';
 import BreadHouseRouter from './components/service-main/contents/breadShop-rangking/breadShop_router';
+import ScrollTop from './components/share/scrollTop';
 
 import BreadRouter from './components/service-main/contents/bread-popular/bread_router';
 import MainHome from './components/service-main/contents/main/mainhome_content';
@@ -42,6 +43,7 @@ function App({ onUserData }) {
 
   return (
     <BrowserRouter>
+      <ScrollTop />
       <LayOut>
         <Switch>
           <Route exact path="/signin" component={Signin} />

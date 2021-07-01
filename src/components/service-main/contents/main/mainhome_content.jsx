@@ -5,6 +5,8 @@ import { connect } from 'react-redux';
 import PropTypes from 'prop-types';
 import Slider from 'react-slick';
 import { Link } from 'react-router-dom';
+import { Helmet } from 'react-helmet';
+import qs from 'qs';
 
 import { errorhandler } from '../../../../utils/common';
 import BreadLi from '../../../common-component/bread_li_component';
@@ -33,8 +35,13 @@ const MainHome = ({
   onBreadHeartFalse,
 
   eventList,
-  onEventList
+  onEventList,
+  location,
+  history
 }) => {
+  const query = qs.parse(location.search, {
+    ignoreQueryPrefix: true
+  });
   useEffect(() => {
     async function fetchBreadData() {
       try {
@@ -86,6 +93,13 @@ const MainHome = ({
 
   return (
     <Main>
+      <Helmet>
+        <title>먹빵-우리동네빵집 메인</title>
+        <meta name="description" content="먹빵-우리동네빵집 메인 페이지 입니다." />
+        <meta property="og:title" content={`먹빵-우리동네빵집 메인 ${query.menu === 'notice' ? '공지사항' : '이벤트'}`} />
+        <meta property="og:description" content="먹빵-우리동네빵집 메인 페이지 입니다." />
+        <meta property="og:image" content="https://s3.ap-northeast-2.amazonaws.com/image.mercuryeunoia.com/images/logo/logo.png" />
+      </Helmet>
       <div>
         <MainBackground>
           <Slider {...settings}>
@@ -110,7 +124,7 @@ const MainHome = ({
         <BreadShopList>
           <ul className="list_wrap">
             {breadShopList.map((breadShopData) => (
-              <BreadShopLi key={`breadShop_list-${breadShopData.id}`} shopList={breadShopData} shopSeverLike={breadShopData.like} shopId={breadShopData.id} likeTrue={onBreadShopTrue} likeFalse={onBreadShopFalse} />
+              <BreadShopLi key={`breadShop_list-${breadShopData.id}`} shopList={breadShopData} shopSeverLike={breadShopData.like} shopId={breadShopData.id} likeTrue={onBreadShopTrue} likeFalse={onBreadShopFalse} location={location} history={history} />
             ))}
           </ul>
         </BreadShopList>
@@ -132,7 +146,7 @@ const MainHome = ({
         <BreadShopList>
           <ul className="list_wrap">
             {breadList.map((list) => (
-              <BreadLi key={`bread_li_list-${list.id}`} likeTrue={onBreadHeartTrue} likeFalse={onBreadHeartFalse} breadList={list} breadListLike={list.like} />
+              <BreadLi key={`bread_li_list-${list.id}`} likeTrue={onBreadHeartTrue} likeFalse={onBreadHeartFalse} breadList={list} breadListLike={list.like} location={location} history={history} />
             ))}
           </ul>
         </BreadShopList>
@@ -153,7 +167,9 @@ MainHome.propTypes = {
   onBreadHeartFalse: PropTypes.func.isRequired,
 
   eventList: PropTypes.instanceOf(Object).isRequired,
-  onEventList: PropTypes.func.isRequired
+  onEventList: PropTypes.func.isRequired,
+  location: PropTypes.instanceOf(Object).isRequired,
+  history: PropTypes.instanceOf(Object).isRequired
 };
 
 const breadStateToProps = createStructuredSelector({

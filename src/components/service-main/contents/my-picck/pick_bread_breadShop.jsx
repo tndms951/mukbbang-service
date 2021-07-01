@@ -29,7 +29,7 @@ const PickBreadBreadShop = ({ location, history }) => {
 
 PickBreadBreadShop.propTypes = {
   location: PropTypes.instanceOf(Object).isRequired,
-  history: PropTypes.objectOf(PropTypes.object).isRequired
+  history: PropTypes.number.isRequired
 };
 
 export default PickBreadBreadShop;

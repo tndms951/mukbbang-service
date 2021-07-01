@@ -177,7 +177,7 @@ const Header = ({ currentUser, onLogout }) => {
                 </Link>
               </li>
               <li className={location.pathname === '/login' ? 'clickIcons' : ''}>
-                <Link to="/login">
+                <Link to="/pick-bread-breadShop?menu=breadShop">
                   <FontAwesomeIcon icon={faUser} className="icons" />
                   <span>내정보</span>
                 </Link>

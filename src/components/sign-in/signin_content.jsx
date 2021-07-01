@@ -29,7 +29,6 @@ function Signin({ onUserSet, history, location }) {
 
   const handleSubmit = async (e) => {
     e.preventDefault();
-
     try {
       const signinObject = {
         email,
@@ -44,6 +43,7 @@ function Signin({ onUserSet, history, location }) {
         sweetAlert('비밀번호를 입력해주세요.');
       } else {
         const { status, data } = await axios.post('/user/signin', signinObject);
+        console.log(data);
         if (status === 200) {
           const {
             data: { token }
@@ -56,8 +56,7 @@ function Signin({ onUserSet, history, location }) {
             const query = qs.parse(location.search, {
               ignoreQueryPrefix: true
             });
-
-            history.push(query?.moveAddress || '/');
+            history.replace(query?.moveAddress || '/');
           }
         }
       }
@@ -103,7 +102,7 @@ function Signin({ onUserSet, history, location }) {
           <hr />
         </SigninLine>
 
-        <Social />
+        <Social history={history} />
       </div>
     </SigninAllWrap>
   );
