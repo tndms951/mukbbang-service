@@ -106,6 +106,17 @@ export const EventWrap = styled.div`
         width: 100%;
         height: 100%;
       }
+
+      & .going {
+        width: 28%;
+        height: 33%;
+      }
+
+      & .close {
+        width: 45%;
+        height: 52%;
+        line-height: 140px;
+      }
     }
   }
 `;

@@ -43,15 +43,15 @@ export const TitleButton = styled.span`
   }
 
   @media ${({ theme }) => theme.device.mobile} {
-    width: 60%;
-    padding: 0 4%;
+    width: 100%;
+    padding: 0px;
     margin-bottom: 20px;
     display: block;
     text-align: center;
 
     & span {
-      padding: 2% 14%;
-      font-size: 14px;
+      padding: 4% 15%;
+      font-size: 16px;
       display: inline-block;
       text-align: center;
     }

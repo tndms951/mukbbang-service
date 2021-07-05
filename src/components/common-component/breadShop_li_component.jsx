@@ -6,13 +6,15 @@ import { connect } from 'react-redux';
 
 import { ShopliWrap } from './breadShop_li_style';
 import axios from '../../utils/axios';
-import { errorhandler } from '../../utils/common';
+import { errorhandler, sweetAlert } from '../../utils/common';
 import { selectCurrentUser } from '../redux/user/user.selectors';
 
 const BreadShopLi = ({ shopList, shopSeverLike, likeTrue, likeFalse, shopId, currentUser, location, history }) => {
   const changeShopHeart = async () => {
     if (!currentUser) {
-      const comeAddress = encodeURIComponent(location.pathname + location.search);
+      sweetAlert('로그인을 해주세요');
+      const comeAddress = encodeURIComponent(location.pathname + location.search); // 로그아웃시 주소 이동 인코딩을 해줌
+
       history.push(`/signin?moveAddress=${comeAddress}`);
     } else {
       try {

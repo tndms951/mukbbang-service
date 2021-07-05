@@ -155,7 +155,7 @@ const Review = ({ match, shopDetailReview, onDetailReview, onDetailReviewWriting
   const settings = {
     dots: true,
     infinite: true,
-    speed: 500,
+    speed: 400,
     slidesToShow: 1,
     slidesToScroll: 1
   };
