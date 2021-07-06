@@ -26,7 +26,7 @@ export const MainBackground = styled(Slider)`
     display: block;
     z-index: 90;
     position: absolute;
-    top: 150px;
+    top: 50%;
     left: 1px;
     background: rgba(255, 255, 255, 0.9);
     box-shadow: transparent 0px 0px 0px 1px, transparent 0px 0px 0px 4px, rgb(0 0 0 / 18%) 0px 2px 4px !important;
@@ -42,7 +42,7 @@ export const MainBackground = styled(Slider)`
     height: 32px;
     z-index: 100;
     position: absolute;
-    top: 200px;
+    top: 50%;
     right: 1px;
     background: rgba(255, 255, 255, 0.9);
     box-shadow: transparent 0px 0px 0px 1px, transparent 0px 0px 0px 4px, rgb(0 0 0 / 18%) 0px 2px 4px !important;
