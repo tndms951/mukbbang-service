@@ -215,7 +215,10 @@ export const City = styled.div`
 
     summary.radios {
       width: 65%;
-      border: none;
+    }
+
+    input[type='radio']:checked {
+      display: none;
     }
 
     ul {
