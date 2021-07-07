@@ -215,6 +215,7 @@ export const City = styled.div`
 
     summary.radios {
       width: 65%;
+      border: none;
     }
 
     ul {
