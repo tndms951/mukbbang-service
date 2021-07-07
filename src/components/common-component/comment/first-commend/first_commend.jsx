@@ -128,7 +128,7 @@ const RegisterComment = ({ onCommentModify, onCommentDelete, onReCommentRegister
       <img src={comment.user.imageUrl} alt={`${comment.user.name}의 이미지`} />
       <p>{comment.user.name}</p>
 
-      {inputOpen ? <textarea onChange={hanldeModifyChange} className="modify_Input" value={editValue} name="editValue" /> : <span>{comment.content}</span>}
+      {inputOpen ? <textarea onChange={hanldeModifyChange} className="modify_Input" value={editValue} name="editValue" /> : <span className="user_content">{comment.content}</span>}
 
       <div className="date_wrap">
         <span>{moment(comment.createdAt).format('YYYY-MM-DD HH:mm')}</span>

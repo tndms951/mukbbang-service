@@ -5,13 +5,14 @@ import { createStructuredSelector } from 'reselect';
 import { connect } from 'react-redux';
 
 import axios from '../../utils/axios';
-import { errorhandler } from '../../utils/common';
+import { errorhandler, sweetAlert } from '../../utils/common';
 import { BreadliWrap } from './bread_li_style';
 import { selectCurrentUser } from '../redux/user/user.selectors';
 
 const BreadLi = ({ likeTrue, likeFalse, breadList, currentUser, location, history, breadListLike }) => {
   const changeBreadHeart = async () => {
     if (!currentUser) {
+      sweetAlert('로그인을 해주세요');
       const comeAddress = encodeURIComponent(location.pathname + location.search);
       history.push(`/signin?moveAddress=${comeAddress}`);
     } else {

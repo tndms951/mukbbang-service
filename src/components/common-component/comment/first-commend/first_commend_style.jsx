@@ -34,6 +34,11 @@ export const AuthorComment = styled.div`
     margin-top: 15px;
   }
 
+  & .user_content {
+    margin-left: 55px;
+    line-height: 22px;
+  }
+
   & span {
     display: block;
     margin-top: 10px;

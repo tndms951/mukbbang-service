@@ -23,7 +23,7 @@ export const BreadDtail = styled.div`
   }
 
   & .detail_text {
-    width: 225px;
+    width: 260px;
     margin: 0 auto;
     display: block;
     color: #383838;
@@ -50,6 +50,7 @@ export const BreadDtail = styled.div`
     padding: 0px 192.5px;
     display: block;
     box-sizing: border-box;
+    position: relative;
 
     & img {
       width: 100%;
@@ -60,6 +61,43 @@ export const BreadDtail = styled.div`
     & .slick-slider {
       margin-bottom: 65px;
     }
+  }
+
+  .slick-prev {
+    width: 32px;
+    height: 32px;
+    display: block;
+    z-index: 90;
+    position: absolute;
+    top: 130px;
+    left: 200px;
+    background: rgba(255, 255, 255, 0.9);
+    box-shadow: transparent 0px 0px 0px 1px, transparent 0px 0px 0px 4px, rgb(0 0 0 / 18%) 0px 2px 4px !important;
+    border-radius: 50%;
+  }
+
+  & .slick-prev:before {
+    color: rgb(34, 34, 34);
+  }
+
+  .slick-next {
+    width: 32px;
+    height: 32px;
+    z-index: 100;
+    position: absolute;
+    top: 130px;
+    right: 200px;
+    background: rgba(255, 255, 255, 0.9);
+    box-shadow: transparent 0px 0px 0px 1px, transparent 0px 0px 0px 4px, rgb(0 0 0 / 18%) 0px 2px 4px !important;
+    border-radius: 50%;
+  }
+
+  & .slick-next:before {
+    color: rgb(34, 34, 34);
+  }
+
+  .slick-dots {
+    margin-bottom: 25px;
   }
 
   & .detail_bread_name {
@@ -99,11 +137,21 @@ export const BreadDtail = styled.div`
       width: 640px;
     }
 
+    .slick-prev {
+      top: 50%;
+      left: 0px;
+    }
+
+    .slick-next {
+      top: 50%;
+      right: 0px;
+    }
+
     & .detail_bread_name {
       width: 100%;
       text-align: center;
       font-size: 20px;
-      margin-top: 12px;
+      margin-top: 35px;
     }
 
     & .content_text {

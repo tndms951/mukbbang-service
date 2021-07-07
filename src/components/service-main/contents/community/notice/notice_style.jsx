@@ -13,7 +13,7 @@ export const NoticeWrap = styled.div`
 
   .stylefalse {
     margin-top: 0px;
-    outline: 1px solid red;
+ 
   }
 
   & ul {
