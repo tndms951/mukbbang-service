@@ -38,7 +38,6 @@ const Header = ({ currentUser, onLogout }) => {
     const query = qs.parse(location.search, {
       ignoreQueryPrefix: true
     });
-
     setTitle(query.title ? String(query.title) : '');
     setSearch(false);
   }, [location.search]);
@@ -70,7 +69,7 @@ const Header = ({ currentUser, onLogout }) => {
 
   // 내정보수정 클릭
   const onMyProfile = () => {
-    sweetAlert('여기까진 개발을 못했네요ㅠㅠ');
+    sweetAlert('현재 개발중입니다.');
   };
 
   return (

@@ -218,7 +218,7 @@ export const City = styled.div`
     }
 
     input[type='radio']:checked {
-      display: none;
+      display: hidden;
     }
 
     ul {
