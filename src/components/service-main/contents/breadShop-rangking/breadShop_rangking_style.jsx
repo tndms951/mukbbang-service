@@ -218,7 +218,12 @@ export const City = styled.div`
     }
 
     input[type='radio']:checked {
-      display: hidden;
+      display: none;
+    }
+
+    //추가
+    input[type='radio'] {
+      display: none;
     }
 
     ul {
