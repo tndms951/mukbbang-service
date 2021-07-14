@@ -227,7 +227,6 @@ export const City = styled.div`
       content: attr(title);
       display: inline;
       font-size: 1rem;
-      // outline: 1px solid red;
     }
 
     ul {

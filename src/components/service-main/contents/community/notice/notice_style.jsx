@@ -65,7 +65,7 @@ export const NoticeWrap = styled.div`
       top: 1px;
       width: 10px;
       height: 10px;
-      background: rgb(255, 255, 255);
+      background: #f8f8f8;
     }
 
     & .arrow_up {

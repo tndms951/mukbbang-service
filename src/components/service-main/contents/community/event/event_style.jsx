@@ -108,12 +108,12 @@ export const EventWrap = styled.div`
       }
 
       & .going {
-        width: 28%;
+        width: 26%;
         height: 33%;
       }
 
       & .close {
-        width: 45%;
+        width: 42%;
         height: 52%;
         line-height: 140px;
       }
