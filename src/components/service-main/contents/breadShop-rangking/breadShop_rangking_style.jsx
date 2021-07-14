@@ -219,11 +219,11 @@ export const City = styled.div`
 
     input[type='radio']:checked {
       display: none;
+      border: none;
     }
 
-    //추가
     input[type='radio'] {
-      display: none;
+      border: none;
     }
 
     ul {
