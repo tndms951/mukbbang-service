@@ -32,26 +32,27 @@ const Header = ({ currentUser, onLogout }) => {
   const searchRef = useRef(null);
 
   // 검색조회
-  const [title, setTitle] = useState('');
+  const [titleValue, setTitleValue] = useState('');
 
   useEffect(() => {
     const query = qs.parse(location.search, {
       ignoreQueryPrefix: true
     });
-    setTitle(query.title ? String(query.title) : '');
+
+    setTitleValue(query.titleValue ? String(query.titleValue) : '');
     setSearch(false);
   }, [location.search]);
 
   const handleChange = (e) => {
-    setTitle(e.target.value);
+    setTitleValue(e.target.value);
   };
 
   const handleSearch = (e) => {
     e.preventDefault();
     const queryObject = {};
 
-    if (title) {
-      queryObject.title = title;
+    if (titleValue) {
+      queryObject.titleaaa = titleValue;
     }
     const queryData = qs.stringify(queryObject);
     history.push(`/bread-house${queryData ? `?${queryData}` : ''}`);
@@ -189,14 +190,14 @@ const Header = ({ currentUser, onLogout }) => {
               <span />
             </div>
             <form onSubmit={handleSearch}>
-              <input type="text" placeholder="빵집을 찾아보세요." value={title} onChange={handleChange} />
+              <input type="text" placeholder="빵집을 찾아보세요." value={titleValue} onChange={handleChange} />
             </form>
           </NaveSearch>
 
           {/* 모바일 검색 */}
           <div className={`mobile_search ${search ? '' : 'hide'}`}>
             <form onSubmit={handleSearch}>
-              <input type="text" placeholder="빵집을 찾아보세요." value={title} onChange={handleChange} ref={searchRef} />
+              <input type="text" placeholder="빵집을 찾아보세요." value={titleValue} onChange={handleChange} ref={searchRef} />
             </form>
           </div>
         </GroupNav>

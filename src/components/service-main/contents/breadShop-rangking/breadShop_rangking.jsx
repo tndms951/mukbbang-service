@@ -51,7 +51,17 @@ const HouseRangking = ({ breadShopList, onBreadShopList, onBreadShopPagination, 
       const query = qs.parse(location.search, {
         ignoreQueryPrefix: true
       });
-      const newQuery = { ...query };
+
+      const newQuery = {
+        ...query
+      };
+      console.log(newQuery);
+
+      if (query.titleaaa) {
+        newQuery.title = query.titleaaa;
+      }
+      delete newQuery.titleaaa;
+
       newQuery.page = String(1);
       newQuery.limit = String(limit);
 
