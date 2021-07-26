@@ -11,8 +11,6 @@ import { setReCommentModify, setReCommentDelete } from '../../../redux/comment/b
 import { selectCurrentUser } from '../../../redux/user/user.selectors';
 
 const Recommend = ({ list, reCommendOpen, onReCommentModify, comment, onReCommentDelete, userLoginInfo, type }) => {
-  console.log(list);
-  console.log(userLoginInfo);
   // 대댓글 수정
   const [modifyInput, setModifyInput] = useState(false);
   const [modifyForm, setModifyForm] = useState('');

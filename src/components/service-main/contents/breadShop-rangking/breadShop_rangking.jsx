@@ -55,7 +55,6 @@ const HouseRangking = ({ breadShopList, onBreadShopList, onBreadShopPagination, 
       const newQuery = {
         ...query
       };
-      console.log(newQuery);
 
       if (query.titleaaa) {
         newQuery.title = query.titleaaa;
