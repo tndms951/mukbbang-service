@@ -186,7 +186,8 @@ const RegisterComment = ({ onCommentModify, onCommentDelete, onReCommentRegister
 RegisterComment.defaultProps = {
   type: undefined,
   breadShopId: undefined,
-  breadId: undefined
+  breadId: undefined,
+  userLoginInfo: null
 };
 
 RegisterComment.propTypes = {
@@ -195,7 +196,7 @@ RegisterComment.propTypes = {
   onCommentDelete: PropTypes.func.isRequired,
   comment: PropTypes.instanceOf(Object).isRequired,
   onReCommentRegister: PropTypes.func.isRequired,
-  userLoginInfo: PropTypes.instanceOf(Object).isRequired,
+  userLoginInfo: PropTypes.instanceOf(Object),
   type: PropTypes.string,
   breadId: PropTypes.string
 };

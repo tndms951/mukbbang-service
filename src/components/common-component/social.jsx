@@ -1,6 +1,7 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
+import qs from 'qs';
 import KakaoLogin from 'react-kakao-login';
 import GoogleLogin from 'react-google-login';
 import FacebookLogin from 'react-facebook-login/dist/facebook-login-render-props';
@@ -11,11 +12,11 @@ import { setCurrentUser } from '../redux/user/user.actions';
 import { SosalLogin, GoogleWrap, FacebookWrap, KakaoWrap } from '../sign-in/signin_content_style';
 
 // 소셜 로그인
-const kakaoToken = process.env.REACT_APP_KAKAO_KEY;
+const kakaoToken = process.env.REACT_APP_KAKAO_KEY; // env파일에 키값저장
 const facebookToken = process.env.REACT_APP_FACEBOOK_KEY;
 const googleToken = process.env.REACT_APP_GOOGLE_KEY;
 
-const Social = ({ onUserSet, history }) => {
+const Social = ({ onUserSet, history, location }) => {
   // 카카오
   const onSuccess = async (userData) => {
     try {
@@ -38,7 +39,10 @@ const Social = ({ onUserSet, history }) => {
       const { status, data: getData } = await axios.get('/user/current');
       if (status === 201) {
         onUserSet(getData.data, token);
-        history.push('/');
+        const query = qs.parse(location.search, {
+          ignoreQueryPrefix: true
+        });
+        history.replace(query?.moveAddress || '/');
       }
     } catch (err) {
       errorhandler(err);
@@ -56,19 +60,23 @@ const Social = ({ onUserSet, history }) => {
           type: 'google'
         };
 
-        const { data } = await axios.post('/user/social/signup', socialObject);
+        const { status, data } = await axios.post('/user/social/signup', socialObject);
 
-        const {
-          data: { token }
-        } = data;
+        if (status === 200) {
+          const {
+            data: { token }
+          } = data;
+          setAuthorization(token);
 
-        setAuthorization(token);
-
-        // 서버에서 누구인지 받아오는곳
-        const { status, data: getData } = await axios.get('/user/current');
-        if (status === 201) {
-          onUserSet(getData.data, token);
-          history.push('/');
+          // 서버에서 누구인지 받아오는곳
+          const { status: socoalStatus, data: getData } = await axios.get('/user/current');
+          if (socoalStatus === 201) {
+            onUserSet(getData.data, token);
+            const query = qs.parse(location.search, {
+              ignoreQueryPrefix: true
+            });
+            history.replace(query?.moveAddress || '/');
+          }
         }
       }
     } catch (err) {
@@ -98,7 +106,10 @@ const Social = ({ onUserSet, history }) => {
       const { status, data: facebookData } = await axios.get('/user/current');
       if (status === 201) {
         onUserSet(facebookData.data, token);
-        history.push('/');
+        const query = qs.parse(location.search, {
+          ignoreQueryPrefix: true
+        });
+        history.replace(query?.moveAddress || '/');
       }
     } catch (err) {
       errorhandler(err);
@@ -163,9 +174,15 @@ const Social = ({ onUserSet, history }) => {
   );
 };
 
+Social.defaultProps = {
+  history: undefined,
+  location: undefined
+};
+
 Social.propTypes = {
   onUserSet: PropTypes.func.isRequired,
-  history: PropTypes.instanceOf(Object).isRequired
+  history: PropTypes.instanceOf(Object),
+  location: PropTypes.instanceOf(Object)
 };
 
 const userToPropsDispatch = (dispatch) => ({

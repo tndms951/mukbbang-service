@@ -23,22 +23,7 @@ import { setEventList } from '../../../redux/community/community.actions';
 import axios from '../../../../utils/axios';
 import { Main, MainBackground, BreadShopRanking, BreadShopList } from './mainhome_content_style';
 
-const MainHome = ({
-  breadShopList,
-  onBreadShopList,
-  onBreadShopTrue,
-  onBreadShopFalse,
-
-  breadList,
-  onBreadList,
-  onBreadHeartTrue,
-  onBreadHeartFalse,
-
-  eventList,
-  onEventList,
-  location,
-  history
-}) => {
+const MainHome = ({ breadShopList, onBreadShopList, onBreadShopTrue, onBreadShopFalse, breadList, onBreadList, onBreadHeartTrue, onBreadHeartFalse, eventList, onEventList, location, history }) => {
   const query = qs.parse(location.search, {
     ignoreQueryPrefix: true
   });

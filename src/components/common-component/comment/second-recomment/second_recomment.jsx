@@ -87,27 +87,31 @@ const Recommend = ({ list, reCommendOpen, onReCommentModify, comment, onReCommen
             <div className="button_">
               <div className="current_date">{moment(list.createdAt).format('YYYY-MM-DD HH:mm')}</div>
               <ButtonWrap>
-                {userLoginInfo.id === list.user.id ? (
+                {userLoginInfo ? (
                   <>
-                    {modifyInput ? (
+                    {userLoginInfo.id === list.user.id ? (
                       <>
-                        <button type="button" onClick={() => reCommentSave(list.id)}>
-                          저장
-                        </button>
-                        <button type="button" onClick={cancelClick}>
-                          취소
-                        </button>
+                        {modifyInput ? (
+                          <>
+                            <button type="button" onClick={() => reCommentSave(list.id)}>
+                              저장
+                            </button>
+                            <button type="button" onClick={cancelClick}>
+                              취소
+                            </button>
+                          </>
+                        ) : (
+                          <>
+                            <button type="button" onClick={reCommentClick}>
+                              수정
+                            </button>
+                            <button type="button" onClick={reCommentDelete}>
+                              삭제
+                            </button>
+                          </>
+                        )}
                       </>
-                    ) : (
-                      <>
-                        <button type="button" onClick={reCommentClick}>
-                          수정
-                        </button>
-                        <button type="button" onClick={reCommentDelete}>
-                          삭제
-                        </button>
-                      </>
-                    )}
+                    ) : null}
                   </>
                 ) : null}
               </ButtonWrap>
@@ -120,7 +124,8 @@ const Recommend = ({ list, reCommendOpen, onReCommentModify, comment, onReCommen
 };
 
 Recommend.defaultProps = {
-  type: undefined
+  type: undefined,
+  userLoginInfo: null
 };
 
 Recommend.propTypes = {
@@ -129,7 +134,7 @@ Recommend.propTypes = {
   onReCommentModify: PropTypes.func.isRequired,
   comment: PropTypes.instanceOf(Object).isRequired,
   onReCommentDelete: PropTypes.func.isRequired,
-  userLoginInfo: PropTypes.instanceOf(Object).isRequired,
+  userLoginInfo: PropTypes.instanceOf(Object),
   type: PropTypes.string
 };
 

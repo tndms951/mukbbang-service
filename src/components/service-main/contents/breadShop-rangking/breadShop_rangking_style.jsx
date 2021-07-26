@@ -214,7 +214,19 @@ export const City = styled.div`
     }
 
     summary.radios {
-      width: 65%;
+      width: 75%;
+    }
+
+    input[type='radio'] {
+      border: none;
+      width: 80%;
+      margin: 0px !important;
+    }
+
+    input[type='radio']:after {
+      content: attr(title);
+      display: inline;
+      font-size: 1rem;
     }
 
     ul {
@@ -226,7 +238,7 @@ export const City = styled.div`
       display: inline-block;
       position: absolute;
       top: 14px;
-      right: 55px;
+      right: 37px;
       float: right;
       width: 0.5rem;
       height: 0.5rem;

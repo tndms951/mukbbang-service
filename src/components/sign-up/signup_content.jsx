@@ -111,7 +111,7 @@ function Signup({ onUserSet, history, location }) {
 
 Signup.propTypes = {
   onUserSet: PropTypes.func.isRequired,
-  history: PropTypes.objectOf(PropTypes.object).isRequired,
+  history: PropTypes.instanceOf(Object).isRequired,
   location: PropTypes.instanceOf(Object).isRequired
 };
 

@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useEffect } from 'react';
 import { Link } from 'react-router-dom';
 import PropTypes from 'prop-types';
 import qs from 'qs';
@@ -8,6 +8,9 @@ import PickBread from './pick-bread/pick_bread';
 import { PickWrap, TitleButton } from './pick_bread_breadShop_style';
 
 const PickBreadBreadShop = ({ location, history }) => {
+  useEffect(() => {
+    // 다시 수정하기
+  });
   const query = qs.parse(location.search, {
     ignoreQueryPrefix: true
   });
